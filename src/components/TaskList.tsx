@@ -1,4 +1,5 @@
 import './TaskList.css';
+import TaskItem from './TaskItem.tsx';
 
 const title = 'My Todo App';
 
@@ -18,8 +19,7 @@ export default function TaskList() {
             <div>
                 <ul>
                     {items.map(item => (
-                        <li key={item.id} style={{ textDecoration: item.completed ? 'line-through' : 'none' }}>{item.text}
-                        </li>
+                        <TaskItem completed={item.completed}>{item.text}</TaskItem>
                     ))}
                 </ul>
             </div>
