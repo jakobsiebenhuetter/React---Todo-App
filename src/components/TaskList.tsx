@@ -9,6 +9,11 @@ const items = [
   { id: 3, text: 'Task 3', completed: false },
 ];
 
+function clickHandler() {
+    alert('Task clicked!');
+}
+
+
 
 export default function TaskList() {
     return(
@@ -19,7 +24,7 @@ export default function TaskList() {
             <div>
                 <ul>
                     {items.map(item => (
-                        <TaskItem completed={item.completed}>{item.text}</TaskItem>
+                        <TaskItem click={clickHandler} completed={item.completed}>{item.text}</TaskItem>
                     ))}
                 </ul>
             </div>
