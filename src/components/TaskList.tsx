@@ -13,9 +13,8 @@ const items = [
 export default function TaskList() {
     const [text, setText] = useState('');
 
-    function clickHandler() {
-        alert('Task clicked!');
-        setText('Task clicked!');
+    function clickHandler(text: string) {
+        setText(text);
     }
 
     return(
@@ -25,9 +24,7 @@ export default function TaskList() {
             </div>
             <div>
                 <ul>
-                    {items.map(item => (
-                        <TaskItem click={clickHandler} completed={item.completed}>{item.text}</TaskItem>
-                    ))}
+                    { items.map((item) => { return <TaskItem click={() => {clickHandler(item.text)}} completed={item.completed}>{item.text}</TaskItem>}) }
                 </ul>
             </div>
             {text ? <div>{text}</div> : ''}
