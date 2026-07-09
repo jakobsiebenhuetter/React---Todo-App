@@ -1,9 +1,9 @@
 import './TaskItem.css'
 
 
-export default function TaskItem(props) {
+export default function TaskItem({isSelected, ...props}) {
     return (
-        <li onClick={props.click} style={{textDecoration: props.completed ? 'line-through' : 'none'}}>
+        <li style={{textDecoration: isSelected ? 'line-through' : 'none'}} {...props} >
             <div>
                 <span>{props.children}</span>
             </div>
