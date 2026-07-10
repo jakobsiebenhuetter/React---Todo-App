@@ -33,7 +33,6 @@ export default function TaskList() {
         if(value.trim() === '') 
             return;
         
-
         const newTask = {
             id: taskItems.length + 1,
             text: value,
@@ -49,6 +48,12 @@ export default function TaskList() {
         if(event.key === 'Enter') {
             addTask();
         }
+    }
+
+    function deleteTask(taskId: number) {
+        setTaskItems((prevTaskItems) => {
+            return prevTaskItems.filter((task) => task.id !== taskId);
+        });
     }
 
 
@@ -67,6 +72,7 @@ export default function TaskList() {
                     {taskItems.map((item) => 
                      <TaskItem key={item.id}
                      isSelected={item.completed}
+                     deleteTask={() => {deleteTask(item.id)}}
                      onClick={() => clickHandler(item.id)}
                      >{item.text}
                     </TaskItem>) 
