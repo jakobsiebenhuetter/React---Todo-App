@@ -6,7 +6,16 @@
     align-items: center;
 }
 
+#task-list #add-task {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 #task-list ul{
    list-style: none;
    margin: 14px;
 }
+
