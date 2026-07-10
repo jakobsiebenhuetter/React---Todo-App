@@ -32,6 +32,7 @@ export default function TaskList() {
     function addTask() {
         if(value.trim() === '') 
             return;
+        
 
         const newTask = {
             id: taskItems.length + 1,
@@ -44,6 +45,12 @@ export default function TaskList() {
         setValue('');
     }
 
+    function handleKeyDown(event) {
+        if(event.key === 'Enter') {
+            addTask();
+        }
+    }
+
 
     return(
         <div id="task-list">
@@ -53,7 +60,7 @@ export default function TaskList() {
             <div>
                 <h2>Aufgabenliste</h2>
             <div id="add-task">
-                <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={value} onChange={setTask}/>
+                <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={value} onChange={setTask} onKeyDown={handleKeyDown}/>
                 <button onClick={addTask}>+</button>
             </div>
                 <ul>
