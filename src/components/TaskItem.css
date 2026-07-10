@@ -1,4 +1,10 @@
 li {
     text-decoration: none;
-    margin: 4px;
+    margin: 8px;
+    background-color: #f0f0f0;
+    width: 200px;
+    height: 40px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
 }
