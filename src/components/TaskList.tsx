@@ -5,11 +5,12 @@ import TaskItem from './TaskItem.tsx';
 
 const title = 'My Todo App';
 const items = [
-  { id: 1, text: 'Task 1', completed: false, createdat: new Date() },
-  { id: 2, text: 'Task 2', completed: false, createdat: new Date() },
-  { id: 3, text: 'Task 3', completed: false, createdat: new Date() },
+  { id: 1, text: 'Task 1', completed: false, createdat: new Date(), updating: false},
+  { id: 2, text: 'Task 2', completed: false, createdat: new Date() , updating: false},
+  { id: 3, text: 'Task 3', completed: false, createdat: new Date() , updating: false},
 ];
-// Ausprobieren: text conditional evaluating in einer Funktion, anstatt direkt mit z.B.: einem ternären Operator in JSX zu evaluieren. Das ist eine gute Übung, um die Logik von JSX zu trennen und den Code sauberer zu gestalten.
+
+// Mit richtigen ids arbeiten
 export default function TaskList() {
     const [selectId, setSelectId] = useState(0);
     const [taskItems, setTaskItems] = useState(items);
@@ -37,7 +38,8 @@ export default function TaskList() {
             id: taskItems.length + 1,
             text: value,
             completed: false,
-            createdat: new Date()
+            createdat: new Date(),
+            updating: false
         }
 
         setTaskItems((prevTaskItems) => [...prevTaskItems, newTask]);
@@ -56,6 +58,21 @@ export default function TaskList() {
         });
     }
 
+    function updateTask(taskId: number) {
+        setTaskItems((prevTaskItems) => {
+            return prevTaskItems.map((task) => {
+                return task.id === taskId ? {...task, updating: true} : task;
+            });
+        });
+    }
+
+    function updateTaskText(taskId: number, newText: string) {
+        setTaskItems((prevTaskItems) => {
+            return prevTaskItems.map((item) => {
+                return item.id === taskId ? {...item, text: newText, updating: false} : item;
+            });
+        });
+    }
 
     return(
         <div id="task-list">
@@ -71,7 +88,12 @@ export default function TaskList() {
                 <ul>
                     {taskItems.map((item) => 
                      <TaskItem key={item.id}
+                     haveId={item.id}
+                     text={item.text}
                      isSelected={item.completed}
+                     onUpdate={item.updating}
+                     onUpdateTask={() => updateTask(item.id)}
+                     update={updateTaskText}
                      deleteTask={() => {deleteTask(item.id)}}
                      onClick={() => clickHandler(item.id)}
                      >{item.text}
