@@ -1,16 +1,13 @@
 li {
     text-decoration: none;
-    margin: 8px;
+    margin: 14px 0;
+    padding: 0 14px;
     background-color: #f0f0f0;
     width: 200px;
     height: 40px;
-    padding: 8px;
     display: flex;
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-
-li #delete-task-btn {
 }

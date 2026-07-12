@@ -1,7 +1,7 @@
 import {useState} from 'react';
 
 import './TaskList.css';
-import TaskItem from './TaskItem.tsx';
+import Task from './Task.tsx';
 
 const title = 'My Todo App';
 const items = [
@@ -87,7 +87,7 @@ export default function TaskList() {
             </div>
                 <ul>
                     {taskItems.map((item) => 
-                     <TaskItem key={item.id}
+                     <Task key={item.id}
                      haveId={item.id}
                      text={item.text}
                      isSelected={item.completed}
@@ -97,7 +97,7 @@ export default function TaskList() {
                      deleteTask={() => {deleteTask(item.id)}}
                      onClick={() => clickHandler(item.id)}
                      >{item.text}
-                    </TaskItem>) 
+                    </Task>) 
                     }
                 </ul>
             </div>

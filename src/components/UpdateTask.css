@@ -5,3 +5,11 @@
     align-items: center;
     gap: 10px;
 }
+
+#update-task button {
+    width: 100px;
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
