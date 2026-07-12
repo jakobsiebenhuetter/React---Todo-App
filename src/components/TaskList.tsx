@@ -1,30 +1,20 @@
 import {useState} from 'react';
 
+
 import './TaskList.css';
 import Task from './Task.tsx';
 
 const title = 'My Todo App';
 const items = [
-  { id: 1, text: 'Task 1', completed: false, createdat: new Date(), updating: false},
-  { id: 2, text: 'Task 2', completed: false, createdat: new Date() , updating: false},
-  { id: 3, text: 'Task 3', completed: false, createdat: new Date() , updating: false},
+  { id: Math.random(), text: 'Task 1', completed: false, createdat: new Date(), updating: false},
+  { id: Math.random(), text: 'Task 2', completed: false, createdat: new Date() , updating: false},
+  { id: Math.random(), text: 'Task 3', completed: false, createdat: new Date() , updating: false},
 ];
 
 // Mit richtigen ids arbeiten
 export default function TaskList() {
-    const [selectId, setSelectId] = useState(0);
     const [taskItems, setTaskItems] = useState(items);
     const [value, setValue] = useState('');
-
-    console.log('selectId: ', selectId);
-    function clickHandler(taskId: number) {
-        setSelectId(taskId);
-        setTaskItems((prevItems) => {
-            return prevItems.map((item) => {
-                return item.id === taskId ? {...item, completed: !item.completed} : item;
-            })
-        })
-    }
 
     function setTask(event) {
         setValue(event.target.value);
@@ -35,7 +25,7 @@ export default function TaskList() {
             return;
         
         const newTask = {
-            id: taskItems.length + 1,
+            id: Math.random(),
             text: value,
             completed: false,
             createdat: new Date(),
@@ -74,6 +64,14 @@ export default function TaskList() {
         });
     }
 
+    function completeTask(taskId: number) {
+        setTaskItems((prevTaskItems) => {
+            return prevTaskItems.map((task) => {
+                return task.id === taskId ? {...task, completed: !task.completed} : task;
+            })
+        })
+    }
+
     return(
         <div id="task-list">
             <div>
@@ -87,7 +85,8 @@ export default function TaskList() {
             </div>
                 <ul>
                     {taskItems.map((item) => 
-                     <Task key={item.id}
+                     <Task style={{ textDecoration: item.completed ? "line-through" : "none" }}
+                     key={item.id}
                      haveId={item.id}
                      text={item.text}
                      isSelected={item.completed}
@@ -95,7 +94,7 @@ export default function TaskList() {
                      onUpdateTask={() => updateTask(item.id)}
                      update={updateTaskText}
                      deleteTask={() => {deleteTask(item.id)}}
-                     onClick={() => clickHandler(item.id)}
+                     completeTask={() => completeTask(item.id)}
                      >{item.text}
                     </Task>) 
                     }
