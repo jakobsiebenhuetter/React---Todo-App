@@ -6,6 +6,27 @@
     align-items: center;
 }
 
+#add-task input {
+    width: 200px;
+    height: 30px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#add-task button {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background-color: #2cb545;
+}
+
+#add-task button:hover {
+    background-color: #209651;
+    cursor: pointer;
+}
+
 #task-list #add-task {
     display: flex;
     flex-direction: row;
@@ -14,9 +35,13 @@
     gap: 10px;
 }
 
+
+
 #task-list ul{
    list-style: none;
    margin: 0;
    padding: 14px 0;
 }
+
+
 

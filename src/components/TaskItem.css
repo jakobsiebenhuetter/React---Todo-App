@@ -1,13 +1,49 @@
-li {
-    text-decoration: none;
-    margin: 14px 0;
-    padding: 0 14px;
-    background-color: #f0f0f0;
-    width: 200px;
-    height: 40px;
+
+#task-item {
+    width: 100%;
     display: flex;
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-between;  
 }
+
+#task-item .section-1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+#task-item .btn-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#task-item .confirm-btn {
+    width: 60px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #3ae259;
+}
+
+#task-item .confirm-btn:hover {
+    background-color: #2ecc71;
+    cursor: pointer;
+}
+
+#task-item .delete-btn {
+    width: 60px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #e23a3a;
+}
+
+#task-item .delete-btn:hover {
+    background-color: #c0392b;
+    cursor: pointer;
+}
+

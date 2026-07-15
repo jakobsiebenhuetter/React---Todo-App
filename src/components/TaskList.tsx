@@ -85,11 +85,11 @@ export default function TaskList() {
             </div>
                 <ul>
                     {taskItems.map((item) => 
-                     <Task style={{ textDecoration: item.completed ? "line-through" : "none" }}
+                     <Task
                      key={item.id}
                      haveId={item.id}
                      text={item.text}
-                     isSelected={item.completed}
+                     completed={item.completed}
                      onUpdate={item.updating}
                      onUpdateTask={() => updateTask(item.id)}
                      update={updateTaskText}
