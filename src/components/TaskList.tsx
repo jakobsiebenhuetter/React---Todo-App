@@ -5,15 +5,11 @@ import './TaskList.css';
 import Task from './Task.tsx';
 
 const title = 'My Todo App';
-const items = [
-  { id: Math.random(), text: 'Task 1', completed: false, createdat: new Date(), updating: false},
-  { id: Math.random(), text: 'Task 2', completed: false, createdat: new Date() , updating: false},
-  { id: Math.random(), text: 'Task 3', completed: false, createdat: new Date() , updating: false},
-];
+
 
 // Mit richtigen ids arbeiten
-export default function TaskList() {
-    const [taskItems, setTaskItems] = useState(items);
+export default function TaskList({tasks}) {
+    const [taskItems, setTaskItems] = useState(tasks);
     const [value, setValue] = useState('');
 
     function setTask(event) {
@@ -32,7 +28,13 @@ export default function TaskList() {
             updating: false
         }
 
-        setTaskItems((prevTaskItems) => [...prevTaskItems, newTask]);
+        setTaskItems((prevTaskItems) => {
+            const allTasks = [...prevTaskItems, newTask];
+            const stringTasks = JSON.stringify(allTasks);
+            localStorage.setItem('tasks', stringTasks);
+            return [...allTasks];
+        });
+
         setValue('');
     }
 
@@ -44,33 +46,46 @@ export default function TaskList() {
 
     function deleteTask(taskId: number) {
         setTaskItems((prevTaskItems) => {
-            return prevTaskItems.filter((task) => task.id !== taskId);
+            const allTasks = prevTaskItems.filter((task) => task.id !== taskId)
+            const stringTasks = JSON.stringify(allTasks);
+            localStorage.setItem('tasks', stringTasks);
+            return allTasks;
         });
     }
 
     function updateTask(taskId: number) {
         setTaskItems((prevTaskItems) => {
-            return prevTaskItems.map((task) => {
+            const allTasks = prevTaskItems.map((task) => {
                 return task.id === taskId ? {...task, updating: true} : task;
             });
+            const stringTasks = JSON.stringify(allTasks);
+            localStorage.setItem('tasks', stringTasks);
+            return allTasks;
         });
     }
 
     function updateTaskText(taskId: number, newText: string) {
         setTaskItems((prevTaskItems) => {
-            return prevTaskItems.map((item) => {
+            const allTasks = prevTaskItems.map((item) => {
                 return item.id === taskId ? {...item, text: newText, updating: false} : item;
             });
+            const stringTasks = JSON.stringify(allTasks);
+            localStorage.setItem('tasks', stringTasks);
+            return allTasks;
         });
     }
 
     function completeTask(taskId: number) {
         setTaskItems((prevTaskItems) => {
-            return prevTaskItems.map((task) => {
+            const allTasks =  prevTaskItems.map((task) => {
                 return task.id === taskId ? {...task, completed: !task.completed} : task;
             })
+            const stringTasks = JSON.stringify([...allTasks]);
+            localStorage.setItem('tasks', stringTasks);
+            return allTasks;
         })
     }
+
 
     return(
         <div id="task-list">
@@ -81,10 +96,11 @@ export default function TaskList() {
                 <h2>Aufgabenliste</h2>
             <div id="add-task">
                 <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={value} onChange={setTask} onKeyDown={handleKeyDown}/>
-                <button onClick={addTask}>+</button>
+                <button onClick={addTask} disabled={value === ''} style={{backgroundColor : value === '' ? "grey" : "green"}}>+</button>
             </div>
                 <ul>
-                    {taskItems.map((item) => 
+                    {taskItems.length > 0 ? 
+                    taskItems.map((item) => 
                      <Task
                      key={item.id}
                      haveId={item.id}
@@ -97,7 +113,7 @@ export default function TaskList() {
                      completeTask={() => completeTask(item.id)}
                      >{item.text}
                     </Task>) 
-                    }
+                    : <li>Keine Aufgaben vorhanden</li>}
                 </ul>
             </div>
         </div>
