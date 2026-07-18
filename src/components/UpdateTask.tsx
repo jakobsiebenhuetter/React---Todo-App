@@ -13,6 +13,7 @@ export default function UpdateTaskItem(props) {
         <div id="update-task">
             <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={newText} onChange={handleChange}/>
             <button onClick={() => props.updateTaskText(props.haveId, newText)}>+</button>
+            <button>Abbrechen</button>
         </div>
     )
 }

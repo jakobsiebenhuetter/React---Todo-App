@@ -7,7 +7,7 @@
 }
 
 #update-task button {
-    width: 50px;
+    min-width: 50px;
     height: 30px;
     padding: 0 10px;
     border: 1px solid #ccc;
