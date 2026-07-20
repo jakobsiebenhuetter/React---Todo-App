@@ -1,6 +1,5 @@
 import {useState} from 'react';
 
-
 import './TaskList.css';
 import Task from './Task.tsx';
 
@@ -75,6 +74,7 @@ export default function TaskList({tasks}) {
         });
     }
 
+
     function completeTask(taskId: number) {
         setTaskItems((prevTaskItems) => {
             const allTasks =  prevTaskItems.map((task) => {
@@ -103,10 +103,7 @@ export default function TaskList({tasks}) {
                     taskItems.map((item) => 
                      <Task
                      key={item.id}
-                     haveId={item.id}
-                     text={item.text}
-                     completed={item.completed}
-                     onUpdate={item.updating}
+                     taskProps={item}
                      onUpdateTask={() => updateTask(item.id)}
                      update={updateTaskText}
                      deleteTask={() => {deleteTask(item.id)}}

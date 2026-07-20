@@ -3,12 +3,12 @@ import "./Task.css";
 import TaskItem from "./TaskItem.tsx";
 import UpdateTaskItem from "./UpdateTask.tsx";
 
-export default function Task({ deleteTask, onUpdate, update, onUpdateTask, completeTask,  ...props}) {
+export default function Task({ deleteTask, update, onUpdateTask, completeTask, taskProps, children}) {
 
-  let item = <TaskItem deleteTask={deleteTask} onUpdateTask={onUpdateTask} completed={props.completed} completeTask={completeTask}>{props.children}</TaskItem>
+  let item = <TaskItem deleteTask={deleteTask} onUpdateTask={onUpdateTask} completed={taskProps.completed} completeTask={completeTask}>{children}</TaskItem>
 
-  if (onUpdate) {
-    item = <UpdateTaskItem updateTaskText={update} haveId={props.haveId} text={props.text}></UpdateTaskItem>
+  if (taskProps.updating) {
+    item = <UpdateTaskItem updateTaskText={update} haveId={taskProps.id} text={children}></UpdateTaskItem>
   }
 
   return (
