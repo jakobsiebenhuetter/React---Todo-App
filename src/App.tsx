@@ -7,6 +7,7 @@ import TaskList from "./components/TaskList.tsx";
 //   { id: Math.random(), text: 'Task 3', completed: false, createdat: new Date() , updating: false},
 // ];
 
+// Next Step mit Komposition Komponents arbeiten
 const tasks = localStorage.getItem('tasks');
 let parsedTasks = [];
 if(tasks) {

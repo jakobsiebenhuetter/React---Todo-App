@@ -2,45 +2,21 @@ import {useState} from 'react';
 
 import './TaskList.css';
 import Task from './Task.tsx';
+import AddTask from './AddTask.tsx';
 
 const title = 'My Todo App';
-
 
 // Mit richtigen ids arbeiten
 export default function TaskList({tasks}) {
     const [taskItems, setTaskItems] = useState(tasks);
-    const [value, setValue] = useState('');
 
-    function setTask(event) {
-        setValue(event.target.value);
-    }
-
-    function addTask() {
-        if(value.trim() === '') 
-            return;
-        
-        const newTask = {
-            id: Math.random(),
-            text: value,
-            completed: false,
-            createdat: new Date(),
-            updating: false
-        }
-
+    function addTask(newTask) {
         setTaskItems((prevTaskItems) => {
             const allTasks = [...prevTaskItems, newTask];
             const stringTasks = JSON.stringify(allTasks);
             localStorage.setItem('tasks', stringTasks);
             return [...allTasks];
         });
-
-        setValue('');
-    }
-
-    function handleKeyDown(event) {
-        if(event.key === 'Enter') {
-            addTask();
-        }
     }
 
     function deleteTask(taskId: number) {
@@ -86,7 +62,6 @@ export default function TaskList({tasks}) {
         })
     }
 
-
     return(
         <div id="task-list">
             <div>
@@ -94,10 +69,7 @@ export default function TaskList({tasks}) {
             </div>
             <div>
                 <h2>Aufgabenliste</h2>
-            <div id="add-task">
-                <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={value} onChange={setTask} onKeyDown={handleKeyDown}/>
-                <button onClick={addTask} disabled={value === ''} style={{backgroundColor : value === '' ? "grey" : "green"}}>+</button>
-            </div>
+                <AddTask addTask={addTask}></AddTask>
                 <ul>
                     {taskItems.length > 0 ? 
                     taskItems.map((item) => 
