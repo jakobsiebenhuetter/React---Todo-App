@@ -85,17 +85,22 @@ export default function App() {
       return allTasks;
     });
   }
+
+  function haveTasks() {
+    return tasks.length > 0;
+  }
   
   return (
     <>
       <Header />
       <AddTask addTask={addTask}/>
       <TaskList>
-        {tasks.length > 0 ? tasks.map((item) => 
+        {haveTasks() && tasks.map((item) => 
           <Task key={item.id} taskProps={item} onUpdateTask={() => updateTask(item.id)} update={updateTaskText} deleteTask={() => {deleteTask(item.id)}} completeTask={() => completeTask(item.id)}>
             {item.text}
-          </Task>) 
-          : <li>Keine Aufgaben vorhanden</li>}
+          </Task>
+        )}
+        {tasks.length === 0 && <li id="no-tasks">Keine Aufgaben vorhanden</li>}
       </TaskList>
     </>
   );
