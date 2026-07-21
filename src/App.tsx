@@ -100,7 +100,7 @@ export default function App() {
             {item.text}
           </Task>
         )}
-        {tasks.length === 0 && <li id="no-tasks">Keine Aufgaben vorhanden</li>}
+        {!haveTasks() && <li id="no-tasks">Keine Aufgaben vorhanden</li>}
       </TaskList>
     </>
   );
