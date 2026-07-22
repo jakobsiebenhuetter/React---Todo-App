@@ -1,21 +1,41 @@
 
 #task-item {
-    width: 100%;
+    margin: 6px;
+    width: 500px;
+    max-height: 200px;
     display: flex;
     align-items: center;
-    display: flex;
     flex-direction: row;
-    justify-content: space-between;  
 }
 
-#task-item .section-1 {
+#task-item .task-item-header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10px;
+    margin: 4px;
+}
+
+#task-item .text-container {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 4px;
+    width: 380px;
+    height: 100%;
+}
+
+#task-item .text-container p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin: 0;
+    word-break: break-word;
+    line-clamp: 2;
+    overflow: hidden;
 }
 
 #task-item .btn-wrapper {
+    margin-left: 12px;
     display: flex;
     flex-direction: row;
     gap: 10px;

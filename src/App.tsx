@@ -1,3 +1,5 @@
+import './App.css';
+
 import AddTask from "./components/AddTask.tsx";
 import Header from "./components/Header.tsx";
 import TaskList from "./components/TaskList.tsx";
@@ -93,15 +95,17 @@ export default function App() {
   return (
     <>
       <Header />
-      <AddTask addTask={addTask}/>
-      <TaskList>
+      <main className="hero">
+        <AddTask addTask={addTask}/>
+        <TaskList>
         {haveTasks() && tasks.map((item) => 
           <Task key={item.id} taskProps={item} onUpdateTask={() => updateTask(item.id)} update={updateTaskText} deleteTask={() => {deleteTask(item.id)}} completeTask={() => completeTask(item.id)}>
             {item.text}
           </Task>
         )}
-        {!haveTasks() && <li id="no-tasks">Keine Aufgaben vorhanden</li>}
+        {!haveTasks() && <li id="no-tasks">Keine Aufgaben</li>}
       </TaskList>
+    </main>
     </>
   );
 }

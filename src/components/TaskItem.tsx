@@ -4,11 +4,13 @@ export default function TaskItem(props) {
 
   return (
     <div id="task-item">
-      <div className="section-1">
-    <span>
+      <div className="task-item-header">
         <input type="checkbox" checked={props.completed} onChange={props.completeTask}/>
-    </span>
-        <span style={{textDecoration: props.completed ? 'line-through' : 'none'}}>{props.children}</span>
+      </div>
+      <div className="text-container" style={{textDecoration: props.completed ? 'line-through' : 'none'}}>
+        <p>
+          {props.children}
+          </p>
       </div>
       <div className="btn-wrapper">
         <button className="delete-btn" onClick={props.deleteTask}>Delete</button>

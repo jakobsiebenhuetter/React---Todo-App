@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: rgb(181, 181, 181);
 }
@@ -8,4 +12,15 @@ input[type="text"] {
     padding: 0 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+textarea {
+    width: 85%;
+    /* border: none; */
+    /* resize: none; */
+    /* overflow: scroll; */
+}
+
+textarea:focus {
+    /* outline: none; */
 }
