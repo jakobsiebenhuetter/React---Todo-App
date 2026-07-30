@@ -17,11 +17,17 @@ export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProp
         setText(event.target.value);
     }
 
+    function onEnter(event) {
+        if(event.key === 'Enter') {
+            update(task.id, newText)
+        }
+    }
+
 
     return(
         <div id="update-task">
             <div className='input-container'>
-                <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={newText} onChange={handleChange}/>
+                <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={newText} onChange={handleChange} onKeyDown={onEnter}/>
             </div>
             <div className='btn-container'>
                 <button onClick={() => update(task.id, newText)}>+</button>
