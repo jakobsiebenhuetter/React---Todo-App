@@ -1,20 +1,20 @@
 import "./TaskItem.css";
 
-export default function TaskItem(props) {
+export default function TaskItem({task, completeTask, deleteTask, onUpdateTask}) {
 
   return (
     <div id="task-item">
       <div className="task-item-header">
-        <input type="checkbox" checked={props.completed} onChange={props.completeTask}/>
+        <input type="checkbox" checked={task.completed} onChange={completeTask}/>
       </div>
-      <div className="text-container" style={{textDecoration: props.completed ? 'line-through' : 'none'}}>
+      <div className="text-container" style={{textDecoration: task.completed ? 'line-through' : 'none'}}>
         <p>
-          {props.children}
+          {task.text}
           </p>
       </div>
       <div className="btn-wrapper">
-        <button className="delete-btn" onClick={props.deleteTask}>Delete</button>
-        <button className="confirm-btn" onClick={props.onUpdateTask}>Update</button>
+        <button className="delete-btn" onClick={deleteTask}>Delete</button>
+        <button className="confirm-btn" onClick={onUpdateTask}>Update</button>
       </div>
     </div>
   );

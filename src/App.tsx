@@ -6,20 +6,18 @@ import TaskList from "./components/TaskList.tsx";
 import Task from "./components/Task.tsx";
 import {useState} from 'react';
 
-export type TTask = {
-  id: number;
-  text: string;
-  completed: boolean;
-  createdat: Date;
-  updating: boolean;
-}
+import {TTask} from './types.ts'
+
 // const items = [
 //   { id: Math.random(), text: 'Task 1', completed: false, createdat: new Date(), updating: false},
 //   { id: Math.random(), text: 'Task 2', completed: false, createdat: new Date() , updating: false},
 //   { id: Math.random(), text: 'Task 3', completed: false, createdat: new Date() , updating: false},
 // ];
 
-// Next Step mit Components Composition arbeiten
+/**
+ * @todo Enter in update funktioniert nicht
+ * @todo Strategie erweitern mit 2 Section -> kurze kleine Tasks und große Tasks mit Textarea titel und mehr Funktionalitäten wie Bilder etc. hochladen
+ */
 const tasks = localStorage.getItem('tasks');
 let parsedTasks: TTask[] = [];
 if(tasks) {
@@ -30,7 +28,7 @@ export default function App() {
 
   const [tasks, setTasks] = useState(parsedTasks);
   
-  function addTask(newTask) {
+  function addTask(newTask: TTask) {
     setTasks((prevTaskItems) => {
       const allTasks = [...prevTaskItems, newTask];
       const stringTasks = JSON.stringify(allTasks);
@@ -88,6 +86,15 @@ export default function App() {
     });
   }
 
+  function cancel(id: number) {
+    setTasks((prevTasks) => {
+        const allTasks =  prevTasks.map((task) => {
+        return task.id === id ? {...task, updating: false} : task;
+      });
+      return allTasks;
+    })
+  }
+
   function haveTasks() {
     return tasks.length > 0;
   }
@@ -99,8 +106,13 @@ export default function App() {
         <AddTask addTask={addTask}/>
         <TaskList>
         {haveTasks() && tasks.map((item) => 
-          <Task key={item.id} taskProps={item} onUpdateTask={() => updateTask(item.id)} update={updateTaskText} deleteTask={() => {deleteTask(item.id)}} completeTask={() => completeTask(item.id)}>
-            {item.text}
+          <Task key={item.id} 
+          task={item} 
+          onUpdateTask={() => updateTask(item.id)} 
+          update={updateTaskText} 
+          deleteTask={() => {deleteTask(item.id)}} 
+          completeTask={() => completeTask(item.id)} 
+          onCancel={cancel}>
           </Task>
         )}
         {!haveTasks() && <li id="no-tasks">Keine Aufgaben</li>}

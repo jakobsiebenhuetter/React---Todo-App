@@ -1,9 +1,23 @@
 #update-task {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
+}
+
+#update-task .input-container {
+    margin-left: 6px;
+    width: 355px;
+}
+
+#update-task .input-container input {
+    width: 90%;
+}
+
+#update-task .btn-container {
+    display: flex;
+    flex-direction: row;
     gap: 10px;
+    margin-right: 6px;
 }
 
 #update-task button {
