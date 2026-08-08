@@ -3,7 +3,9 @@
 }
 
 body {
-    background-color: rgb(181, 181, 181);
+    /* background-color: rgb(181, 181, 181); */
+    background-color: rgb(255 252 252);
+    font-family: sans-serif;
 }
 
 input[type="text"] {

@@ -4,9 +4,10 @@ import AddTask from "./components/AddTask.tsx";
 import Header from "./components/Header.tsx";
 import TaskList from "./components/TaskList.tsx";
 import Task from "./components/Task.tsx";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 import {TTask} from './types.ts'
+import DropDown from './components/DropDown.tsx';
 
 // const items = [
 //   { id: Math.random(), text: 'Task 1', completed: false, createdat: new Date(), updating: false},
@@ -15,7 +16,11 @@ import {TTask} from './types.ts'
 // ];
 
 /**
- * @todo Enter in update funktioniert nicht
+ * //TODO - Refactoren und DropDoen/Contextmenu anpassen
+ * //TODO - Liste nach Aktualität sortieren
+ * //TODO - Dropdown Komponente erstellen für Prioritäten, es soll dann automatisch nach den Prioritäten die Liste sortiert werden
+ * //TODO - Checkbox aus shadcn einbauen
+ * //TODO - Besseres TS implementieren
  * @todo Strategie erweitern mit 2 Section -> kurze kleine Tasks und große Tasks mit Textarea titel und mehr Funktionalitäten wie Bilder etc. hochladen
  */
 const tasks = localStorage.getItem('tasks');
@@ -27,10 +32,45 @@ if(tasks) {
 export default function App() {
 
   const [tasks, setTasks] = useState(parsedTasks);
+  const [dropdownState, setDropDownState] 
+  = useState(
+    {
+      isOpen: false,
+      posX: 0,
+      posY: 0,
+      taskId: 0
+    });
   
+  function closeDropDown() {
+    setDropDownState((prevState) => {
+      const newState = {...prevState, isOpen: false}
+      return newState
+    })
+
+  }
+
+  useEffect(() => {
+    document.body.addEventListener('click', closeDropDown)
+
+    return () => document.body.removeEventListener('click', closeDropDown);
+  });
+
+
+
+  function toggleDropDown(e, taskId: number) {
+    e.stopPropagation();
+    setDropDownState(prevState => {
+      console.log(prevState);
+
+      const newState = {...prevState, isOpen: true, taskId: taskId, posX: parseFloat(e.pageX), posY: parseFloat(e.pageY)};
+      console.log(newState);
+      return newState;
+    });
+  }
+
   function addTask(newTask: TTask) {
     setTasks((prevTaskItems) => {
-      const allTasks = [...prevTaskItems, newTask];
+      const allTasks = [newTask, ...prevTaskItems];
       const stringTasks = JSON.stringify(allTasks);
       localStorage.setItem('tasks', stringTasks);
       return [...allTasks];
@@ -105,18 +145,34 @@ export default function App() {
       <main className="hero">
         <AddTask addTask={addTask}/>
         <TaskList>
-        {haveTasks() && tasks.map((item) => 
+        {haveTasks() ? tasks.map((item) => 
           <Task key={item.id} 
-          task={item} 
+          task={item}
           onUpdateTask={() => updateTask(item.id)} 
           update={updateTaskText} 
           deleteTask={() => {deleteTask(item.id)}} 
           completeTask={() => completeTask(item.id)} 
-          onCancel={cancel}>
-          </Task>
-        )}
-        {!haveTasks() && <li id="no-tasks">Keine Aufgaben</li>}
+          onCancel={cancel}
+          onDropDown={toggleDropDown}/>)
+          : <li id="no-tasks">Keine Aufgaben</li>}    
       </TaskList>
+      {dropdownState.isOpen && <DropDown items={[
+        {
+          id:'1',
+          label: 'Priorität hoch',
+          onClick: () => {console.log(dropdownState.taskId)}
+        },
+        {
+          id:'1',
+          label: 'Priorität mittel',
+          onClick: () => {console.log(dropdownState.taskId)}
+        },
+        {
+          id:'1',
+          label: 'Priorität niedrig',
+          onClick: () => {console.log(dropdownState.taskId)}
+        }
+      ]} posX={dropdownState.posX} posY={dropdownState.posY}></DropDown>}
     </main>
     </>
   );
