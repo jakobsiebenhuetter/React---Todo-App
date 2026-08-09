@@ -6,7 +6,7 @@
     background-color: #7ab2ff;
     display: flex;
     flex-direction: row;
-    padding: 6px;
+    /* padding: 6px; */
     height: 130px;
     width: 560px;
 }

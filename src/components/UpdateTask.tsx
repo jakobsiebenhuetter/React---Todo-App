@@ -37,8 +37,7 @@ export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProp
                 <Button onClick={() => onCancel(task.id)} variant='secondary' animation="scale" classes="font-bold p-[6px] m-2 h-[40px] rounded">
                     Abbrechen
                 </Button>
-                {/* <button onClick={() => update(task.id, newText)}>+</button>
-                <button onClick={() => onCancel(task.id)}>Abbrechen</button> */}
+
             </div>
         </div>
     )
