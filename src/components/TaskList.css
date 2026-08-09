@@ -6,6 +6,11 @@
     align-items: center;
 }
 
+#task-list .title {
+    padding: 6px;
+}
+
+
 #add-task input {
     width: 200px;
     height: 30px;
@@ -14,13 +19,13 @@
     border-radius: 4px;
 }
 
-#add-task button {
+/* #add-task button {
     width: 40px;
     height: 40px;
     border: 1px solid #ccc;
     border-radius: 50%;
     background-color: #2cb545;
-}
+} */
 
 #add-task button:hover {
     background-color: #209651;

@@ -1,7 +1,7 @@
 import './App.css';
 
 import AddTask from "./components/AddTask.tsx";
-import Header from "./components/Header.tsx";
+// import Header from "./components/Header.tsx";
 import TaskList from "./components/TaskList.tsx";
 import Task from "./components/Task.tsx";
 import {useEffect, useState} from 'react';
@@ -141,7 +141,7 @@ export default function App() {
   
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main className="hero">
         <AddTask addTask={addTask}/>
         <TaskList>

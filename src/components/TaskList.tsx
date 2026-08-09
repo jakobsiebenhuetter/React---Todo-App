@@ -6,7 +6,7 @@ export default function TaskList({children}) {
     return(
         <div id="task-list">
             <div>
-                <h2>Aufgabenliste</h2>
+                <h2 className='title'>Aufgabenliste</h2>
                 <ul>
                     {children}
                 </ul>

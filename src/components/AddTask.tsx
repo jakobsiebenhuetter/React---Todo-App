@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import './AddTask.css';
+import Button from './Button';
 
 export default function AddTask({addTask}) {
     const [value, setValue] = useState('');
@@ -32,7 +33,8 @@ export default function AddTask({addTask}) {
     return (
         <div id="add-task">
             <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={value} onChange={setTask} onKeyDown={handleKeyDown}/>
-            <button onClick={addNewTask}>+</button>
+            {/* <button onClick={addNewTask}>+</button> */}
+            <Button disabled={true} onClick={addNewTask}>+</Button>
         </div>
     )
 }

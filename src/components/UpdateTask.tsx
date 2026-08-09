@@ -2,6 +2,7 @@ import './UpdateTask.css';
 import { useState } from "react";
 
 import { TTask } from '../types';
+import Button from './Button.tsx';
 
 interface IUpdateTaskProps {
     task: TTask,
@@ -30,8 +31,14 @@ export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProp
                 <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={newText} onChange={handleChange} onKeyDown={onEnter}/>
             </div>
             <div className='btn-container'>
-                <button onClick={() => update(task.id, newText)}>+</button>
-                <button onClick={() => onCancel(task.id)}>Abbrechen</button>
+                <Button onClick={() => update(task.id, newText)} disabled={false} className="bg-mist-500 w-32 h-10 rounded m-2 hover:cursor-pointer">
+                        +
+                </Button>
+                <Button onClick={() => onCancel(task.id)} disabled={false} className="bg-emerald-400 w-32 h-10 rounded m-2 hover:cursor-pointer">
+                    Abbrechen
+                </Button>
+                {/* <button onClick={() => update(task.id, newText)}>+</button>
+                <button onClick={() => onCancel(task.id)}>Abbrechen</button> */}
             </div>
         </div>
     )

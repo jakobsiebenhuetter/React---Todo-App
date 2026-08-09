@@ -22,16 +22,16 @@
 }
 
 #update-task button {
-    min-width: 50px;
+    /* min-width: 50px;
     height: 30px;
     padding: 0 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #3ae259;
+    background-color: #3ae259; */
 }
 
 #update-task button:hover {
-    background-color: #2ecc71;
-    cursor: pointer;
+    /* background-color: #2ecc71;
+    cursor: pointer; */
 }
 
