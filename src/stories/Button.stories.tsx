@@ -1,3 +1,4 @@
+
 import type { Meta, StoryObj } from '@storybook/react';
 import Button from '../components/Button'; // Pfad zu deiner Button-Datei
 
@@ -15,7 +16,7 @@ const meta: Meta<typeof Button> = {
       options: ['primary', 'secondary', 'danger', 'disabled'],
       description: 'Wählt einen der vordefinierten Design-Stile',
     },
-    classes: { 
+    className: { 
       control: 'text', 
       description: 'Zusätzliche oder überschreibende Tailwind-Klassen' 
     },
@@ -38,7 +39,7 @@ export const Secondary: Story = {
   args: {
     children: 'Secondary Button',
     variant: 'secondary',
-    classes: "p-[6px] rounded active:bg-rose-500"
+    className: "p-[6px] rounded active:bg-rose-500"
   },
 };
 
@@ -47,7 +48,7 @@ export const Danger: Story = {
   args: {
     children: 'Löschen',
     variant: "danger",
-    classes: "w-[200px]"
+    className: "w-[200px]"
   },
 };
 
@@ -56,14 +57,14 @@ export const Kombiniert: Story = {
   args: {
     children: 'Großer Button',
     variant: 'primary',
-    classes: 'w-48 h-12 text-lg rounded-lg font-bold shadow-md m-2', 
+    className: 'w-48 h-12 text-lg rounded-lg font-bold shadow-md m-2', 
   },
 };
 
 export const PlaygroundButton: Story = {
     args: {
-        children: "+",
+        children: "Test",
         variant: 'primary',
-        classes: "text-lg rounded-lg font-bold shadow-md m-2 w-[40px] h-[30px] ", 
+        className: "text-lg rounded-lg font-bold shadow-md m-2 w-[40px] h-[40px] hover:scale-105 active:scale-95 uppercase", 
     }
 }
