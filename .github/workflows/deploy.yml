@@ -26,9 +26,15 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
-          
+
+      # Node 22 liefert npm 10.9 mit, die package-lock.json wird lokal aber mit
+      # npm 11 erzeugt. npm 10 erwartet dort Eintraege (@emnapi/core, @emnapi/runtime),
+      # die npm 11 als optionale Peer-Deps weglaesst -> "npm ci" bricht ab.
+      - name: Use npm 11
+        run: npm install -g npm@11
+
       - name: Install dependencies
         run: npm ci
         
