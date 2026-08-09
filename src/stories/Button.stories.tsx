@@ -12,7 +12,7 @@ const meta: Meta<typeof Button> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'danger'],
+      options: ['primary', 'secondary', 'danger', 'disabled'],
       description: 'Wählt einen der vordefinierten Design-Stile',
     },
     classes: { 
@@ -29,7 +29,7 @@ type Story = StoryObj<typeof Button>;
 export const Primary: Story = {
   args: {
     children: 'Primary Button',
-    variant: "secondary",
+    variant: "primary",
   },
 };
 
@@ -38,6 +38,7 @@ export const Secondary: Story = {
   args: {
     children: 'Secondary Button',
     variant: 'secondary',
+    classes: "p-[6px] rounded active:bg-rose-500"
   },
 };
 
@@ -45,7 +46,7 @@ export const Secondary: Story = {
 export const Danger: Story = {
   args: {
     children: 'Löschen',
-    variant: "primary",
+    variant: "danger",
     classes: "w-[200px]"
   },
 };
@@ -58,3 +59,11 @@ export const Kombiniert: Story = {
     classes: 'w-48 h-12 text-lg rounded-lg font-bold shadow-md m-2', 
   },
 };
+
+export const PlaygroundButton: Story = {
+    args: {
+        children: "+",
+        variant: 'primary',
+        classes: "text-lg rounded-lg font-bold shadow-md m-2 w-[40px] h-[30px] ", 
+    }
+}
