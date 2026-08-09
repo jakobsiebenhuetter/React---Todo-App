@@ -1,33 +1,38 @@
 
-/* Breite und flex-direction stehen absichtlich NICHT hier, sondern als
-   Tailwind-Utilities im JSX -- sie muessen pro Breakpoint wechseln und ein
-   ID-Selektor wuerde jede Tailwind-Klasse ueberstimmen. */
+/* Ein einziger Abstandswert fuer die ganze Karte: 8px. Padding und alle gaps
+   nutzen ihn, damit die Abstaende ueberall gleich wirken. Die Buttons haben
+   deshalb bewusst kein eigenes margin mehr. */
 #task-item {
-    position: relative;
     width: 100%;
     display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
     padding: 8px;
-    /* Rechte Spalte fuer den absolut positionierten ⋯-Trigger reservieren,
-       damit er in keinem Modus mit Delete/Update kollidiert. */
-    padding-right: 44px;
-    min-height: 56px;
+}
+
+/* stretch + center: Checkbox und Text stehen vertikal mittig in der Karte,
+   waehrend die Aktions-Spalte oben beginnt. */
+#task-item .task-row {
+    flex: 1 1 auto;
+    min-width: 0;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 #task-item .task-item-header {
     display: flex;
     align-items: center;
-    padding-top: 1px;
-}
-
-#task-item .task-header {
-    display: flex;
 }
 
 #task-item .text-container {
+    flex: 1 1 auto;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: start;
-    padding: 4px 0;
 }
 
 #task-item .text-container p {
@@ -40,7 +45,18 @@
     overflow: hidden;
 }
 
-.btn-d-s {
+/* Der eine Container: Trigger oben, Button-Zeile darunter. */
+#task-item .btn-wrapper {
+    flex-shrink: 0;
     display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+#task-item .btn-d-s {
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    gap: 8px;
 }
