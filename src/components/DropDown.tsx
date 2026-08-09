@@ -28,5 +28,5 @@ export default function DropDown({items, posX, posY}: IDropDownProps) {
             </ul>
         </div>
         </>
-    , document.getElementById('root')!)
+    , document.querySelector('body')!)
 }
