@@ -88,29 +88,34 @@ export default function App() {
   }
   
   function updateTask(taskId: number) {
-    setTasks((prevTaskItems) => {
-      const allTasks = prevTaskItems.map((task) => {
-        return task.id === taskId ? {...task, updating: true} : task;
+    setTimeout(() => {
+      
+      setTasks((prevTaskItems) => {
+        const allTasks = prevTaskItems.map((task) => {
+          return task.id === taskId ? {...task, updating: true} : task;
+        });
+        
+        const stringTasks = JSON.stringify(allTasks);
+        localStorage.setItem('tasks', stringTasks);
+        
+        return allTasks;
       });
-      
-      const stringTasks = JSON.stringify(allTasks);
-      localStorage.setItem('tasks', stringTasks);
-      
-      return allTasks;
-    });
+    }, 250);
   }
   
   function updateTaskText(taskId: number, newText: string) {
-    setTasks((prevTaskItems) => {
-      const allTasks = prevTaskItems.map((item) => {
-        return item.id === taskId ? {...item, text: newText, updating: false} : item;
+    setTimeout(() => {
+      setTasks((prevTaskItems) => {
+        const allTasks = prevTaskItems.map((item) => {
+          return item.id === taskId ? {...item, text: newText, updating: false} : item;
+        });
+        
+        const stringTasks = JSON.stringify(allTasks);
+        localStorage.setItem('tasks', stringTasks);
+        
+        return allTasks;
       });
-      
-      const stringTasks = JSON.stringify(allTasks);
-      localStorage.setItem('tasks', stringTasks);
-      
-      return allTasks;
-    });
+    }, 250);
   }
   
   function completeTask(taskId: number) {
@@ -127,12 +132,15 @@ export default function App() {
   }
 
   function cancel(id: number) {
-    setTasks((prevTasks) => {
+    setTimeout(() => {
+
+      setTasks((prevTasks) => {
         const allTasks =  prevTasks.map((task) => {
-        return task.id === id ? {...task, updating: false} : task;
-      });
-      return allTasks;
-    })
+          return task.id === id ? {...task, updating: false} : task;
+        });
+        return allTasks;
+      })
+    }, 250);
   }
 
   function haveTasks() {

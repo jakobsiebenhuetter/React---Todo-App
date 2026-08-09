@@ -1,9 +1,12 @@
 import { ButtonHTMLAttributes  } from "react";
 
 type TButtonVariants = 'primary' | 'secondary' | 'danger' | 'disabled';
-type TButtonAnimations = '';
+
+type TButtonAnimations = 'scale';
+
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: TButtonVariants,
+    variant: TButtonVariants,
+    animation?: TButtonAnimations,
     classes?: string,
 }
 
@@ -14,8 +17,11 @@ const buttonVariants = {
   disabled: ' bg-slate-300 text-slate-500 opacity-60 cursor-not-allowed pointer-events-none '
 };
 
+const buttonAnimation = {
+    scale: ' hover:scale-105 active:scale-95 '
+}
 
-export default function Button({children, variant, classes,  ...props}: IButtonProps) {
+export default function Button({children, variant, animation, classes,  ...props}: IButtonProps) {
 
     let classNames = '';
     if(classes) {
@@ -24,6 +30,10 @@ export default function Button({children, variant, classes,  ...props}: IButtonP
 
     if(variant) {
         classNames += buttonVariants[variant];
+    }
+
+    if(animation) {
+        classNames += buttonAnimation[animation];
     }
   
     return (

@@ -2,7 +2,7 @@
 #task-item {
     margin: 6px;
     padding: 6px;
-    width: 500px;
+    width: 600px;
     border-radius: 6px;
     max-height: 200px;
     display: flex;
@@ -66,7 +66,7 @@
     margin-left: 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 25px;
 }
 
 #task-item .confirm-btn {

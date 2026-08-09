@@ -1,9 +1,9 @@
 
 import "./TaskItem.css";
 
+import Button from "./Button";
+
 export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, onDropDown}) {
-
-
 
   return (
     <div id="task-item">
@@ -21,13 +21,13 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
     </div>
       <div className="btn-wrapper">
       <div className="task-header">
-        <button className="toggle-dropdown-btn" onClick={(e) => onDropDown(e, task.id)}>
+        <Button variant="secondary" classes="h-[15px] p-1 rounded m-[8px]" onClick={(e) => onDropDown(e, task.id)}>
           <span>{'\u22EF'}</span>
-        </button>
+        </Button>
       </div>
       <div className="btn-d-s">
-        <button className="delete-btn" onClick={deleteTask}>Delete</button>
-        <button className="confirm-btn" onClick={onUpdateTask}>Update</button>
+        <Button variant="danger" animation="scale" classes="text-lg rounded-lg font-bold shadow-md m-2 p-[6px]" onClick={deleteTask}>Delete</Button>
+        <Button variant="primary" animation="scale" classes="text-lg rounded-lg font-bold shadow-md m-2 p-[6px]" onClick={onUpdateTask}>Update</Button>
       </div>
       </div>
       </div>
