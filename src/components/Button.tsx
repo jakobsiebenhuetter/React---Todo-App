@@ -7,7 +7,7 @@ type TButtonAnimations = 'scale';
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant: TButtonVariants,
     animation?: TButtonAnimations,
-    classes?: string,
+    className?: string,
 }
 
 const buttonVariants = {
@@ -21,22 +21,22 @@ const buttonAnimation = {
     scale: ' hover:scale-105 active:scale-95 '
 }
 
-export default function Button({children, variant, animation, classes,  ...props}: IButtonProps) {
+export default function Button({children, variant, animation, className,  ...props}: IButtonProps) {
 
-    let classNames = '';
-    if(classes) {
-        classNames += classes;
+    let baseClasses = '';
+    if(className) {
+        baseClasses += className;
     }
 
     if(variant) {
-        classNames += buttonVariants[variant];
+        baseClasses += buttonVariants[variant];
     }
 
     if(animation) {
-        classNames += buttonAnimation[animation];
+        baseClasses += buttonAnimation[animation];
     }
   
     return (
-        <button {...props} className={classNames}>{children}</button>
+        <button {...props} className={baseClasses}>{children}</button>
     );
 };

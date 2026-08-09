@@ -34,7 +34,7 @@ export default function AddTask({addTask}) {
         <div id="add-task">
             <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={value} onChange={setTask} onKeyDown={handleKeyDown}/>
             {/* <button onClick={addNewTask}>+</button> */}
-            <Button variant="primary" classes='text-lg rounded-lg font-bold shadow-md m-2 p-2' onClick={addNewTask}>
+            <Button variant="primary" className='text-lg rounded-lg font-bold shadow-md m-2 p-2' onClick={addNewTask}>
                 Hinzufügen
             </Button>
         </div>

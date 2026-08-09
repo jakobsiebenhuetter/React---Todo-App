@@ -21,14 +21,25 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
     </div>
       <div className="btn-wrapper">
       <div className="task-header">
-        <Button variant="secondary" classes="h-[15px] p-1 rounded m-[8px]" onClick={(e) => onDropDown(e, task.id)}>
+        <Button variant="secondary" className="h-[15px] p-1 rounded m-[8px]" onClick={(e) => onDropDown(e, task.id)}>
           <span>{'\u22EF'}</span>
         </Button>
       </div>
+
       <div className="btn-d-s">
-        <Button variant="danger" animation="scale" classes="text-lg rounded-lg font-bold shadow-md m-2 p-[6px]" onClick={deleteTask}>Delete</Button>
-        <Button variant="primary" animation="scale" classes="text-lg rounded-lg font-bold shadow-md m-2 p-[6px]" onClick={onUpdateTask}>Update</Button>
+
+        <Button variant="danger" animation="scale" className="text-lg rounded-lg font-bold shadow-md m-2 p-[6px]" 
+        onClick={deleteTask}>
+          Delete
+        </Button>
+
+        <Button variant="primary" animation="scale" className="text-lg rounded-lg font-bold shadow-md m-2 p-[6px]" 
+        onClick={onUpdateTask}>
+          Update
+        </Button>
+
       </div>
+
       </div>
       </div>
   );
