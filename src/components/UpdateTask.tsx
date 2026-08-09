@@ -31,10 +31,10 @@ export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProp
                 <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={newText} onChange={handleChange} onKeyDown={onEnter}/>
             </div>
             <div className='btn-container'>
-                <Button onClick={() => update(task.id, newText)} variant='primary' classes="w-32 h-10 rounded m-2">
+                <Button onClick={() => update(task.id, newText)} variant='primary' classes="text-lg rounded-lg font-bold shadow-md m-2 w-[40px] h-[40px] ">
                         +
                 </Button>
-                <Button onClick={() => onCancel(task.id)} variant='danger' classes="w-32 h-10 rounded m-2 hover:cursor-pointer">
+                <Button onClick={() => onCancel(task.id)} variant='secondary' classes="font-bold p-[6px] m-2 h-[40px] rounded">
                     Abbrechen
                 </Button>
                 {/* <button onClick={() => update(task.id, newText)}>+</button>
