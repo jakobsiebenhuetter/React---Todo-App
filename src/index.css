@@ -2,4 +2,21 @@
 
 body {
     min-height: 100vh;
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+/* Gemeinsame Basis fuer alle Textfelder. Vorher war nur das Input in AddTask
+   gestyled (ueber #add-task input) -- das in UpdateTask blieb ungestyled. */
+input[type="text"] {
+    min-height: 40px;
+    padding: 0 10px;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+input[type="text"]:focus {
+    outline: 2px solid #10b981;
+    outline-offset: -1px;
 }

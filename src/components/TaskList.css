@@ -1,4 +1,5 @@
 #task-list {
+    width: 100%;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -6,41 +7,9 @@
     align-items: center;
 }
 
-#task-list .title {
-    padding: 6px;
+#task-list ul {
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 14px 0;
 }
-
-
-#add-task input {
-    width: 200px;
-    height: 30px;
-    padding: 0 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-
-
-#add-task button:hover {
-    background-color: #209651;
-    cursor: pointer;
-}
-
-#task-list #add-task {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-
-
-#task-list ul{
-   list-style: none;
-   margin: 0;
-   padding: 14px 0;
-}
-
-
-

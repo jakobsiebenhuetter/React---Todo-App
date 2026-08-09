@@ -1,37 +1,21 @@
+/* flex-direction bleibt dem JSX ueberlassen (flex-col sm:flex-row). */
 #update-task {
+    width: 100%;
+    padding: 8px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: #7ab2ff;
+    background-color: #ffffff;
 }
 
 #update-task .input-container {
-    margin-left: 6px;
-    width: 355px;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 #update-task .input-container input {
-    width: 90%;
+    width: 100%;
 }
 
 #update-task .btn-container {
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    margin-right: 6px;
 }
-
-#update-task button {
-    /* min-width: 50px;
-    height: 30px;
-    padding: 0 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #3ae259; */
-}
-
-#update-task button:hover {
-    /* background-color: #2ecc71;
-    cursor: pointer; */
-}
-

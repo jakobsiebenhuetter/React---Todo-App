@@ -31,10 +31,10 @@ export default function AddTask({addTask}) {
     }
 
     return (
-        <div id="add-task">
-            <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={value} onChange={setTask} onKeyDown={handleKeyDown}/>
+        <div id="add-task" className="gap-2">
+            <input type="text" className="text-sm sm:text-base" placeholder="Neue Aufgabe hinzufügen..." value={value} onChange={setTask} onKeyDown={handleKeyDown}/>
             {/* <button onClick={addNewTask}>+</button> */}
-            <Button variant="primary" className='text-lg rounded-lg font-bold shadow-md m-2 p-2' onClick={addNewTask}>
+            <Button variant="primary" className='shrink-0 whitespace-nowrap min-h-10 px-3 text-sm sm:text-base rounded-md font-bold shadow-sm' onClick={addNewTask}>
                 Hinzufügen
             </Button>
         </div>

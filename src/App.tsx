@@ -150,7 +150,7 @@ export default function App() {
   return (
     <>
       {/* <Header /> */}
-      <main className="hero">
+      <main className="hero w-full max-w-2xl mx-auto px-4 py-6 sm:px-6">
         <AddTask addTask={addTask}/>
         <TaskList>
         {haveTasks() ? tasks.map((item) => 
@@ -166,17 +166,17 @@ export default function App() {
       </TaskList>
       {dropdownState.isOpen && <DropDown items={[
         {
-          id:'1',
+          id:'prio-high',
           label: 'Priorität hoch',
           onClick: () => {console.log(dropdownState.taskId)}
         },
         {
-          id:'1',
+          id:'prio-mid',
           label: 'Priorität mittel',
           onClick: () => {console.log(dropdownState.taskId)}
         },
         {
-          id:'1',
+          id:'prio-low',
           label: 'Priorität niedrig',
           onClick: () => {console.log(dropdownState.taskId)}
         }

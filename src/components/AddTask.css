@@ -1,19 +1,17 @@
 #add-task {
-    background-color: #f5f5f5;
-    /* width: 300px; */
-    border-radius: 6px;
-    padding: 4px;
-    display: inline-flex;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 6px;
+    display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-
 }
 
-/* #add-task button {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    background-color: #2cb545;
-} */
+/* Lag vorher in TaskList.css mit width: 200px -- waechst jetzt mit dem Viewport.
+   min-width: 0 ist noetig, damit das Input in einem Flex-Container schrumpfen darf. */
+#add-task input {
+    flex: 1 1 auto;
+    min-width: 0;
+}

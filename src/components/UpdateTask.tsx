@@ -26,15 +26,15 @@ export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProp
 
 
     return(
-        <div id="update-task">
+        <div id="update-task" className='flex-col sm:flex-row sm:items-center gap-2'>
             <div className='input-container'>
-                <input type="text" placeholder="Neue Aufgabe hinzufügen..." value={newText} onChange={handleChange} onKeyDown={onEnter}/>
+                <input type="text" className="text-sm sm:text-base" placeholder="Neue Aufgabe hinzufügen..." value={newText} onChange={handleChange} onKeyDown={onEnter}/>
             </div>
-            <div className='btn-container'>
-                <Button onClick={() => update(task.id, newText)} variant='primary' animation="scale" className="text-lg rounded-lg font-bold shadow-md m-2 w-[40px] h-[40px] ">
+            <div className='btn-container w-full justify-end gap-2 sm:w-auto'>
+                <Button onClick={() => update(task.id, newText)} variant='primary' animation="scale" className="w-10 h-10 shrink-0 text-lg rounded-md font-bold shadow-sm">
                         +
                 </Button>
-                <Button onClick={() => onCancel(task.id)} variant='secondary' animation="scale" className="font-bold p-[6px] m-2 h-[40px] rounded">
+                <Button onClick={() => onCancel(task.id)} variant='secondary' animation="scale" className="h-10 px-3 shrink-0 whitespace-nowrap text-sm sm:text-base font-bold rounded-md">
                     Abbrechen
                 </Button>
 

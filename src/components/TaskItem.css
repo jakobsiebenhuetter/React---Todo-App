@@ -1,55 +1,33 @@
 
+/* Breite und flex-direction stehen absichtlich NICHT hier, sondern als
+   Tailwind-Utilities im JSX -- sie muessen pro Breakpoint wechseln und ein
+   ID-Selektor wuerde jede Tailwind-Klasse ueberstimmen. */
 #task-item {
-    /* margin: 6px; */
-    padding: 6px;
-    width: 600px;
-    border-radius: 6px;
-    max-height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
-    background-color: #7ab2ff;
-}
-#task-item .task-header {
+    position: relative;
     width: 100%;
     display: flex;
-    justify-content: end;
-    margin-bottom: 5px;
-}
-
-#task-item .task-header button {
-    border: none;
-    position: relative;
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#task-item .task-header button span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 8px;
+    /* Rechte Spalte fuer den absolut positionierten ⋯-Trigger reservieren,
+       damit er in keinem Modus mit Delete/Update kollidiert. */
+    padding-right: 44px;
+    min-height: 56px;
 }
 
 #task-item .task-item-header {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    margin: 4px;
+    padding-top: 1px;
 }
 
-#task-item .task-hero {
+#task-item .task-header {
     display: flex;
-
 }
 
 #task-item .text-container {
     display: flex;
     align-items: center;
     justify-content: start;
-    padding: 4px;
+    padding: 4px 0;
 }
 
 #task-item .text-container p {
@@ -62,42 +40,7 @@
     overflow: hidden;
 }
 
-#task-item .btn-wrapper {
-    margin-left: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-#task-item .confirm-btn {
-    width: 60px;
-    height: 30px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #3ae259;
-}
-
-#task-item .confirm-btn:hover {
-    background-color: #2ecc71;
-    cursor: pointer;
-}
-
-#task-item .delete-btn {
-    width: 60px;
-    height: 30px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #e23a3a;
-}
-
-#task-item .delete-btn:hover {
-    background-color: #c0392b;
-    cursor: pointer;
-}
-
 .btn-d-s {
     display: flex;
-    justify-content: center;
     align-items: center;
 }
-

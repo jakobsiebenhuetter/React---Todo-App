@@ -1,21 +1,13 @@
 .task {
-    border: 4px solid transparent;
-    border-radius: 4px;
-    margin: 14px 0;
-    /* background-color: #f0f0f0; */
-    background-color: #7ab2ff;
+    width: 100%;
+    margin: 10px 0;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     display: flex;
-    flex-direction: row;
-    /* padding: 6px; */
-    height: 130px;
-    width: 560px;
 }
 
+/* Nur die Randfarbe wechselt -- so gibt es beim Hover keinen Layout-Sprung. */
 .task:hover {
-    /* border: 1px solid #e0e0e0; */
-        border: 4px solid #3e50db;
+    border-color: #cbd5e1;
 }
-
-/* #task:active {
-    background-color: #d0d0d0;
-} */
