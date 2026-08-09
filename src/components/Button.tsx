@@ -1,12 +1,22 @@
 
-export default function Button({children, disabled,  ...props}) {
-    let classes = 'bg-amber-400';
-    if(disabled) {
-        classes = " bg-amber-950";
+const buttonVariants = {
+    primary: ' bg-emerald-500 text-white hover:bg-emerald-600  hover:cursor-pointer ',
+    secondary: ' bg-slate-200 text-slate-800 hover:bg-slate-300 hover:cursor-pointer ',
+    danger: ' bg-rose-500 text-white hover:bg-rose-600  hover:cursor-pointer ',
+}
+
+export default function Button({children, variant = '', classes = '',  ...props}) {
+
+    let classNames = '';
+    if(classes) {
+        classNames += classes;
     }
 
-    // className={`${classes}`}
+    if(variant) {
+        classNames += buttonVariants[variant];
+    }
+  
     return (
-        <button {...props} >{children}</button>
+        <button {...props} className={classNames}>{children}</button>
     );
 };
