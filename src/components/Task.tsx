@@ -12,7 +12,7 @@ export default function Task({ deleteTask, update, onUpdateTask, completeTask, t
   }
 
   return (
-    <li id="task">
+    <li className="task">
       {item}
     </li>
   );
