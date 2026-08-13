@@ -3,5 +3,6 @@ export type TTask = {
     text: string,
     completed: boolean,
     createdat: Date,
-    updating: boolean
+    updating: boolean,
+    priority?: "low" | "medium" | "high"
 }
