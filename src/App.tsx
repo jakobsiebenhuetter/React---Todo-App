@@ -4,10 +4,13 @@ import AddTask from "./components/AddTask.tsx";
 // import Header from "./components/Header.tsx";
 import TaskList from "./components/TaskList.tsx";
 import Task from "./components/Task.tsx";
+import DropDown from './components/DropDown.tsx';
+
 import {useEffect, useState} from 'react';
+import {AnimatePresence, motion} from 'framer-motion';
 
 import {TTask} from './types.ts'
-import DropDown from './components/DropDown.tsx';
+import {sortTasksByPriority} from './util/utils.ts'
 
 // const items = [
 //   { id: Math.random(), text: 'Task 1', completed: false, createdat: new Date(), updating: false},
@@ -24,14 +27,14 @@ import DropDown from './components/DropDown.tsx';
  * @todo Strategie erweitern mit 2 Section -> kurze kleine Tasks und große Tasks mit Textarea titel und mehr Funktionalitäten wie Bilder etc. hochladen
  */
 const tasks = localStorage.getItem('tasks');
-let parsedTasks: TTask[] = [];
+let parsedTasks = [];
 if(tasks) {
   parsedTasks = JSON.parse(tasks);
 }
 
 export default function App() {
 
-  const [tasks, setTasks] = useState(parsedTasks);
+  const [tasks, setTasks] = useState<TTask[]>(parsedTasks);
   const [dropdownState, setDropDownState] 
   = useState(
     {
@@ -138,9 +141,27 @@ export default function App() {
         const allTasks =  prevTasks.map((task) => {
           return task.id === id ? {...task, updating: false} : task;
         });
+        const stringTasks = JSON.stringify([...allTasks]);
+        localStorage.setItem('tasks', stringTasks);
         return allTasks;
       })
     }, 250);
+  }
+
+  function addPriority(taskId: number, priority: "low" | "medium" | "high") {
+
+    setDropDownState((prevState) => {
+      const newState = {...prevState, isOpen: false}
+      return newState
+    })
+
+    setTasks((prevTasks) => {
+      const uTasks = prevTasks.map((task) => {
+        return task.id === taskId ? {...task, priority: priority} : task;
+      });
+      
+      return sortTasksByPriority(uTasks);
+    });
   }
 
   function haveTasks() {
@@ -154,6 +175,15 @@ export default function App() {
         <AddTask addTask={addTask}/>
         <TaskList>
         {haveTasks() ? tasks.map((item) => 
+
+        <AnimatePresence key={item.id} mode="popLayout" >
+          <motion.div 
+            key={item.id}
+            layout
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}>
+
           <Task key={item.id} 
           task={item}
           onUpdateTask={() => updateTask(item.id)} 
@@ -161,24 +191,27 @@ export default function App() {
           deleteTask={() => {deleteTask(item.id)}} 
           completeTask={() => completeTask(item.id)} 
           onCancel={cancel}
-          onDropDown={toggleDropDown}/>)
+          onDropDown={toggleDropDown}/>
+          </motion.div>
+        </AnimatePresence>)
+
           : <li id="no-tasks">Keine Aufgaben</li>}    
       </TaskList>
       {dropdownState.isOpen && <DropDown items={[
         {
           id:'prio-high',
           label: 'Priorität hoch',
-          onClick: () => {console.log(dropdownState.taskId)}
+          onClick: () => {addPriority(dropdownState.taskId, "high")}
         },
         {
           id:'prio-mid',
           label: 'Priorität mittel',
-          onClick: () => {console.log(dropdownState.taskId)}
+          onClick: () => {addPriority(dropdownState.taskId, "medium")}
         },
         {
           id:'prio-low',
           label: 'Priorität niedrig',
-          onClick: () => {console.log(dropdownState.taskId)}
+          onClick: () => {addPriority(dropdownState.taskId, "low")}
         }
       ]} posX={dropdownState.posX} posY={dropdownState.posY}></DropDown>}
     </main>

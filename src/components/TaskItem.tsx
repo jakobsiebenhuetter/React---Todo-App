@@ -2,6 +2,8 @@
 import "./TaskItem.css";
 
 import Button from "./Button";
+import Badge from "./Badge";
+
 
 export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, onDropDown}) {
 
@@ -10,6 +12,11 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
 
       {/* Checkbox und Text */}
       <div className="task-row">
+        {task.priority && 
+        <Badge className={`priority-badge ${task.priority ===  'high' ? 'bg-red-600' : task.priority === 'medium' ? 'bg-amber-600' : 'bg-amber-300'} text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold`}>
+          {task.priority}
+          </Badge>}
+
         <div className="task-item-header">
           <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={completeTask}/>
         </div>

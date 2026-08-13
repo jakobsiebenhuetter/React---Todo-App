@@ -20,7 +20,7 @@ export default function DropDown({items, posX, posY}: IDropDownProps) {
         <div className='dropdown' style={{top: `${posY}px`, left: `${posX + 15}px`}}>
             <ul>
                 {items.length && items.map(item => (
-                    <li id={item.id} className='dropdown-item' onClick={item.onClick}>
+                    <li key={item.id} id={item.id} className='dropdown-item' onClick={item.onClick}>
                         {item.icon && <span>{item.icon}</span>}
                         {item.label}
                     </li>
