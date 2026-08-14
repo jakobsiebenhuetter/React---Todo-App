@@ -4,7 +4,7 @@ import AddTask from "./components/AddTask.tsx";
 // import Header from "./components/Header.tsx";
 import TaskList from "./components/TaskList.tsx";
 import Task from "./components/Task.tsx";
-import DropDown from './components/DropDown.tsx';
+import DropDown from './components/Contextmenu.tsx';
 
 import {useEffect, useState} from 'react';
 import {AnimatePresence, motion} from 'framer-motion';
@@ -19,7 +19,7 @@ import {sortTasksByPriority} from './util/utils.ts'
 // ];
 
 /**
- * //TODO - Refactoren und DropDoen/Contextmenu anpassen
+ * //TODO - Refactoren und DropDown/Contextmenu anpassen, bzw. mit Tailwind Klassen stylen und responsiv machen
  * //TODO - Liste nach Aktualität sortieren
  * //TODO - Dropdown Komponente erstellen für Prioritäten, es soll dann automatisch nach den Prioritäten die Liste sortiert werden
  * //TODO - Checkbox aus shadcn einbauen

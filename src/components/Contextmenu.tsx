@@ -17,7 +17,7 @@ interface IDropDownProps {
 export default function DropDown({items, posX, posY}: IDropDownProps) {
     return createPortal(
         <>
-        <div className='dropdown' style={{top: `${posY}px`, left: `${posX + 15}px`}}>
+        <div className="" style={{top: `${posY}px`, left: `${posX + 15}px`}}>
             <ul>
                 {items.length && items.map(item => (
                     <li key={item.id} id={item.id} className='dropdown-item' onClick={item.onClick}>
