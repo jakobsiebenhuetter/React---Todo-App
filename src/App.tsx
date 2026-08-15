@@ -4,13 +4,14 @@ import AddTask from "./components/AddTask.tsx";
 // import Header from "./components/Header.tsx";
 import TaskList from "./components/TaskList.tsx";
 import Task from "./components/Task.tsx";
+import Button from "./components/Button.tsx";
 import DropDown from './components/Contextmenu.tsx';
 
 import {useEffect, useState} from 'react';
 import {AnimatePresence, motion} from 'framer-motion';
 
 import {TTask} from './types.ts'
-import {sortTasksByPriority} from './util/utils.ts'
+import {fillTasks, sortTasksByPriority, sortByDate} from './util/utils.ts'
 
 // const items = [
 //   { id: Math.random(), text: 'Task 1', completed: false, createdat: new Date(), updating: false},
@@ -27,10 +28,12 @@ import {sortTasksByPriority} from './util/utils.ts'
  * @todo Strategie erweitern mit 2 Section -> kurze kleine Tasks und große Tasks mit Textarea titel und mehr Funktionalitäten wie Bilder etc. hochladen
  */
 const tasks = localStorage.getItem('tasks');
-let parsedTasks = [];
+let parsedTasks:TTask[] = [];
 if(tasks) {
-  parsedTasks = JSON.parse(tasks);
+  parsedTasks = fillTasks(JSON.parse(tasks));
 }
+
+type TSortBy = "date" | "priority";
 
 export default function App() {
 
@@ -164,6 +167,14 @@ export default function App() {
     });
   }
 
+  function sortTasks(criteria: TSortBy) {
+    if(criteria === "date") {
+      setTasks((prevTasks) => {
+        return sortByDate(prevTasks);
+      })
+    }
+  }
+
   function haveTasks() {
     return tasks.length > 0;
   }
@@ -174,6 +185,9 @@ export default function App() {
       <main className="hero w-full max-w-2xl mx-auto px-4 py-6 sm:px-6">
         <AddTask addTask={addTask}/>
         <TaskList>
+        <Button onClick={() => sortTasks('date')} variant="secondary" className='ml-[72%] min-h-10 px-2 sm:px-3 py-2 text-xs sm:text-sm rounded-md font-bold shadow-sm'>
+          Nach Datum sortieren
+        </Button>
         {haveTasks() ? tasks.map((item) => 
 
         <AnimatePresence key={item.id} mode="popLayout" >
