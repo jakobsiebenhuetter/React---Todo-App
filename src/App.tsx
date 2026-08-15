@@ -8,6 +8,7 @@ import Button from "./components/Button.tsx";
 import DropDown from './components/Contextmenu.tsx';
 
 import {useEffect, useState} from 'react';
+
 import {AnimatePresence, motion} from 'framer-motion';
 
 import {TTask} from './types.ts'
@@ -25,13 +26,16 @@ import {fillTasks, sortTasksByPriority, sortByDate} from './util/utils.ts'
  * //TODO - Besseres TS implementieren
  * @todo Strategie erweitern mit 2 Section -> kurze kleine Tasks und große Tasks mit Textarea titel und mehr Funktionalitäten wie Bilder etc. hochladen
  */
+
+type TSortBy = "date" | "priority";
+
+
 const tasks = localStorage.getItem('tasks');
 let parsedTasks:TTask[] = [];
 if(tasks) {
   parsedTasks = fillTasks(JSON.parse(tasks));
 }
 
-type TSortBy = "date" | "priority";
 
 export default function App() {
 
