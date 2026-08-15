@@ -68,7 +68,7 @@ export function sortByDate(tasks: TTask[]): TTask[] {
     {
         for(let j = 1; j < transFormedTasks.length; j++)
         {
-            if(transFormedTasks[j].createdat < transFormedTasks[j - 1].createdat)
+            if(transFormedTasks[j].createdat > transFormedTasks[j - 1].createdat)
             {
                 const temp = transFormedTasks[j - 1];
                 transFormedTasks[j - 1] = transFormedTasks[j];

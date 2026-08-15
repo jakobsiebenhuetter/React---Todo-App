@@ -13,16 +13,8 @@ import {AnimatePresence, motion} from 'framer-motion';
 import {TTask} from './types.ts'
 import {fillTasks, sortTasksByPriority, sortByDate} from './util/utils.ts'
 
-// const items = [
-//   { id: Math.random(), text: 'Task 1', completed: false, createdat: new Date(), updating: false},
-//   { id: Math.random(), text: 'Task 2', completed: false, createdat: new Date() , updating: false},
-//   { id: Math.random(), text: 'Task 3', completed: false, createdat: new Date() , updating: false},
-// ];
-
 /**
  * //TODO - Refactoren und DropDown/Contextmenu anpassen, bzw. mit Tailwind Klassen stylen und responsiv machen
- * //TODO - Liste nach Aktualität sortieren
- * //TODO - Dropdown Komponente erstellen für Prioritäten, es soll dann automatisch nach den Prioritäten die Liste sortiert werden
  * //TODO - Checkbox aus shadcn einbauen
  * //TODO - Besseres TS implementieren
  * @todo Strategie erweitern mit 2 Section -> kurze kleine Tasks und große Tasks mit Textarea titel und mehr Funktionalitäten wie Bilder etc. hochladen
@@ -94,18 +86,17 @@ export default function App() {
   }
   
   function updateTask(taskId: number) {
-    setTimeout(() => {
-      
+    let allTasks: TTask[] = [];
+    setTimeout(() => {    
       setTasks((prevTaskItems) => {
-        const allTasks = prevTaskItems.map((task) => {
+        allTasks = prevTaskItems.map((task) => {
           return task.id === taskId ? {...task, updating: true} : task;
-        });
-        
-        const stringTasks = JSON.stringify(allTasks);
-        localStorage.setItem('tasks', stringTasks);
-        
+        }); 
         return allTasks;
       });
+
+      const stringTasks = JSON.stringify(allTasks);
+      localStorage.setItem('tasks', stringTasks);
     }, 250);
   }
   
@@ -144,7 +135,7 @@ export default function App() {
         const allTasks =  prevTasks.map((task) => {
           return task.id === id ? {...task, updating: false} : task;
         });
-        const stringTasks = JSON.stringify([...allTasks]);
+        const stringTasks = JSON.stringify(allTasks);
         localStorage.setItem('tasks', stringTasks);
         return allTasks;
       })
@@ -162,15 +153,19 @@ export default function App() {
       const uTasks = prevTasks.map((task) => {
         return task.id === taskId ? {...task, priority: priority} : task;
       });
-      
-      return sortTasksByPriority(uTasks);
+
+      const sortedTasks = sortTasksByPriority(uTasks);
+      localStorage.setItem('tasks', JSON.stringify(sortedTasks));
+      return sortedTasks;
     });
   }
 
   function sortTasks(criteria: TSortBy) {
     if(criteria === "date") {
       setTasks((prevTasks) => {
-        return sortByDate(prevTasks);
+        const sortedTasks = sortByDate(prevTasks);
+        localStorage.setItem('tasks', JSON.stringify(sortedTasks));
+        return sortedTasks;
       })
     }
   }
