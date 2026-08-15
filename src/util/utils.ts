@@ -59,7 +59,8 @@ export function sortTasksByPriority(tasks: TTask[]): TTask[] {
 }
 
 export function sortByDate(tasks: TTask[]): TTask[] {
-    const transFormedTasks = transformDate(tasks);
+    const { tasksWithDate, tasksWithoutDate } = seperateNoDateTasks(tasks);
+    const transFormedTasks = transformDate(tasksWithDate);
     console.log("Transformed tasks for sorting by date:", transFormedTasks);
     // Bubble Sort Algorithmus
 
@@ -75,8 +76,7 @@ export function sortByDate(tasks: TTask[]): TTask[] {
             }
         }
     }
-    console.log("Tasks sorted by date:", transformDate(transFormedTasks, true));
-    return transformDate(transFormedTasks, true);
+    return [...transformDate(transFormedTasks, true), ...tasksWithoutDate];
 }
 
 function convertDateToSeconds(date: Date): number {
@@ -93,13 +93,26 @@ function transformDate([...arr]: TTask[], inDate: boolean = false): TTask[] {
     arr.forEach((item) => {
         if(item.createdat instanceof Date && !inDate) {
             item.createdat = convertDateToSeconds(item.createdat);
-            console.log("Item createdat is a Date object:", item.createdat);
         } else {
-            // item.createdat = convertMSecondsToDate(item.createdat as number);
-            console.log("Item createdat is not a Date object:", item.createdat);
+            item.createdat = convertMSecondsToDate(item.createdat as number);
         }
     });
 
     return arr;
+}
+
+function seperateNoDateTasks(tasks: TTask[]): { tasksWithDate: TTask[], tasksWithoutDate: TTask[] } {
+    const tasksWithDate: TTask[] = [];
+    const tasksWithoutDate: TTask[] = [];
+
+    tasks.forEach((task) => {
+        if(task.createdat instanceof Date) {
+            tasksWithDate.push(task);
+        } else {
+            tasksWithoutDate.push(task);
+        }
+    });
+
+    return { tasksWithDate, tasksWithoutDate };
 }
 
