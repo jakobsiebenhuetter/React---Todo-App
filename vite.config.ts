@@ -36,5 +36,5 @@ export default defineConfig({
       }
     }]
   },
-  base: './React---Todo-App/',
+  base: './React---Todo-App',
 });
