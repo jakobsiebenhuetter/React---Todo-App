@@ -14,6 +14,12 @@ import {TTask} from './types.ts'
 import {fillTasks, sortTasksByPriority, sortByDate} from './util/utils.ts'
 
 /**
+ * //TODO - React Router einbauen, damit man die Tasks in einem eigenen Fenster öffnen kann
+ * //TODO - Wenn Task ein Link ist, das erkennen und es als Link markieren
+ * //TODO - Toast Message einbauen, wenn eine Aufgabe gelöscht wird
+ * //TODO - Ein eigenes Fenster für die Tasks erstellen, wenn Sie angeklickt werden
+ * //TODO - Multiselect aktivieren
+ * //TODO - Papierkorb Funktionalität einbauen, wenn checkbox für erledigt aktiv ist dann soll man mit einem Button die erledigten Aufgaben in den Papierkorb verschieben können, und dort dann entweder wiederherstellen oder endgültig löschen können
  * //TODO - Refactoren und DropDown/Contextmenu anpassen, bzw. mit Tailwind Klassen stylen und responsiv machen
  * //TODO - Checkbox aus shadcn einbauen
  * //TODO - Besseres TS implementieren
