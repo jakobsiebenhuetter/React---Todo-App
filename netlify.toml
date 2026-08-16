@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # package-lock.json wird lokal mit npm 11 erzeugt; npm 10 (Default bei Node 22)
+  # bricht bei "npm ci" ab -> siehe Kommentar in .github/workflows/deploy.yml
+  NPM_VERSION = "11"
+
+# SPA-Fallback: jede Route (z.B. /info) liefert index.html aus,
+# damit createBrowserRouter das Routing uebernehmen kann.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
