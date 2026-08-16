@@ -36,7 +36,5 @@ export default defineConfig({
       }
     }]
   },
-  // Netlify liefert von der Domain-Wurzel -> absolute Pfade, damit Deep-Links
-  // (z.B. /info) die Assets korrekt aufloesen. GitHub Pages setzt VITE_BASE='./'.
-  base: process.env.VITE_BASE ?? '/',
+  base: '/',
 });
