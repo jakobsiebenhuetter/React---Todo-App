@@ -1,7 +1,7 @@
 import './App.css';
 
+
 import AddTask from "./components/AddTask.tsx";
-// import Header from "./components/Header.tsx";
 import TaskList from "./components/TaskList.tsx";
 import Task from "./components/Task.tsx";
 import Button from "./components/Button.tsx";
@@ -37,7 +37,6 @@ if(tasks) {
 
 
 export default function TodoApp() {
-
   const [tasks, setTasks] = useState<TTask[]>(parsedTasks);
 
   function addTask(newTask: TTask) {
@@ -49,7 +48,9 @@ export default function TodoApp() {
     });
   }
   
-  function deleteTask(taskId: number) {
+
+
+  function deleteTask(taskId: string) {
     setTasks((prevTaskItems) => {
       const allTasks = prevTaskItems.filter((task) => task.id !== taskId)
       const stringTasks = JSON.stringify(allTasks);
@@ -59,7 +60,7 @@ export default function TodoApp() {
     });
   }
   
-  function updateTask(taskId: number) {
+  function updateTask(taskId: string) {
     let allTasks: TTask[] = [];
     setTimeout(() => {    
       setTasks((prevTaskItems) => {
@@ -74,7 +75,7 @@ export default function TodoApp() {
     }, 250);
   }
   
-  function updateTaskText(taskId: number, newText: string) {
+  function updateTaskText(taskId: string, newText: string) {
     setTimeout(() => {
       setTasks((prevTaskItems) => {
         const allTasks = prevTaskItems.map((item) => {
@@ -89,7 +90,7 @@ export default function TodoApp() {
     }, 250);
   }
   
-  function completeTask(taskId: number) {
+  function completeTask(taskId: string) {
     setTasks((prevTaskItems) => {
       const allTasks =  prevTaskItems.map((task) => {
         return task.id === taskId ? {...task, completed: !task.completed} : task;
@@ -102,7 +103,7 @@ export default function TodoApp() {
     });
   }
 
-  function cancel(id: number) {
+  function cancel(id: string) {
     setTimeout(() => {
 
       setTasks((prevTasks) => {
@@ -116,7 +117,7 @@ export default function TodoApp() {
     }, 250);
   }
 
-  function addPriority(taskId: number, priority: "low" | "medium" | "high") {
+  function addPriority(taskId: string, priority: "low" | "medium" | "high") {
 
     setTasks((prevTasks) => {
       const uTasks = prevTasks.map((task) => {
