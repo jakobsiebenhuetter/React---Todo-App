@@ -1,8 +1,10 @@
 
 import "./TaskItem.css";
 
+import {useState} from 'react';
 import Button from "./Button";
 import Badge from "./Badge";
+import ConfirmModal from "./ConfirmModal.tsx";
 
 import {
   DropdownMenu,
@@ -22,6 +24,15 @@ import {
 
 
 export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, addPriority}) {
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  function createConfirmModal() {
+    setShowConfirmModal(true);
+  }
+
+  function destroyConfirmModal() {
+    setShowConfirmModal(false);
+  }
 
   return (
     <div id="task-item">
@@ -63,13 +74,13 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
           
           <DropdownMenuContent className="w-56 text-sm sm:text-base" align="end">
             <DropdownMenuItem onClick={() => {addPriority(task.id, 'high')} } className="text-sm sm:text-base">
-              Hoch
+              Priorität Hoch
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => { addPriority(task.id, 'medium')}} className="text-sm sm:text-base">
-              Mittel
+              Priorität Mittel
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => {addPriority(task.id, 'low')}} className="text-sm sm:text-base">
-              Niedrig
+              Priorität Niedrig
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -78,9 +89,15 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
         <div className="btn-d-s">
 
           <Button variant="danger" animation="scale" className="min-h-10 px-2 sm:px-3 py-2 text-xs sm:text-sm rounded-md font-bold shadow-sm"
-          onClick={deleteTask}>
+          onClick={createConfirmModal}>
             Delete
           </Button>
+          {
+          showConfirmModal &&
+            <ConfirmModal onClose={destroyConfirmModal} onConfirm={() => {deleteTask(); destroyConfirmModal()}}>
+              <p className="text-sm sm:text-base">Bist du sicher, dass du diese Aufgabe löschen möchtest?</p>
+            </ConfirmModal>
+          }
 
           <Button variant="primary" animation="scale" className="min-h-10 px-2 sm:px-3 py-2 text-xs sm:text-sm rounded-md font-bold shadow-sm"
           onClick={onUpdateTask}>
