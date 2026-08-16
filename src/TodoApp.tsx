@@ -5,9 +5,8 @@ import AddTask from "./components/AddTask.tsx";
 import TaskList from "./components/TaskList.tsx";
 import Task from "./components/Task.tsx";
 import Button from "./components/Button.tsx";
-import DropDown from './components/Contextmenu.tsx';
 
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 
 import {AnimatePresence, motion} from 'framer-motion';
 
@@ -40,41 +39,6 @@ if(tasks) {
 export default function TodoApp() {
 
   const [tasks, setTasks] = useState<TTask[]>(parsedTasks);
-  const [dropdownState, setDropDownState] 
-  = useState(
-    {
-      isOpen: false,
-      posX: 0,
-      posY: 0,
-      taskId: 0
-    });
-  
-  function closeDropDown() {
-    setDropDownState((prevState) => {
-      const newState = {...prevState, isOpen: false}
-      return newState
-    })
-
-  }
-
-  useEffect(() => {
-    document.body.addEventListener('click', closeDropDown)
-
-    return () => document.body.removeEventListener('click', closeDropDown);
-  });
-
-
-
-  function toggleDropDown(e, taskId: number) {
-    e.stopPropagation();
-    setDropDownState(prevState => {
-      console.log(prevState);
-
-      const newState = {...prevState, isOpen: true, taskId: taskId, posX: parseFloat(e.pageX), posY: parseFloat(e.pageY)};
-      console.log(newState);
-      return newState;
-    });
-  }
 
   function addTask(newTask: TTask) {
     setTasks((prevTaskItems) => {
@@ -154,11 +118,6 @@ export default function TodoApp() {
 
   function addPriority(taskId: number, priority: "low" | "medium" | "high") {
 
-    setDropDownState((prevState) => {
-      const newState = {...prevState, isOpen: false}
-      return newState
-    })
-
     setTasks((prevTasks) => {
       const uTasks = prevTasks.map((task) => {
         return task.id === taskId ? {...task, priority: priority} : task;
@@ -210,29 +169,12 @@ export default function TodoApp() {
           deleteTask={() => {deleteTask(item.id)}} 
           completeTask={() => completeTask(item.id)} 
           onCancel={cancel}
-          onDropDown={toggleDropDown}/>
+          addPriority={addPriority}/>
           </motion.div>
         </AnimatePresence>)
 
           : <li id="no-tasks">Keine Aufgaben</li>}    
       </TaskList>
-      {dropdownState.isOpen && <DropDown items={[
-        {
-          id:'prio-high',
-          label: 'Priorität hoch',
-          onClick: () => {addPriority(dropdownState.taskId, "high")}
-        },
-        {
-          id:'prio-mid',
-          label: 'Priorität mittel',
-          onClick: () => {addPriority(dropdownState.taskId, "medium")}
-        },
-        {
-          id:'prio-low',
-          label: 'Priorität niedrig',
-          onClick: () => {addPriority(dropdownState.taskId, "low")}
-        }
-      ]} posX={dropdownState.posX} posY={dropdownState.posY}></DropDown>}
     </main>
     </>
   );

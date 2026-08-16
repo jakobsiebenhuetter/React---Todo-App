@@ -4,8 +4,24 @@ import "./TaskItem.css";
 import Button from "./Button";
 import Badge from "./Badge";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, onDropDown}) {
+
+
+export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, addPriority}) {
 
   return (
     <div id="task-item">
@@ -36,13 +52,28 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
           </p>
         </div>
       </div>
-
-      {/* Aktions-Spalte: Contextmenu-Trigger oben, darunter die beiden Buttons */}
+      
       <div className="btn-wrapper">
+        <DropdownMenu>
+          <DropdownMenuTrigger render={
+            <Button variant="secondary" className="inline-flex items-center justify-center h-8 w-8 rounded-md">
+              <span>{'⋯'}</span>
+            </Button>
+          } />
+          
+          <DropdownMenuContent className="w-56" align="end">
+            <DropdownMenuItem onClick={() => {addPriority(task.id, 'high')}}>
+              Hoch
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => { addPriority(task.id, 'medium')}}>
+              Mittel
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {addPriority(task.id, 'low')}}>
+              Niedrig
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
-        <Button variant="secondary" className="inline-flex items-center justify-center h-8 w-8 rounded-md" onClick={(e) => onDropDown(e, task.id)}>
-          <span>{'⋯'}</span>
-        </Button>
 
         <div className="btn-d-s">
 
