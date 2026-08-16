@@ -61,14 +61,14 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
             </Button>
           } />
           
-          <DropdownMenuContent className="w-56" align="end">
-            <DropdownMenuItem onClick={() => {addPriority(task.id, 'high')}}>
+          <DropdownMenuContent className="w-56 text-sm sm:text-base" align="end">
+            <DropdownMenuItem onClick={() => {addPriority(task.id, 'high')} } className="text-sm sm:text-base">
               Hoch
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => { addPriority(task.id, 'medium')}}>
+            <DropdownMenuItem onClick={() => { addPriority(task.id, 'medium')}} className="text-sm sm:text-base">
               Mittel
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {addPriority(task.id, 'low')}}>
+            <DropdownMenuItem onClick={() => {addPriority(task.id, 'low')}} className="text-sm sm:text-base">
               Niedrig
             </DropdownMenuItem>
           </DropdownMenuContent>
