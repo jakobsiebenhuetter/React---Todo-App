@@ -6,8 +6,8 @@ import Button from './Button.tsx';
 
 interface IUpdateTaskProps {
     task: TTask,
-    update: (id: number, text: string) => void,
-    onCancel: (id: number) => void
+    update: (id: string, text: string) => void,
+    onCancel: (id: string) => void
 }
 
 export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProps) {
