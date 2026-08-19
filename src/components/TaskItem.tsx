@@ -30,7 +30,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
 
   return (
 
-    <Link to={`/todo/${task.id}`} id="task-item" className="task-item-container transition-all duration-200 ease-out cursor-pointer [&:not(:has(button:active))]:active:scale-[0.98]">
+    <Link to={`/todo/${task.id}`} id="task-item" className="task-item-container transition-all duration-200 ease-out cursor-pointer [&:not(:has(button:active)):not(:has(input:active))]:active:scale-[0.98]">
 
       {/* Checkbox und Text */}
       <div className="task-row">
@@ -49,7 +49,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
    
 
         <div className="task-item-header">
-          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={completeTask}/>
+          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={completeTask} onClick={(e) => {e.stopPropagation()}}/>
         </div>
 
         <div className={`text-container text-sm sm:text-base ${task.completed ? 'line-through text-slate-400' : ''}`}>
