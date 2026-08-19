@@ -9,17 +9,11 @@ import ConfirmModal from "./ConfirmModal.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+import {Link} from "react-router";
 
 
 
@@ -35,7 +29,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
   }
 
   return (
-    <div id="task-item">
+    <Link to={`/todo/${task.id}`} id="task-item">
 
       {/* Checkbox und Text */}
       <div className="task-row">
@@ -73,13 +67,13 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
           } />
           
           <DropdownMenuContent className="w-56 text-sm sm:text-base" align="end">
-            <DropdownMenuItem onClick={() => {addPriority(task.id, 'high')} } className="text-sm sm:text-base">
+            <DropdownMenuItem onClick={(e) => {addPriority(e, task.id, 'high')} } className="text-sm sm:text-base">
               Priorität Hoch
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => { addPriority(task.id, 'medium')}} className="text-sm sm:text-base">
+            <DropdownMenuItem onClick={(e) => { addPriority(e, task.id, 'medium')}} className="text-sm sm:text-base">
               Priorität Mittel
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {addPriority(task.id, 'low')}} className="text-sm sm:text-base">
+            <DropdownMenuItem onClick={(e) => {addPriority(e, task.id, 'low')}} className="text-sm sm:text-base">
               Priorität Niedrig
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -106,6 +100,6 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
 
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
