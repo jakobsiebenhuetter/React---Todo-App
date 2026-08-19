@@ -36,7 +36,10 @@ export default function Button({children, variant, animation, className,  ...pro
         baseClasses += buttonAnimation[animation];
     }
 
-    let handleClick = (e) => {};
+    let handleClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
     
     if(props.onClick) {
          handleClick = (e) => {

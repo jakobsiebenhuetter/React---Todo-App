@@ -29,7 +29,8 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
   }
 
   return (
-    <Link to={`/todo/${task.id}`} id="task-item">
+
+    <Link to={`/todo/${task.id}`} id="task-item" className="task-item-container transition-all duration-200 ease-out cursor-pointer [&:not(:has(button:active))]:active:scale-[0.98]">
 
       {/* Checkbox und Text */}
       <div className="task-row">
