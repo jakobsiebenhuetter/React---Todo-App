@@ -79,8 +79,8 @@ export function sortByDate(tasks: TTask[]): TTask[] {
     return [...transformDate(transFormedTasks, true), ...tasksWithoutDate];
 }
 
-function convertDateToSeconds(date: Date): number {
-    return date.getTime();
+function convertDateToSeconds(date: Date): string {
+    return date.getTime().toString();
 }
 
 function convertMSecondsToDate(mSeconds: number): Date {
@@ -94,7 +94,7 @@ function transformDate([...arr]: TTask[], inDate: boolean = false): TTask[] {
         if(item.createdat instanceof Date && !inDate) {
             item.createdat = convertDateToSeconds(item.createdat);
         } else {
-            item.createdat = convertMSecondsToDate(item.createdat as number);
+            item.createdat = convertMSecondsToDate(Number(item.createdat as string));
         }
     });
 
