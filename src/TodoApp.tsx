@@ -25,14 +25,21 @@ import {fillTasks, sortTasksByPriority, sortByDate} from './util/utils.ts'
 type TSortBy = "date" | "priority";
 
 
-const tasks = localStorage.getItem('tasks');
-let parsedTasks:TTask[] = [];
-if(tasks) {
-  parsedTasks = fillTasks(JSON.parse(tasks));
-}
+// const tasks = localStorage.getItem('tasks');
+// let parsedTasks:TTask[] = [];
+// if(tasks) {
+//   parsedTasks = fillTasks(JSON.parse(tasks));
+// }
 
 
 export default function TodoApp() {
+  
+  const tasksData = localStorage.getItem('tasks');
+  let parsedTasks:TTask[] = [];
+  if(tasksData) {
+    parsedTasks = fillTasks(JSON.parse(tasksData));
+  }
+
   const [tasks, setTasks] = useState<TTask[]>(parsedTasks);
 
   function addTask(newTask: TTask) {
