@@ -1,17 +1,18 @@
 import TodoApp from "./TodoApp";
-import InfoPage from "./InfoPage";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Layout from "./Layout.tsx";
 import TaskDetailPage from "./pages/TaskDetailPage.tsx";
+import ErrorPage from "./pages/ErrorPage.tsx";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Layout />, errorElement: <div>404 Error</div>,
+  { path: "/", 
+    element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [
-        { path: "/", element: <TodoApp />},
-        { path: "/todo/:id", element: <TaskDetailPage />}
+        { path: "", element: <TodoApp />},
+        { path: "todo/:id", element: <TaskDetailPage />, errorElement: <ErrorPage />}
     ]
-  },
-  { path: "/info", element: <InfoPage></InfoPage> }
+  }
 ]);
 
 

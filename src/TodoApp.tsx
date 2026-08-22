@@ -14,8 +14,6 @@ import {TTask} from './types.ts'
 import {fillTasks, sortTasksByPriority, sortByDate} from './util/utils.ts'
 
 /**
- * //TODO - ErrorPage stylen
- * //TODO TaskDetail schön stylen und responsive machen und alle Daten senden
  * //TODO - Wenn Task ein Link ist, das erkennen und es als Link markieren
  * //TODO - Multiselect aktivieren
  * //TODO - Papierkorb Funktionalität einbauen, wenn checkbox für erledigt aktiv ist dann soll man mit einem Button die erledigten Aufgaben in den Papierkorb verschieben können, und dort dann entweder wiederherstellen oder endgültig löschen können

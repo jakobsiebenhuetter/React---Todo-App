@@ -4,7 +4,7 @@ export type TTask = {
     id: string,
     text: string,
     completed: boolean,
-    createdat: Date | number,
+    createdat: Date | string,
     updating: boolean,
     priority?: TPriority
 }

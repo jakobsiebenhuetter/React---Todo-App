@@ -1,6 +1,8 @@
 import {useParams, Link} from 'react-router';
 import {TTask} from '../types.ts';
 import classes from './TaskDetailPage.module.css';
+
+
 export default function TodoDetail() {
     const params = useParams();
 
@@ -12,18 +14,17 @@ export default function TodoDetail() {
       }
     }
 
-    const task = getTaskById(params.id);
+    const task: TTask = getTaskById(params.id)!;
 
   return (
     <>
     <div className={classes.taskContainer}>
         <header className={classes.taskHeader}>
-            <h1>Hier sind Details über das Todo</h1>
-            <span className={classes.textPriorität}>Labeltext für Priorität</span>
+            <span>Erstellt am {new Date(task.createdat).toLocaleDateString('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'})}</span>
+            {task.priority && <span className={classes.textPriorität}>Priorität: {task.priority}</span>}
         </header>
-      <p>Das ist dein Taskid {params.id}</p>
       <div className={classes.taskText}>
-        <p>Das ist die Task: {task?.text}</p>
+        <p>Beschreibung: {task?.text}</p>
       </div>
     </div>
       <Link to="/" className={classes.backLink}>

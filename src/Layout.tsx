@@ -1,10 +1,11 @@
 import { Outlet } from "react-router";
+import Header from "./components/Header";
 
 export default function Layout() {
 
   return (
     <>
-      <h1 className="flex justify-center items-center w-screen h-[50px] bg-amber-400"></h1>
+      <Header className={'bg-amber-400'} />
       <Outlet />
     </>
   );

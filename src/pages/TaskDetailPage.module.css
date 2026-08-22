@@ -1,44 +1,152 @@
+/* Tokens der App gespiegelt (slate/emerald), damit die Detailseite nicht aus
+   der Bildsprache von TaskList/TaskItem faellt. Bewusst lokal und nicht ueber
+   die shadcn-Variablen aus index.css -- --color-primary ist dort ein
+   Fast-Schwarz, nicht das Emerald der uebrigen Komponenten. */
 .taskContainer {
-    width: 60%;
-    margin: 8px auto;
-    padding: 6px;
-    padding-top: 16px;
-    border: 1px solid var(--color-border);
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --ink: #1e293b;
+    --ink-muted: #64748b;
+    --accent: #10b981;
+
+    width: min(680px, 92%);
+    margin: 24px auto;
+    padding: 20px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 24px -12px rgb(15 23 42 / 0.15);
 }
 
+/* Titel bekommt eine eigene Zeile (flex-basis 100%), Datum und Prioritaet
+   ruecken darunter in eine gemeinsame Meta-Zeile. Kommt ohne Aenderung am
+   Markup aus. */
 .taskHeader {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 12px;
+    gap: 8px;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.taskHeader h1 {
+    flex: 1 1 100%;
+    margin: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #334155;
+}
+
+/* Das Datum -- erstes span im Header, die Prioritaet ist das zweite. */
+.taskHeader span:first-of-type {
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-muted);
 }
 
 .textPriorität {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-inline-start: auto;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+    background-color: #94a3b8;
+}
+
+/* Punkt vor dem Label, erbt die Textfarbe des Badges. */
+.textPriorität::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+    opacity: 0.85;
+}
+
+/* Farben wie in TaskItem.tsx:22, damit dieselbe Prioritaet ueberall gleich
+   aussieht. Braucht data-priority am span (siehe Hinweis). */
+.textPriorität[data-priority="high"]   { background-color: #dc2626; }
+.textPriorität[data-priority="medium"] { background-color: #d97706; }
+.textPriorität[data-priority="low"]    { background-color: #fcd34d; color: #78350f; }
+
+/* Die Task-Id -- technische Nebeninfo, also klein, monospace und gedaempft. */
+.taskContainer > p {
+    margin: 0 0 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    word-break: break-all;
+}
+
+/* Der eigentliche Inhalt: der einzige Block, der gross sein darf. */
+.taskText {
+    padding: 14px 16px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: 1.6;
+    color: var(--ink);
+}
+
+.taskText p {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.backLink {
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: red;
-    border-radius: 4px;
-    padding: 4px 8px;
-    margin: 12px;
-}
-
-.taskText {
-    font-size: 20px;
-    line-height: 1.5;
-    margin: 12px;
-}
-
-
-.backLink {
-    text-decoration: none;
-    color: var(--color-primary);
-    background-color: grey;
+    width: fit-content;
+    margin: 0 auto 32px;
+    padding: 9px 16px;
     border-radius: 6px;
-    padding: 6px 12px;
-    font-weight: bold;
-    margin-left: 12px;
-    margin-bottom: 12px;
+    background-color: #e2e8f0;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.06);
+    transition: background-color 120ms ease, transform 120ms ease;
+}
+
+/* Pfeil als Pseudo-Element, damit das JSX unberuehrt bleibt. */
+.backLink::before {
+    content: "←";
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.backLink:hover {
+    background-color: #cbd5e1;
+}
+
+.backLink:active {
+    transform: translateY(1px);
+}
+
+.backLink:focus-visible {
+    outline: 2px solid var(--accent, #10b981);
+    outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+    .taskContainer {
+        padding: 16px;
+    }
+
+    .textPriorität {
+        margin-inline-start: 0;
+    }
 }
