@@ -8,10 +8,10 @@ import Button from "./components/Button.tsx";
 
 import {useState} from 'react';
 
-import {AnimatePresence, motion} from 'framer-motion';
+import {AnimatePresence, Reorder} from 'motion/react';
 
 import {TTask} from './types.ts'
-import {fillTasks, sortTasksByPriority, sortByDate} from './util/utils.ts'
+import {fillTasks, sortByDate} from './util/utils.ts'
 
 /**
  * //TODO - Wenn Task ein Link ist, das erkennen und es als Link markieren
@@ -120,6 +120,9 @@ export default function TodoApp() {
     }, 250);
   }
 
+  // Sortiert bewusst NICHT um: die Reihenfolge gehoert dem Nutzer, seit die
+  // Liste per Drag&Drop geordnet werden kann. Sonst wuerde jeder Prioritaets-
+  // Klick die manuelle Ordnung wieder verwerfen.
   function addPriority(e, taskId: string, priority: "low" | "medium" | "high") {
     e.stopPropagation();
     setTasks((prevTasks) => {
@@ -127,9 +130,8 @@ export default function TodoApp() {
         return task.id === taskId ? {...task, priority: priority} : task;
       });
 
-      const sortedTasks = sortTasksByPriority(uTasks);
-      localStorage.setItem('tasks', JSON.stringify(sortedTasks));
-      return sortedTasks;
+      localStorage.setItem('tasks', JSON.stringify(uTasks));
+      return uTasks;
     });
   }
 
@@ -156,28 +158,25 @@ export default function TodoApp() {
         <Button onClick={() => sortTasks('date')} variant="secondary" className='ml-[72%] min-h-10 px-2 sm:px-3 py-2 text-xs sm:text-sm rounded-md font-bold shadow-sm'>
           Nach Datum sortieren
         </Button>
-        {haveTasks() ? tasks.map((item) => 
-
-        <AnimatePresence key={item.id} mode="popLayout" >
-          <motion.div 
-            key={item.id}
-            layout
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}>
-
-          <Task key={item.id} 
-          task={item}
-          onUpdateTask={() => updateTask(item.id)} 
-          update={updateTaskText} 
-          deleteTask={() => {deleteTask(item.id)}} 
-          completeTask={() => completeTask(item.id)} 
-          onCancel={cancel}
-          addPriority={addPriority}/>
-          </motion.div>
-        </AnimatePresence>)
-
-          : <li id="no-tasks">Keine Aufgaben</li>}    
+        {haveTasks() ? (
+          /* Reorder.Group ist selbst das <ul>. values/onReorder arbeiten direkt
+             auf dem tasks-Array, AnimatePresence umschliesst die ganze Liste
+             (nicht das einzelne Item) -- sonst laeuft die exit-Animation nie. */
+          <Reorder.Group as="ul" axis="y" values={tasks} onReorder={setTasks}>
+            <AnimatePresence initial={false}>
+              {tasks.map((item) =>
+                <Task key={item.id}
+                task={item}
+                onUpdateTask={() => updateTask(item.id)}
+                update={updateTaskText}
+                deleteTask={() => {deleteTask(item.id)}}
+                completeTask={() => completeTask(item.id)}
+                onCancel={cancel}
+                addPriority={addPriority}/>
+              )}
+            </AnimatePresence>
+          </Reorder.Group>
+        ) : <p id="no-tasks">Keine Aufgaben</p>}
       </TaskList>
     </main>
     </>
