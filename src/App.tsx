@@ -9,7 +9,11 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
-        { path: "", element: <TodoApp />},
+        { 
+            path: "",
+            element: <TodoApp />,
+            loader: () => {}
+        },
         { path: "todo/:id", element: <TaskDetailPage />, errorElement: <ErrorPage />}
     ]
   }
