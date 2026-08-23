@@ -42,12 +42,12 @@ export default function Button({children, variant, animation, className,  ...pro
     };
     
     if(props.onClick) {
-         handleClick = (e) => {
+        handleClick = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            if(props.onClick) {
+            if(props.onClick) { // if hier ist eigentlich unnötig aber sonst schreit der TS compiler/linter
                 props.onClick(e);
-            }
+            } 
         }
     }
   
