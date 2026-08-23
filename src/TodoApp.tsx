@@ -7,11 +7,11 @@ import Task from "./components/Task.tsx";
 import Button from "./components/Button.tsx";
 
 import {useState, useEffect} from 'react';
-
+import {useLoaderData} from 'react-router';
 import {AnimatePresence, Reorder} from 'motion/react';
 
 import {TTask} from './types.ts'
-import {fillTasks, sortByDate} from './util/utils.ts'
+import {sortByDate} from './util/utils.ts'
 
 /**
  * //TODO - Wenn Task ein Link ist, das erkennen und es als Link markieren
@@ -27,21 +27,15 @@ type TSortBy = "date" | "priority";
 
 export default function TodoApp() {
   
-  function fetchData() {
-    const tasksData = localStorage.getItem('tasks');
-    let parsedTasks:TTask[] = [];
-    if(tasksData) {
-      parsedTasks = fillTasks(JSON.parse(tasksData));
-    }
-    return parsedTasks;
-  }
+  const data = useLoaderData();
 
-  const [tasks, setTasks] = useState<TTask[]>(() => fetchData());
+  const [tasks, setTasks] = useState<TTask[]>(data);
 
   useEffect(() => {
     const stringTasks = JSON.stringify(tasks);
     localStorage.setItem('tasks', stringTasks);
   }, [tasks]);
+
 
   function addTask(newTask: TTask) {
     setTasks((prevTaskItems) => {
@@ -50,8 +44,6 @@ export default function TodoApp() {
     });
   }
   
-
-
   function deleteTask(taskId: string) {
     setTasks((prevTaskItems) => {
       const allTasks = prevTaskItems.filter((task) => task.id !== taskId);

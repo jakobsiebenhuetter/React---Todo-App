@@ -4,6 +4,9 @@ import Layout from "./Layout.tsx";
 import TaskDetailPage from "./pages/TaskDetailPage.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 
+import { TTask } from "./types.ts";
+import { fillTasks } from "./util/utils.ts";
+
 const router = createBrowserRouter([
   { path: "/", 
     element: <Layout />,
@@ -12,7 +15,14 @@ const router = createBrowserRouter([
         { 
             path: "",
             element: <TodoApp />,
-            loader: () => {}
+            loader: () => {
+                const tasksData = localStorage.getItem('tasks');
+                let parsedTasks: TTask[] = [];
+                if(tasksData) {
+                  parsedTasks = fillTasks(JSON.parse(tasksData));
+                }
+                return parsedTasks;
+            }
         },
         { path: "todo/:id", element: <TaskDetailPage />, errorElement: <ErrorPage />}
     ]
