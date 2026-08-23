@@ -6,7 +6,7 @@ import TaskList from "./components/TaskList.tsx";
 import Task from "./components/Task.tsx";
 import Button from "./components/Button.tsx";
 
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 import {AnimatePresence, Reorder} from 'motion/react';
 
@@ -25,28 +25,27 @@ import {fillTasks, sortByDate} from './util/utils.ts'
 type TSortBy = "date" | "priority";
 
 
-// const tasks = localStorage.getItem('tasks');
-// let parsedTasks:TTask[] = [];
-// if(tasks) {
-//   parsedTasks = fillTasks(JSON.parse(tasks));
-// }
-
-
 export default function TodoApp() {
   
-  const tasksData = localStorage.getItem('tasks');
-  let parsedTasks:TTask[] = [];
-  if(tasksData) {
-    parsedTasks = fillTasks(JSON.parse(tasksData));
+  function fetchData() {
+    const tasksData = localStorage.getItem('tasks');
+    let parsedTasks:TTask[] = [];
+    if(tasksData) {
+      parsedTasks = fillTasks(JSON.parse(tasksData));
+    }
+    return parsedTasks;
   }
 
-  const [tasks, setTasks] = useState<TTask[]>(parsedTasks);
+  const [tasks, setTasks] = useState<TTask[]>(() => fetchData());
+
+  useEffect(() => {
+    const stringTasks = JSON.stringify(tasks);
+    localStorage.setItem('tasks', stringTasks);
+  }, [tasks]);
 
   function addTask(newTask: TTask) {
     setTasks((prevTaskItems) => {
       const allTasks = [newTask, ...prevTaskItems];
-      const stringTasks = JSON.stringify(allTasks);
-      localStorage.setItem('tasks', stringTasks);
       return [...allTasks];
     });
   }
@@ -55,10 +54,7 @@ export default function TodoApp() {
 
   function deleteTask(taskId: string) {
     setTasks((prevTaskItems) => {
-      const allTasks = prevTaskItems.filter((task) => task.id !== taskId)
-      const stringTasks = JSON.stringify(allTasks);
-      localStorage.setItem('tasks', stringTasks);
-      
+      const allTasks = prevTaskItems.filter((task) => task.id !== taskId);
       return allTasks;
     });
   }
@@ -72,9 +68,6 @@ export default function TodoApp() {
         }); 
         return allTasks;
       });
-
-      const stringTasks = JSON.stringify(allTasks);
-      localStorage.setItem('tasks', stringTasks);
     }, 250);
   }
   
@@ -83,11 +76,7 @@ export default function TodoApp() {
       setTasks((prevTaskItems) => {
         const allTasks = prevTaskItems.map((item) => {
           return item.id === taskId ? {...item, text: newText, updating: false} : item;
-        });
-        
-        const stringTasks = JSON.stringify(allTasks);
-        localStorage.setItem('tasks', stringTasks);
-        
+        });     
         return allTasks;
       });
     }, 250);
@@ -98,10 +87,6 @@ export default function TodoApp() {
       const allTasks =  prevTaskItems.map((task) => {
         return task.id === taskId ? {...task, completed: !task.completed} : task;
       });
-      
-      const stringTasks = JSON.stringify([...allTasks]);
-      localStorage.setItem('tasks', stringTasks);
-      
       return allTasks;
     });
   }
@@ -113,8 +98,6 @@ export default function TodoApp() {
         const allTasks =  prevTasks.map((task) => {
           return task.id === id ? {...task, updating: false} : task;
         });
-        const stringTasks = JSON.stringify(allTasks);
-        localStorage.setItem('tasks', stringTasks);
         return allTasks;
       })
     }, 250);
@@ -129,8 +112,6 @@ export default function TodoApp() {
       const uTasks = prevTasks.map((task) => {
         return task.id === taskId ? {...task, priority: priority} : task;
       });
-
-      localStorage.setItem('tasks', JSON.stringify(uTasks));
       return uTasks;
     });
   }
@@ -139,7 +120,6 @@ export default function TodoApp() {
     if(criteria === "date") {
       setTasks((prevTasks) => {
         const sortedTasks = sortByDate(prevTasks);
-        localStorage.setItem('tasks', JSON.stringify(sortedTasks));
         return sortedTasks;
       })
     }
