@@ -12,7 +12,7 @@ const router = createBrowserRouter([
         { 
             path: "",
             element: <TodoApp />,
-            loader: () => fetchTasks
+            loader: fetchTasks
         },
         { 
             path: "todo/:id",
