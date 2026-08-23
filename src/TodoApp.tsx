@@ -11,7 +11,7 @@ import {useLoaderData} from 'react-router';
 import {AnimatePresence, Reorder} from 'motion/react';
 
 import {TTask} from './types.ts'
-import {sortByDate} from './util/utils.ts'
+import {sortByDate, fillTasks} from './util/utils.ts'
 
 /**
  * //TODO - Wenn Task ein Link ist, das erkennen und es als Link markieren
@@ -26,7 +26,7 @@ type TSortBy = "date" | "priority";
 
 
 export default function TodoApp() {
-  
+
   const data = useLoaderData();
 
   const [tasks, setTasks] = useState<TTask[]>(data);
@@ -153,4 +153,13 @@ export default function TodoApp() {
     </main>
     </>
   );
+}
+
+export function loader() {
+  const tasksData = localStorage.getItem('tasks');
+  let parsedTasks: TTask[] = [];
+  if(tasksData) {
+    parsedTasks = fillTasks(JSON.parse(tasksData));
+  }
+  return parsedTasks;
 }
