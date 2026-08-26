@@ -104,12 +104,21 @@
     overflow-wrap: anywhere;
 }
 
+.footer {
+    margin-top: 24px;
+}
+
+.footerButtons {
+    display: flex;
+    justify-content: space-between;
+    /* margin: 0 auto 32px; */
+}
+
 .backLink {
     display: flex;
     align-items: center;
     gap: 8px;
     width: fit-content;
-    margin: 0 auto 32px;
     padding: 9px 16px;
     border-radius: 6px;
     background-color: #e2e8f0;

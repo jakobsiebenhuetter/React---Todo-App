@@ -20,36 +20,38 @@ import {Link} from "react-router";
 export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, addPriority}) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+  // function navigateHandler() {
+  // usenavigate
+  //   //...
+  // }
   function createConfirmModal() {
     setShowConfirmModal(true);
   }
 
-  function destroyConfirmModal() {
+  function destroyConfirmModal(e) {
+    e.stopPropagation();
     setShowConfirmModal(false);
   }
 
   return (
 
-    <Link to={`/todo/${task.id}`} id="task-item" className="task-item-container transition-all duration-200 ease-out cursor-pointer [&:not(:has(button:active)):not(:has(input:active))]:active:scale-[0.98]">
+    <Link to={`/todo/${task.id}`} id="task-item">
 
       {/* Checkbox und Text */}
-      <div className="task-row">
-        <div className="flex flex-col gap-2 items-center">
+      <div className="task-row flex flex-col justify-start items-start gap-2 w-full">
+        <div className="flex gap-2">
           {task.createdat &&
           <Badge className="createdat-badge bg-slate-200 text-slate-700 px-2 py-1 rounded-md text-xs sm:text-sm font-bold">
             {new Date(task.createdat).toLocaleDateString('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'})}
           </Badge>}
 
+        <div className="task-item-header">
+          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={completeTask} onClick={(e) => {e.stopPropagation()}}/>
+        </div>
         {task.priority && 
         <Badge className={`priority-badge ${task.priority ===  'high' ? 'bg-red-600' : task.priority === 'medium' ? 'bg-amber-600' : 'bg-amber-300'} text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold`}>
           {task.priority}
           </Badge>}
-
-        </div>
-   
-
-        <div className="task-item-header">
-          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={completeTask} onClick={(e) => {e.stopPropagation()}}/>
         </div>
 
         <div className={`text-container text-sm sm:text-base ${task.completed ? 'line-through text-slate-400' : ''}`}>
@@ -89,7 +91,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
           </Button>
           {
           showConfirmModal &&
-            <ConfirmModal onClose={destroyConfirmModal} onConfirm={() => {deleteTask(); destroyConfirmModal()}}>
+            <ConfirmModal onClose={destroyConfirmModal} onConfirm={(e) => {deleteTask(); destroyConfirmModal(e)}}>
               <p className="text-sm sm:text-base">Bist du sicher, dass du diese Aufgabe löschen möchtest?</p>
             </ConfirmModal>
           }
