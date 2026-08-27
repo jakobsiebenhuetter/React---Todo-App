@@ -21,6 +21,7 @@ export function fillTasks(arr): TTask[] {
     arr.forEach((item) => {
         const task: TTask = {
             id: item.id,
+            title: item.title,
             text: item.text,
             completed: item.completed,
             createdat: new Date(item.createdat),

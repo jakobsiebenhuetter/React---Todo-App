@@ -23,6 +23,7 @@ export default function Form() {
     const navigate = useNavigate();
 
     const [inputs, setInputs] = useState({
+        title: task.title,
         text: task.text,
         completed: task.completed,
         createdat: task.createdat,
@@ -74,6 +75,7 @@ export default function Form() {
             onChange={(e) => handleInputChange("createdat", e.target.value)}
           />
         </div>
+        {/* {inputs.dueDate &&
         <div className="min-w-40 flex-1">
           <label htmlFor="task-date" className={labelClass}>
             Bis
@@ -82,8 +84,9 @@ export default function Form() {
             id="task-date"
             type="date"
             className={controlClass}
-          />
+            />
         </div>
+        } */}
 
         <label className="flex min-h-10 items-center gap-2 text-sm font-medium text-slate-700">
           <input
@@ -113,6 +116,8 @@ export default function Form() {
           type="text"
           placeholder="Titel"
           className="w-full text-sm sm:text-base"
+          value={inputs.title}
+          onChange={(e) => handleInputChange("title", e.target.value)}
         />
       </div>
 

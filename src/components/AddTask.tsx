@@ -15,6 +15,7 @@ export default function AddTask({addTask}) {
 
         const newTask = {
             id: crypto.randomUUID(),
+            title: '',
             text: value,
             completed: false,
             createdat: new Date(),

@@ -17,9 +17,7 @@ import {saveTasks, sortByDate, getTasks} from './util/utils.ts'
  * //TODO - Wenn Task ein Link ist, das erkennen und es als Link markieren
  * //TODO - Multiselect aktivieren
  * //TODO - Papierkorb Funktionalität einbauen, wenn checkbox für erledigt aktiv ist dann soll man mit einem Button die erledigten Aufgaben in den Papierkorb verschieben können, und dort dann entweder wiederherstellen oder endgültig löschen können
- * //TODO - Refactoren und DropDown/Contextmenu anpassen, bzw. mit Tailwind Klassen stylen und responsiv machen
  * //TODO - Besseres TS implementieren
- * @todo Strategie erweitern mit 2 Section -> kurze kleine Tasks und große Tasks mit Textarea titel und mehr Funktionalitäten wie Bilder etc. hochladen
  */
 
 type TSortBy = "date" | "priority";

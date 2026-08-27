@@ -32,6 +32,19 @@ export default function TaskDetail() {
       </header>
 
       <div>
+        <p className={labelClass}>Titel</p>
+        {!task.title && (
+          <div className="rounded-lg bg-slate-50 p-4 text-base leading-relaxed text-slate-800">
+            <p className="wrap-anywhere text-slate-400">Kein Titel vorhanden</p>
+          </div>
+        )}
+
+        {task.title &&
+        <div className="rounded-lg bg-slate-50 p-4 text-base leading-relaxed text-slate-800">
+          <p className="wrap-anywhere">{task?.title}</p>
+        </div>
+        }
+
         <p className={labelClass}>Beschreibung</p>
         <div className="rounded-lg bg-slate-50 p-4 text-base leading-relaxed text-slate-800">
           <p className="wrap-anywhere">{task?.text}</p>
