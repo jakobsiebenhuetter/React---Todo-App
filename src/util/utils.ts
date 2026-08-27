@@ -1,5 +1,20 @@
 import { TTask } from "../types";
 
+
+export function saveTasks(tasks: TTask[]): void {
+    const stringTasks = JSON.stringify(tasks);
+    localStorage.setItem('tasks', stringTasks);
+}
+
+export function getTasks(): TTask[] {
+  const tasksData = localStorage.getItem('tasks');
+  let parsedTasks: TTask[] = [];
+  if(tasksData) {
+    parsedTasks = fillTasks(JSON.parse(tasksData));
+  }
+  return parsedTasks;
+}
+
 export function fillTasks(arr): TTask[] {
     const tasks: TTask[] = [];
 
@@ -79,22 +94,22 @@ export function sortByDate(tasks: TTask[]): TTask[] {
     return [...transformDate(transFormedTasks, true), ...tasksWithoutDate];
 }
 
-function convertDateToSeconds(date: Date): string {
-    return date.getTime().toString();
+function convertDateToSeconds(date: Date): number {
+    return date.getTime();
 }
 
 function convertMSecondsToDate(mSeconds: number): Date {
     return new Date(mSeconds);
 }
 
-function transformDate([...arr]: TTask[], inDate: boolean = false): TTask[] {
+function transformDate([...arr], inDate: boolean = false) {
     // const copy = [...arr];
 
     arr.forEach((item) => {
         if(item.createdat instanceof Date && !inDate) {
             item.createdat = convertDateToSeconds(item.createdat);
         } else {
-            item.createdat = convertMSecondsToDate(Number(item.createdat as string));
+            item.createdat = convertMSecondsToDate(Number(item.createdat));
         }
     });
 

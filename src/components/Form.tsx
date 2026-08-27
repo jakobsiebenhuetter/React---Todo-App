@@ -1,7 +1,11 @@
+import { useState } from "react";
+import {useLoaderData, useNavigate} from "react-router";
+
 import Button from "./Button";
 import Badge from "./Badge";
-import {useLoaderData} from "react-router";
+import{getTasks, saveTasks} from "../util/utils";
 import { TTask } from "../types";
+
 
 // Dieselben Beschriftungen wie in TaskDetail.tsx -- der Editiermodus soll wie
 // dieselbe Karte wirken, nur mit Eingabefeldern statt Text.
@@ -16,6 +20,43 @@ const controlClass =
 
 export default function Form() {
     const task: TTask = useLoaderData();
+    const navigate = useNavigate();
+
+    const [inputs, setInputs] = useState({
+        text: task.text,
+        completed: task.completed,
+        createdat: task.createdat,
+        priority: task.priority,
+    });
+
+    function handleInputChange(identifier, value) {
+        setInputs((prevTask) => 
+             {
+                return {
+                    ...prevTask,
+                    [identifier]: value 
+                }
+             }
+        );
+    }
+
+    function submit() {
+        const tasks = getTasks();
+
+        const updatedTask: TTask = {
+            ...task,
+            ...inputs
+        }
+
+        const updatedTasks = tasks.map((task) => task.id === updatedTask.id ? updatedTask : task);
+        saveTasks(updatedTasks);
+        navigate(`/todo/${updatedTask.id}`);
+    }
+
+    function cancel() {
+        navigate(`/todo/${task.id}`);
+    }
+
   return (
     <form className="space-y-4">
       {/* Meta-Zeile: spiegelt die Kopfzeile der Ansicht. Der Badge sitzt per
@@ -28,8 +69,9 @@ export default function Form() {
           <input
             id="task-date"
             type="date"
-            defaultValue={toDateInputValue(task.createdat)}
+            defaultValue={toDateInputValue(inputs.createdat)}
             className={controlClass}
+            onChange={(e) => handleInputChange("createdat", e.target.value)}
           />
         </div>
         <div className="min-w-40 flex-1">
@@ -47,7 +89,8 @@ export default function Form() {
           <input
             type="checkbox"
             className="h-5 w-5 cursor-pointer accent-emerald-500"
-            checked={task.completed}
+            checked={inputs.completed}
+            onChange={(e) => handleInputChange("completed", e.target.checked)}
           />
           Erledigt
         </label>
@@ -57,7 +100,7 @@ export default function Form() {
           <Badge
             className={`ms-auto self-start px-2 py-1 rounded-md text-xs sm:text-sm font-bold text-white ${task.priority === "high" ? "bg-red-600" : task.priority === "medium" ? "bg-amber-600" : "bg-amber-300"}`}
           >
-            {task.priority}
+            {inputs.priority}
           </Badge>
         )}
       </div>
@@ -80,13 +123,15 @@ export default function Form() {
         <textarea
           id="task-text"
           rows={5}
-          value={task.text}
+          value={inputs.text}
           className={`${controlClass} resize-y leading-relaxed`}
+          onChange={(e) => handleInputChange("text", e.target.value)}
         />
       </div>
 
       <div className="flex justify-end gap-2 pt-1">
         <Button
+        onClick={cancel}
           type="button"
           variant="secondary"
           className="min-h-10 rounded-md px-3 text-sm font-bold"
@@ -94,6 +139,7 @@ export default function Form() {
           Abbrechen
         </Button>
         <Button
+          onClick={submit}
           type="submit"
           variant="primary"
           animation="scale"

@@ -11,7 +11,7 @@ import {useLoaderData} from 'react-router';
 import {AnimatePresence, Reorder} from 'motion/react';
 
 import {TTask} from './types.ts'
-import {sortByDate, fillTasks} from './util/utils.ts'
+import {saveTasks, sortByDate, getTasks} from './util/utils.ts'
 
 /**
  * //TODO - Wenn Task ein Link ist, das erkennen und es als Link markieren
@@ -32,8 +32,7 @@ export default function TodoApp() {
   const [tasks, setTasks] = useState<TTask[]>(data);
 
   useEffect(() => {
-    const stringTasks = JSON.stringify(tasks);
-    localStorage.setItem('tasks', stringTasks);
+    saveTasks(tasks);
   }, [tasks]);
 
 
@@ -156,10 +155,5 @@ export default function TodoApp() {
 }
 
 export function loader() {
-  const tasksData = localStorage.getItem('tasks');
-  let parsedTasks: TTask[] = [];
-  if(tasksData) {
-    parsedTasks = fillTasks(JSON.parse(tasksData));
-  }
-  return parsedTasks;
+  return getTasks();
 }

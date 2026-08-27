@@ -45,9 +45,6 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
             {new Date(task.createdat).toLocaleDateString('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'})}
           </Badge>}
 
-        <div className="task-item-header">
-          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={completeTask} onClick={(e) => {e.stopPropagation()}}/>
-        </div>
         {task.priority && 
         <Badge className={`priority-badge ${task.priority ===  'high' ? 'bg-red-600' : task.priority === 'medium' ? 'bg-amber-600' : 'bg-amber-300'} text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold`}>
           {task.priority}
@@ -62,6 +59,12 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
       </div>
       
       <div className="btn-wrapper">
+        <div className="flex w-full justify-end gap-x-12">
+
+        <div className="task-item-header">
+          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={completeTask} onClick={(e) => {e.stopPropagation()}}/>
+        </div>
+
         <DropdownMenu>
           <DropdownMenuTrigger render={
             <Button variant="secondary" className="inline-flex items-center justify-center h-8 w-8 rounded-md">
@@ -81,6 +84,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+          </div>
 
 
         <div className="btn-d-s">
