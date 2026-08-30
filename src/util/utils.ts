@@ -1,38 +1,84 @@
+import { supabase } from '../lib/supabaseClient';
 import { TTask } from "../types";
 
-
-export function saveTasks(tasks: TTask[]): void {
-    const stringTasks = JSON.stringify(tasks);
-    localStorage.setItem('tasks', stringTasks);
-}
-
-export function getTasks(): TTask[] {
-  const tasksData = localStorage.getItem('tasks');
-  let parsedTasks: TTask[] = [];
-  if(tasksData) {
-    parsedTasks = fillTasks(JSON.parse(tasksData));
-  }
-  return parsedTasks;
-}
-
 export function fillTasks(arr): TTask[] {
-    const tasks: TTask[] = [];
-
-    arr.forEach((item) => {
+    return arr.map((item) => {
         const task: TTask = {
-            id: item.id,
+            uuid: item.uuid,
             title: item.title,
-            text: item.text,
+            description: item.description,
             completed: item.completed,
-            createdat: new Date(item.createdat),
+            createdat: new Date(item.created_at),
             updating: item.updating,
             priority: item.priority
         }
-        tasks.push(task);
-    });
+        return task;
+    }).reverse();
+};
 
-    return tasks;
+export async function deleteTaskinSupabase(uuid: string) {
+    const {data, error} = await supabase.from('Tasks').delete().eq('uuid', uuid);
+    if(error) {
+        console.error('Error deleting task:', error);
+    } else {
+        console.log('Task deleted successfully:', data);
+    }
 }
+export async function update(task: TTask) {
+    const {data, error} = await supabase.from('Tasks').update({
+        title: task.title,
+        description: task.description,
+        completed: task.completed,
+        priority: task.priority
+    }).eq('uuid', task.uuid);
+    if(error) {
+        console.error('Error updating task:', error);
+    } else {
+        console.log('Task updated successfully:', data);
+    }
+}
+
+
+export async function saveTask(task: TTask) {
+    const {data, error} = await supabase.from('Tasks').insert({
+        uuid: task.uuid,
+        title: task.title,
+        description: task.description,
+        completed: task.completed,
+        priority: task.priority
+    });
+    if(error) {
+        console.error('Error saving task:', error);
+    } else {
+        console.log('Task saved successfully:', data);
+    }
+}
+
+
+export async function getTasks(): Promise<TTask[]> {
+    const{data, error} = await supabase.from('Tasks').select('*');
+    if(error) {
+      console.error('Error fetching tasks:', error);
+    } else {
+      console.log('Fetched tasks:', data);
+    }
+    return fillTasks(data);
+  }
+
+  export async function getTaskById(uuid: string): Promise<TTask | null> {
+    const {data, error} = await supabase.from('Tasks').select('*').eq('uuid', uuid).single();
+    let filledTask;
+    if(error) {
+      console.error('Error fetching task by id:', error);
+      return null;
+    } else {
+        if(data) {
+            filledTask = fillTasks([data]);
+            return filledTask[0];
+        }
+        return null;
+    }
+  }
 
 export function sortTasksByCompleted(tasks: TTask[]): TTask[] {
     return tasks;
@@ -130,5 +176,37 @@ function seperateNoDateTasks(tasks: TTask[]): { tasksWithDate: TTask[], tasksWit
     });
 
     return { tasksWithDate, tasksWithoutDate };
+}
+
+export function getTasksFromLocalStorage(): TTask[] {
+    const tasksData = localStorage.getItem('tasks');
+    let parsedTasks: TTask[] = [];
+    if(tasksData) {
+        parsedTasks = fillTasks(JSON.parse(tasksData));
+    }
+    return parsedTasks;
+}
+
+export function saveTasksToLocalStorage(tasks: TTask[]): void {
+    const stringTasks = JSON.stringify(tasks);
+    localStorage.setItem('tasks', stringTasks);
+}
+
+export function fillTasksAfterLocalStorage(arr): TTask[] {
+    const tasks: TTask[] = [];
+
+    arr.forEach((item) => {
+        const task: TTask = {
+            uuid: item.uuid,
+            title: item.title,
+            description: item.text,
+            completed: item.completed,
+            createdat: new Date(item.createdat),
+            updating: item.updating,
+            priority: item.priority
+        }
+        tasks.push(task);
+    });
+    return tasks;
 }
 

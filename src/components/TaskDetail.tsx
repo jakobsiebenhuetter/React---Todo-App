@@ -47,7 +47,7 @@ export default function TaskDetail() {
 
         <p className={labelClass}>Beschreibung</p>
         <div className="rounded-lg bg-slate-50 p-4 text-base leading-relaxed text-slate-800">
-          <p className="wrap-anywhere">{task?.text}</p>
+          <p className="wrap-anywhere">{task.description}</p>
         </div>
       </div>
       <footer>
@@ -55,7 +55,7 @@ export default function TaskDetail() {
           <Link to="/" className="bg-slate-200 text-slate-800 hover:bg-slate-300 active:bg-slate-400/70 hover:cursor-pointer rounded p-2">
             Zurück zur Startseite
           </Link>
-          <Link to={`/todo/${task.id}/edit`}
+          <Link to={`/todo/${task.uuid}/edit`}
             className="rounded p-2 bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 hover:cursor-pointer"
           >
             Editieren

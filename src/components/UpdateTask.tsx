@@ -6,13 +6,13 @@ import Button from './Button.tsx';
 
 interface IUpdateTaskProps {
     task: TTask,
-    update: (id: string, text: string) => void,
-    onCancel: (id: string) => void
+    update: (uuid: string, description: string) => void,
+    onCancel: (uuid: string) => void
 }
 
 export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProps) {
 
-    const [newText, setText] = useState(task.text);
+    const [newText, setText] = useState(task.description);
     
     function handleChange(event) {
         setText(event.target.value);
@@ -20,7 +20,8 @@ export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProp
 
     function onEnter(event) {
         if(event.key === 'Enter') {
-            update(task.id, newText)
+            console.log("Updating task:", task.uuid, "with new text:", newText);
+            update(task.uuid, newText)
         }
     }
 
@@ -31,10 +32,10 @@ export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProp
                 <input type="text" className="text-sm sm:text-base" placeholder="Neue Aufgabe hinzufügen..." value={newText} onChange={handleChange} onKeyDown={onEnter}/>
             </div>
             <div className='btn-container w-full justify-end gap-2 sm:w-auto'>
-                <Button onClick={() => update(task.id, newText)} variant='primary' animation="scale" className="w-10 h-10 shrink-0 text-lg rounded-md font-bold shadow-sm">
+                <Button onClick={() => update(task.uuid, newText)} variant='primary' animation="scale" className="w-10 h-10 shrink-0 text-lg rounded-md font-bold shadow-sm">
                         +
                 </Button>
-                <Button onClick={() => onCancel(task.id)} variant='secondary' animation="scale" className="h-10 px-3 shrink-0 whitespace-nowrap text-sm sm:text-base font-bold rounded-md">
+                <Button onClick={() => onCancel(task.uuid)} variant='secondary' animation="scale" className="h-10 px-3 shrink-0 whitespace-nowrap text-sm sm:text-base font-bold rounded-md">
                     Abbrechen
                 </Button>
 

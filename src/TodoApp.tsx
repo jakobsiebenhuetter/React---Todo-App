@@ -11,13 +11,16 @@ import {useLoaderData} from 'react-router';
 import {AnimatePresence, Reorder} from 'motion/react';
 
 import {TTask} from './types.ts'
-import {saveTasks, sortByDate, getTasks} from './util/utils.ts'
+import {saveTask, sortByDate, getTasks, deleteTaskinSupabase, update} from './util/utils.ts'
 
 /**
+ * //TODO - Besseres TS implementieren für z.B.: TaskItem da fehlt noch einiges und ordentlich typisieren
+ * //TODO - Richtiges Backend mit Supabase implementieren und Due Date einbauen um Fristen mit einem Badge zu signalisieren
+ * //TODO - Projekte einbauen um Task zu kategorisieren
+ * //TODO - Etwas mehr Animationen einbauen
  * //TODO - Wenn Task ein Link ist, das erkennen und es als Link markieren
  * //TODO - Multiselect aktivieren
  * //TODO - Papierkorb Funktionalität einbauen, wenn checkbox für erledigt aktiv ist dann soll man mit einem Button die erledigten Aufgaben in den Papierkorb verschieben können, und dort dann entweder wiederherstellen oder endgültig löschen können
- * //TODO - Besseres TS implementieren
  */
 
 type TSortBy = "date" | "priority";
@@ -26,24 +29,28 @@ type TSortBy = "date" | "priority";
 export default function TodoApp() {
 
   const data = useLoaderData();
+  
 
   const [tasks, setTasks] = useState<TTask[]>(data);
 
-  useEffect(() => {
-    saveTasks(tasks);
-  }, [tasks]);
+  // useEffect(() => {
+  //   // saveTasks(tasks);
+  // }, [tasks]);
+
 
 
   function addTask(newTask: TTask) {
     setTasks((prevTaskItems) => {
       const allTasks = [newTask, ...prevTaskItems];
+      saveTask(newTask);
       return [...allTasks];
     });
   }
   
   function deleteTask(taskId: string) {
     setTasks((prevTaskItems) => {
-      const allTasks = prevTaskItems.filter((task) => task.id !== taskId);
+      const allTasks = prevTaskItems.filter((task) => task.uuid !== taskId);
+      deleteTaskinSupabase(taskId);
       return allTasks;
     });
   }
@@ -53,8 +60,13 @@ export default function TodoApp() {
     setTimeout(() => {    
       setTasks((prevTaskItems) => {
         allTasks = prevTaskItems.map((task) => {
-          return task.id === taskId ? {...task, updating: true} : task;
-        }); 
+          return task.uuid === taskId ? {...task, updating: true} : task;
+        });
+
+        const updatedTask = allTasks.find((task) => task.uuid === taskId);
+        if(updatedTask) {
+          update(updatedTask);
+        }
         return allTasks;
       });
     }, 250);
@@ -64,8 +76,9 @@ export default function TodoApp() {
     setTimeout(() => {
       setTasks((prevTaskItems) => {
         const allTasks = prevTaskItems.map((item) => {
-          return item.id === taskId ? {...item, text: newText, updating: false} : item;
-        });     
+          return item.uuid === taskId ? {...item, description: newText, updating: false} : item;
+        });
+        update(allTasks.find((task) => task.uuid === taskId)!);
         return allTasks;
       });
     }, 250);
@@ -74,8 +87,9 @@ export default function TodoApp() {
   function completeTask(taskId: string) {
     setTasks((prevTaskItems) => {
       const allTasks =  prevTaskItems.map((task) => {
-        return task.id === taskId ? {...task, completed: !task.completed} : task;
+        return task.uuid === taskId ? {...task, completed: !task.completed} : task;
       });
+      update(allTasks.find((task) => task.uuid === taskId)!);
       return allTasks;
     });
   }
@@ -85,7 +99,7 @@ export default function TodoApp() {
 
       setTasks((prevTasks) => {
         const allTasks =  prevTasks.map((task) => {
-          return task.id === id ? {...task, updating: false} : task;
+          return task.uuid === id ? {...task, updating: false} : task;
         });
         return allTasks;
       })
@@ -99,8 +113,9 @@ export default function TodoApp() {
     e.stopPropagation();
     setTasks((prevTasks) => {
       const uTasks = prevTasks.map((task) => {
-        return task.id === taskId ? {...task, priority: priority} : task;
+        return task.uuid === taskId ? {...task, priority: priority} : task;
       });
+      update(uTasks.find((task) => { return taskId === task.uuid})!)
       return uTasks;
     });
   }
@@ -134,12 +149,12 @@ export default function TodoApp() {
           <Reorder.Group as="ul" axis="y" values={tasks} onReorder={setTasks}>
             <AnimatePresence initial={false}>
               {tasks.map((item) =>
-                <Task key={item.id}
+                <Task key={item.uuid}
                 task={item}
-                onUpdateTask={() => updateTask(item.id)}
+                onUpdateTask={() => updateTask(item.uuid)}
                 update={updateTaskText}
-                deleteTask={() => {deleteTask(item.id)}}
-                completeTask={() => completeTask(item.id)}
+                deleteTask={() => {deleteTask(item.uuid)}}
+                completeTask={() => completeTask(item.uuid)}
                 onCancel={cancel}
                 addPriority={addPriority}/>
               )}
@@ -152,6 +167,9 @@ export default function TodoApp() {
   );
 }
 
-export function loader() {
-  return getTasks();
+export async function loader() {
+  //TODO Hier muss ein fillTasks-Aufruf erfolgen, um die initialen Aufgaben zu laden und ins passende Format zu konvertieren.
+  console.log(await getTasks());
+  return await getTasks();
 }
+

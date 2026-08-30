@@ -15,10 +15,10 @@ const router = createBrowserRouter([
         { 
             path: "",
             element: <TodoApp />,
-            loader: fetchTasks
+            loader: fetchTasks,
         },
         { 
-            path: "todo/:id",
+            path: "todo/:uuid",
             element: <TaskDetailPage />,
             loader: taskDetailData,
             errorElement: <ErrorPage />,
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
                 {
                     path: "edit",
                     element: <Form />,
-                    loader: taskDetailData,
+                    loader: taskDetailData
                 }
             ]
         }

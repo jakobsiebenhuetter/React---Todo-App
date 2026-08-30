@@ -1,6 +1,7 @@
 
-import { Outlet,  } from "react-router";
+import { Outlet } from "react-router";
 import classes from "./TaskDetailPage.module.css";
+import { getTaskById } from "@/util/utils";
 
 export default function TodoDetail() {
 
@@ -13,15 +14,15 @@ export default function TodoDetail() {
   );
 }
 
-export function loader({ request, params }) {
-  const id = params.id;
+export async function loader({ request, params }) {
+  const id = params.uuid;
 
-  let parsedTasks, taskDetail;
-
-  const tasks = localStorage.getItem("tasks");
-  if (tasks?.length) {
-    parsedTasks = JSON.parse(tasks);
-    taskDetail = parsedTasks.find((task) => task.id === id);
-  }
+  console.log(params);
+  const taskDetail = await getTaskById(id);
+  // const tasks = localStorage.getItem("tasks");
+  // if (tasks?.length) {
+  //   parsedTasks = JSON.parse(tasks);
+  //   taskDetail = parsedTasks.find((task) => task.uuid === id);
+  // }
   return taskDetail;
 }

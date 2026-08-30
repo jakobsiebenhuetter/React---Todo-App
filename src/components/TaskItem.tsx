@@ -35,7 +35,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
 
   return (
 
-    <Link to={`/todo/${task.id}`} id="task-item">
+    <Link to={`/todo/${task.uuid}`} id="task-item">
 
       {/* Checkbox und Text */}
       <div className="task-row flex flex-col justify-start items-start gap-2 w-full">
@@ -53,7 +53,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
 
         <div className={`text-container text-sm sm:text-base ${task.completed ? 'line-through text-slate-400' : ''}`}>
           <p>
-            {task.text}
+            {task.description}
           </p>
         </div>
       </div>
@@ -73,13 +73,13 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
           } />
           
           <DropdownMenuContent className="w-56 text-sm sm:text-base" align="end">
-            <DropdownMenuItem onClick={(e) => {addPriority(e, task.id, 'high')} } className="text-sm sm:text-base">
+            <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, 'high')} } className="text-sm sm:text-base">
               Priorität Hoch
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={(e) => { addPriority(e, task.id, 'medium')}} className="text-sm sm:text-base">
+            <DropdownMenuItem onClick={(e) => { addPriority(e, task.uuid, 'medium')}} className="text-sm sm:text-base">
               Priorität Mittel
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={(e) => {addPriority(e, task.id, 'low')}} className="text-sm sm:text-base">
+            <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, 'low')}} className="text-sm sm:text-base">
               Priorität Niedrig
             </DropdownMenuItem>
           </DropdownMenuContent>

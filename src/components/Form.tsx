@@ -3,7 +3,7 @@ import {useLoaderData, useNavigate} from "react-router";
 
 import Button from "./Button";
 import Badge from "./Badge";
-import{getTasks, saveTasks} from "../util/utils";
+// import{getTasks} from "../util/utils";
 import { TTask } from "../types";
 
 
@@ -20,11 +20,12 @@ const controlClass =
 
 export default function Form() {
     const task: TTask = useLoaderData();
+    console.log(task);
     const navigate = useNavigate();
 
     const [inputs, setInputs] = useState({
         title: task.title,
-        text: task.text,
+        description: task.description,
         completed: task.completed,
         createdat: task.createdat,
         priority: task.priority,
@@ -42,20 +43,20 @@ export default function Form() {
     }
 
     function submit() {
-        const tasks = getTasks();
+        // const tasks = getTasks();
 
         const updatedTask: TTask = {
             ...task,
             ...inputs
         }
 
-        const updatedTasks = tasks.map((task) => task.id === updatedTask.id ? updatedTask : task);
-        saveTasks(updatedTasks);
-        navigate(`/todo/${updatedTask.id}`);
+        // const updatedTasks = tasks.map((task) => task.id === updatedTask.id ? updatedTask : task);
+        // saveTasks(updatedTasks);
+        navigate(`/todo/${updatedTask.uuid}`);
     }
 
     function cancel() {
-        navigate(`/todo/${task.id}`);
+        navigate(`/todo/${task.uuid}`);
     }
 
   return (
@@ -98,7 +99,7 @@ export default function Form() {
           Erledigt
         </label>
 
-        {/* Identische Klassen wie in TaskDetail.tsx -- gleicher Badge, gleiche Stelle. */}
+       
         {task.priority && (
           <Badge
             className={`ms-auto self-start px-2 py-1 rounded-md text-xs sm:text-sm font-bold text-white ${task.priority === "high" ? "bg-red-600" : task.priority === "medium" ? "bg-amber-600" : "bg-amber-300"}`}
@@ -128,7 +129,7 @@ export default function Form() {
         <textarea
           id="task-text"
           rows={5}
-          value={inputs.text}
+          value={inputs.description}
           className={`${controlClass} resize-y leading-relaxed`}
           onChange={(e) => handleInputChange("text", e.target.value)}
         />

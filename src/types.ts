@@ -1,11 +1,12 @@
 export type TPriority = "low" | "medium" | "high";
 
 export type TTask = {
-    id: string,
+    uuid: string,
     title: string,
-    text: string,
+    description: string,
     completed: boolean,
     createdat: Date,
+    dueDate?: Date,
     updating: boolean,
     priority?: TPriority
 }
