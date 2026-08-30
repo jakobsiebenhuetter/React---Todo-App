@@ -10,7 +10,7 @@ import {useState, useEffect} from 'react';
 import {useLoaderData} from 'react-router';
 import {AnimatePresence, Reorder} from 'motion/react';
 
-import {TTask} from './types.ts'
+import {TTask, TPriority} from './types.ts'
 import {saveTask, sortByDate, getTasks, deleteTaskinSupabase, update} from './util/utils.ts'
 
 /**
@@ -109,7 +109,7 @@ export default function TodoApp() {
   // Sortiert bewusst NICHT um: die Reihenfolge gehoert dem Nutzer, seit die
   // Liste per Drag&Drop geordnet werden kann. Sonst wuerde jeder Prioritaets-
   // Klick die manuelle Ordnung wieder verwerfen.
-  function addPriority(e, taskId: string, priority: "low" | "medium" | "high") {
+  function addPriority(e, taskId: string, priority: TPriority) {
     e.stopPropagation();
     setTasks((prevTasks) => {
       const uTasks = prevTasks.map((task) => {

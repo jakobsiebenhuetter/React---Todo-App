@@ -49,6 +49,12 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
         <Badge className={`priority-badge ${task.priority ===  'high' ? 'bg-red-600' : task.priority === 'medium' ? 'bg-amber-600' : 'bg-amber-300'} text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold`}>
           {task.priority}
           </Badge>}
+
+        {task.link && 
+        <Badge className="priority-badge bg-amber-600 text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold">
+          Link
+        </Badge>
+        }
         </div>
 
         <div className={`text-container text-sm sm:text-base ${task.completed ? 'line-through text-slate-400' : ''}`}>
@@ -81,6 +87,9 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
             </DropdownMenuItem>
             <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, 'low')}} className="text-sm sm:text-base">
               Priorität Niedrig
+            </DropdownMenuItem>
+             <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, '')}} className="text-sm sm:text-base">
+              Keine Priorität
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

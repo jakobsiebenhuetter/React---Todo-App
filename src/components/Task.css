@@ -5,6 +5,7 @@
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     display: flex;
+    padding: 6px;
     /* Der Drag-Griff steht neben der Karte, nicht darueber. */
     align-items: center;
     /* Reorder.Item positioniert sich beim Ziehen absolut gegen den Vorfahren. */

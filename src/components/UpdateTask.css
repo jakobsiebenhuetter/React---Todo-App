@@ -1,7 +1,6 @@
 /* flex-direction bleibt dem JSX ueberlassen (flex-col sm:flex-row). */
 #update-task {
     width: 100%;
-    padding: 8px;
     display: flex;
     background-color: #ffffff;
 }

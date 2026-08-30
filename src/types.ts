@@ -1,4 +1,4 @@
-export type TPriority = "low" | "medium" | "high";
+export type TPriority = "none" | "low" | "medium" | "high";
 
 export type TTask = {
     uuid: string,
@@ -9,4 +9,5 @@ export type TTask = {
     dueDate?: Date,
     updating: boolean,
     priority?: TPriority
+    link: boolean
 }

@@ -10,7 +10,8 @@ export function fillTasks(arr): TTask[] {
             completed: item.completed,
             createdat: new Date(item.created_at),
             updating: item.updating,
-            priority: item.priority
+            priority: item.priority,
+            link: item.link
         }
         return task;
     }).reverse();
@@ -45,7 +46,8 @@ export async function saveTask(task: TTask) {
         title: task.title,
         description: task.description,
         completed: task.completed,
-        priority: task.priority
+        priority: task.priority,
+        link: task.link
     });
     if(error) {
         console.error('Error saving task:', error);
@@ -203,7 +205,8 @@ export function fillTasksAfterLocalStorage(arr): TTask[] {
             completed: item.completed,
             createdat: new Date(item.createdat),
             updating: item.updating,
-            priority: item.priority
+            priority: item.priority,
+            link: item.link
         }
         tasks.push(task);
     });

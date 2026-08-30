@@ -13,13 +13,21 @@ export default function AddTask({addTask}) {
         if(value.trim() === '')
             return;
 
+        const url = new URL(value);
+        let link = '';
+        console.log('Valid link:', url);
+        if(url.protocol === 'http:' || url.protocol === 'https:') {
+            link = url.toString();
+        }
+
         const newTask = {
             uuid: crypto.randomUUID(),
             title: '',
             description: value,
             completed: false,
             createdat: new Date(),
-            updating: false
+            updating: false,
+            link: link
         }
         addTask(newTask);
         setValue('');
