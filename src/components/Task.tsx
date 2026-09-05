@@ -15,8 +15,9 @@ interface ITaskProps {
   completeTask: () => void;
   addPriority: (e: React.MouseEvent, uuid: string, priority: TPriority) => void;
   onCancel: (id: string) => void;
+  handleReorder: () => void;
 }
-export default function Task({task, deleteTask, update, onUpdateTask, completeTask, addPriority, onCancel}: ITaskProps) {
+export default function Task({task, deleteTask, update, onUpdateTask, completeTask, addPriority, onCancel, handleReorder}: ITaskProps) {
   // Eigene DragControls, weil das ganze Item NICHT ziehbar sein darf -- sonst
   // frisst der Drag die Klicks auf Checkbox, Buttons und Dropdown-Trigger.
   const controls = useDragControls();
@@ -39,7 +40,7 @@ export default function Task({task, deleteTask, update, onUpdateTask, completeTa
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8 }}
       whileDrag={{ scale: 1.02, boxShadow: "0 12px 28px -8px rgb(15 23 42 / 0.35)", zIndex: 1 }}
-      onDragEnd={() => {}}
+      onDragEnd={handleReorder}
     >
       {/* touch-none ist Pflicht: bei dragListener={false} setzt motion
           touch-action nicht selbst, und ohne das scrollt Mobile beim Ziehen. */}

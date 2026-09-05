@@ -12,11 +12,21 @@ export function fillTasks(arr): TTask[] {
             dueDate: item.due_date ? new Date(item.due_date) : undefined,
             updating: item.updating,
             priority: item.priority,
-            link: item.link
+            link: item.link,
+            posindex: item.posindex
         }
         return task;
-    }).reverse();
+    })
 };
+
+export async function savePositions(tasks: TTask[]) {
+
+    for(const task of tasks) {
+        const {data, error} = await supabase.from('Tasks').update({posindex: task.posindex}).eq('uuid', task.uuid);
+        console.log(data, error);
+    }
+}
+
 
 export async function deleteTaskinSupabase(uuid: string) {
     const {data, error} = await supabase.from('Tasks').delete().eq('uuid', uuid);
@@ -27,6 +37,7 @@ export async function deleteTaskinSupabase(uuid: string) {
     }
 }
 export async function update(task: TTask) {
+    console.log("Updating task:", task);
     const {data, error} = await supabase.from('Tasks').update({
         title: task.title,
         description: task.description,
@@ -49,7 +60,9 @@ export async function saveTask(task: TTask) {
         description: task.description,
         completed: task.completed,
         priority: task.priority,
-        link: task.link
+        link: task.link,
+        posindex: task.posindex,
+        due_date: task.dueDate,
     });
     if(error) {
         console.error('Error saving task:', error);
@@ -60,7 +73,7 @@ export async function saveTask(task: TTask) {
 
 
 export async function getTasks(): Promise<TTask[]> {
-    const{data, error} = await supabase.from('Tasks').select('*');
+    const{data, error} = await supabase.from('Tasks').select('*').order('posindex', { ascending: true });
     if(error) {
       console.error('Error fetching tasks:', error);
     } else {
@@ -208,7 +221,8 @@ export function fillTasksAfterLocalStorage(arr): TTask[] {
             createdat: new Date(item.createdat),
             updating: item.updating,
             priority: item.priority,
-            link: item.link
+            link: item.link,
+            posindex: item.posindex,
         }
         tasks.push(task);
     });

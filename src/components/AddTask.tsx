@@ -32,14 +32,16 @@ export default function AddTask({addTask}: IAddTaskProps) {
             link = '';
         }
 
-        const newTask = {
+        const newTask: TTask = {
             uuid: crypto.randomUUID(),
             title: '',
             description: value,
             completed: false,
             createdat: new Date(),
             updating: false,
-            link: link
+            priority: "none",
+            link: link,
+            posindex: 0
         }
         addTask(newTask);
         setValue('');

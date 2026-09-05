@@ -8,6 +8,7 @@ export type TTask = {
     createdat: Date,
     dueDate?: Date,
     updating: boolean,
-    priority?: TPriority
-    link: string
+    priority: TPriority
+    link: string,
+    posindex: number,
 }
