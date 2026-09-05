@@ -1,7 +1,15 @@
+import type { ReactNode } from "react";
 import {createPortal} from "react-dom";
 import Button from "./Button";
+import React from "react";
 
-export default function ConfirmModal({children, onClose, onConfirm}) {
+interface IConfirmModalProps {
+    children: ReactNode;
+    onClose: (e: React.MouseEvent) => void;
+    onConfirm: (e: React.MouseEvent) => void;
+}
+
+export default function ConfirmModal({children, onClose, onConfirm}: IConfirmModalProps) {
     return (
         createPortal(
             <>

@@ -1,8 +1,12 @@
 
 import './TaskList.css';
+import {ReactNode} from "react";
 
-// Mit richtigen ids arbeiten
-export default function TaskList({children}) {
+interface ITaskListProps {
+    children: ReactNode;
+}
+
+export default function TaskList({children}: ITaskListProps) {
  
     return(
         <div id="task-list">

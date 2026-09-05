@@ -14,11 +14,10 @@ import {TTask, TPriority} from './types.ts'
 import {saveTask, sortByDate, getTasks, deleteTaskinSupabase, update} from './util/utils.ts'
 
 /**
- * //TODO - Besseres TS implementieren für z.B.: TaskItem da fehlt noch einiges und ordentlich typisieren
+ * //TODO - Posindex abspeichern in Supabase
  * //TODO - Richtiges Backend mit Supabase implementieren und Due Date einbauen um Fristen mit einem Badge zu signalisieren
  * //TODO - Projekte einbauen um Task zu kategorisieren
  * //TODO - Etwas mehr Animationen einbauen
- * //TODO - Wenn Task ein Link ist, das erkennen und es als Link markieren
  * //TODO - Multiselect aktivieren
  * //TODO - Papierkorb Funktionalität einbauen, wenn checkbox für erledigt aktiv ist dann soll man mit einem Button die erledigten Aufgaben in den Papierkorb verschieben können, und dort dann entweder wiederherstellen oder endgültig löschen können
  */
@@ -28,8 +27,7 @@ type TSortBy = "date" | "priority";
 
 export default function TodoApp() {
 
-  const data = useLoaderData();
-  
+  const data = useLoaderData<TTask[]>();
 
   const [tasks, setTasks] = useState<TTask[]>(data);
 
@@ -109,7 +107,7 @@ export default function TodoApp() {
   // Sortiert bewusst NICHT um: die Reihenfolge gehoert dem Nutzer, seit die
   // Liste per Drag&Drop geordnet werden kann. Sonst wuerde jeder Prioritaets-
   // Klick die manuelle Ordnung wieder verwerfen.
-  function addPriority(e, taskId: string, priority: TPriority) {
+  function addPriority(e: React.MouseEvent, taskId: string, priority: TPriority) {
     e.stopPropagation();
     setTasks((prevTasks) => {
       const uTasks = prevTasks.map((task) => {
@@ -149,7 +147,8 @@ export default function TodoApp() {
           <Reorder.Group as="ul" axis="y" values={tasks} onReorder={setTasks}>
             <AnimatePresence initial={false}>
               {tasks.map((item) =>
-                <Task key={item.uuid}
+                <Task 
+                key={item.uuid}
                 task={item}
                 onUpdateTask={() => updateTask(item.uuid)}
                 update={updateTaskText}
@@ -167,8 +166,8 @@ export default function TodoApp() {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export async function loader() {
-  //TODO Hier muss ein fillTasks-Aufruf erfolgen, um die initialen Aufgaben zu laden und ins passende Format zu konvertieren.
   console.log(await getTasks());
   return await getTasks();
 }

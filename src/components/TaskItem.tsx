@@ -5,7 +5,7 @@ import {useState} from 'react';
 import Button from "./Button";
 import Badge from "./Badge";
 import ConfirmModal from "./ConfirmModal.tsx";
-
+import type { TTask, TPriority } from "@/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,9 +15,15 @@ import {
 
 import {Link} from "react-router";
 
+interface TaskItemProps {
+  task: TTask;
+  completeTask: () => void;
+  deleteTask: () => void;
+  onUpdateTask: () => void;
+  addPriority: (e: React.MouseEvent, uuid: string, priority: TPriority) => void;
+}
 
-
-export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, addPriority}) {
+export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, addPriority}: TaskItemProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   // function navigateHandler() {
@@ -28,7 +34,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
     setShowConfirmModal(true);
   }
 
-  function destroyConfirmModal(e) {
+  function destroyConfirmModal(e: React.MouseEvent) {
     e.stopPropagation();
     setShowConfirmModal(false);
   }
@@ -45,7 +51,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
             {new Date(task.createdat).toLocaleDateString('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'})}
           </Badge>}
 
-        {task.priority && 
+        {task.priority !== 'none' && 
         <Badge className={`priority-badge ${task.priority ===  'high' ? 'bg-red-600' : task.priority === 'medium' ? 'bg-amber-600' : 'bg-amber-300'} text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold`}>
           {task.priority}
           </Badge>}
@@ -88,7 +94,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
             <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, 'low')}} className="text-sm sm:text-base">
               Priorität Niedrig
             </DropdownMenuItem>
-             <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, '')}} className="text-sm sm:text-base">
+             <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, 'none')}} className="text-sm sm:text-base">
               Keine Priorität
             </DropdownMenuItem>
           </DropdownMenuContent>

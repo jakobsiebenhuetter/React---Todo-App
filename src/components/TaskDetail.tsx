@@ -1,12 +1,13 @@
 import Badge from "./Badge";
 import { Link, useLoaderData } from "react-router";
+import type { TTask } from "@/types";
 // Feldbeschriftungen sind in Ansicht und Formular identisch aufgebaut (Form.tsx),
 // damit der Wechsel in den Editiermodus die Seite nicht umspringen laesst.
-const labelClass =
-  "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";
+const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";
 
 export default function TaskDetail() {
-  const task = useLoaderData();
+  const task = useLoaderData<TTask>();
+
   return (
     <div className="space-y-4">
       <header className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4">
@@ -21,7 +22,7 @@ export default function TaskDetail() {
 
         {/* Farben wie in TaskItem.tsx:22, damit dieselbe Prioritaet in Liste,
             Ansicht und Formular gleich aussieht. */}
-        {task.priority && 
+        {task.priority !== 'none' && 
           <Badge
             className={`ms-auto px-2 py-1 rounded-md text-xs sm:text-sm font-bold text-white ${task.priority === "high" ? "bg-red-600" : task.priority === "medium" ? "bg-amber-600" : "bg-amber-300"}`}
           >

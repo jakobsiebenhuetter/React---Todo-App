@@ -1,8 +1,13 @@
 import {useState} from 'react';
 import './AddTask.css';
 import Button from './Button';
+import type { TTask } from '@/types';
 
-export default function AddTask({addTask}) {
+interface IAddTaskProps {
+    addTask: (task: TTask) => void;
+}
+
+export default function AddTask({addTask}: IAddTaskProps) {
     const [value, setValue] = useState('');
 
     function setTask(event) {
@@ -10,14 +15,21 @@ export default function AddTask({addTask}) {
     }
 
     function addNewTask() {
+        let link = '';
+        let url: URL | '' = '';
+        
         if(value.trim() === '')
             return;
 
-        const url = new URL(value);
-        let link = '';
-        console.log('Valid link:', url);
-        if(url.protocol === 'http:' || url.protocol === 'https:') {
-            link = url.toString();
+        try {
+            url = new URL(value);
+            if(url.protocol === 'http:' || url.protocol === 'https:') {
+                link = url.toString();
+            }
+        } catch (error) {
+            console.log(error);
+            console.log('No or invalid URL: ', url);
+            link = '';
         }
 
         const newTask = {

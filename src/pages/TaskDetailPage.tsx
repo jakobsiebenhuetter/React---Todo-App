@@ -1,7 +1,8 @@
 
 import { Outlet } from "react-router";
-import classes from "./TaskDetailPage.module.css";
+import type { TTask } from "@/types";
 import { getTaskById } from "@/util/utils";
+import classes from "./TaskDetailPage.module.css";
 
 export default function TodoDetail() {
 
@@ -14,11 +15,11 @@ export default function TodoDetail() {
   );
 }
 
-export async function loader({ request, params }) {
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({ params }): Promise<TTask | null>{
   const id = params.uuid;
 
-  console.log(params);
-  const taskDetail = await getTaskById(id);
+  const taskDetail: TTask | null = await getTaskById(id);
   // const tasks = localStorage.getItem("tasks");
   // if (tasks?.length) {
   //   parsedTasks = JSON.parse(tasks);
@@ -26,3 +27,4 @@ export async function loader({ request, params }) {
   // }
   return taskDetail;
 }
+

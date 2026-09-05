@@ -3,32 +3,33 @@ import {useLoaderData, useNavigate} from "react-router";
 
 import Button from "./Button";
 import Badge from "./Badge";
-// import{getTasks} from "../util/utils";
+import{update} from "../util/utils";
 import { TTask } from "../types";
 
 
 // Dieselben Beschriftungen wie in TaskDetail.tsx -- der Editiermodus soll wie
 // dieselbe Karte wirken, nur mit Eingabefeldern statt Text.
-const labelClass =
-  "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";
+const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";
 
 // Nachbau des globalen input[type="text"]-Looks aus index.css (Rand #cbd5e1,
 // 6px Radius, 40px Hoehe, Emerald-Fokus) fuer die Felder, die diese Regel nicht
 // trifft -- date und textarea.
-const controlClass =
-  "w-full min-h-10 rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-800 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500";
+const controlClass = "w-full min-h-10 rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-800 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500";
 
 export default function Form() {
-    const task: TTask = useLoaderData();
-    console.log(task);
+    const task = useLoaderData<TTask>();
     const navigate = useNavigate();
 
-    const [inputs, setInputs] = useState({
-        title: task.title,
+    const [inputs, setInputs] = useState<TTask>({
+      uuid: task.uuid,
+      title: task.title,
         description: task.description,
         completed: task.completed,
         createdat: task.createdat,
+        dueDate: task.dueDate,
         priority: task.priority,
+        updating: task.updating,
+        link: task.link,
     });
 
     function handleInputChange(identifier, value) {
@@ -42,7 +43,7 @@ export default function Form() {
         );
     }
 
-    function submit() {
+    async function submit() {
         // const tasks = getTasks();
 
         const updatedTask: TTask = {
@@ -52,6 +53,7 @@ export default function Form() {
 
         // const updatedTasks = tasks.map((task) => task.id === updatedTask.id ? updatedTask : task);
         // saveTasks(updatedTasks);
+        await update(updatedTask);
         navigate(`/todo/${updatedTask.uuid}`);
     }
 
@@ -71,12 +73,10 @@ export default function Form() {
           <input
             id="task-date"
             type="date"
-            defaultValue={toDateInputValue(inputs.createdat)}
+            defaultValue={fromDateToInputValue(inputs.createdat)}
             className={controlClass}
-            onChange={(e) => handleInputChange("createdat", e.target.value)}
           />
         </div>
-        {/* {inputs.dueDate &&
         <div className="min-w-40 flex-1">
           <label htmlFor="task-date" className={labelClass}>
             Bis
@@ -85,9 +85,11 @@ export default function Form() {
             id="task-date"
             type="date"
             className={controlClass}
+            defaultValue={fromDateToInputValue(inputs.dueDate)}
+            onChange={(e) => handleInputChange("dueDate", new Date(e.target.value))}
             />
         </div>
-        } */}
+        
 
         <label className="flex min-h-10 items-center gap-2 text-sm font-medium text-slate-700">
           <input
@@ -100,7 +102,7 @@ export default function Form() {
         </label>
 
        
-        {task.priority && (
+        {task.priority !== 'none' && (
           <Badge
             className={`ms-auto self-start px-2 py-1 rounded-md text-xs sm:text-sm font-bold text-white ${task.priority === "high" ? "bg-red-600" : task.priority === "medium" ? "bg-amber-600" : "bg-amber-300"}`}
           >
@@ -131,7 +133,7 @@ export default function Form() {
           rows={5}
           value={inputs.description}
           className={`${controlClass} resize-y leading-relaxed`}
-          onChange={(e) => handleInputChange("text", e.target.value)}
+          onChange={(e) => handleInputChange("description", e.target.value)}
         />
       </div>
 
@@ -158,7 +160,8 @@ export default function Form() {
   );
 }
 
-function toDateInputValue(value: Date | string): string {
+function fromDateToInputValue(value: Date | undefined): string {
+  if(!value) return "";
   const date = new Date(value);
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");

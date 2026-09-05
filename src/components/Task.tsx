@@ -4,16 +4,27 @@ import { Reorder, useDragControls } from "motion/react";
 
 import TaskItem from "./TaskItem.tsx";
 import UpdateTaskItem from "./UpdateTask.tsx";
+import { TTask, TPriority} from "@/types.ts";
 
-export default function Task({ deleteTask, update, onUpdateTask, completeTask, addPriority,  task, onCancel}) {
+
+interface ITaskProps {
+  task: TTask;
+  deleteTask: () => void;
+  update: (id: string, newText: string) => void;
+  onUpdateTask: () => void;
+  completeTask: () => void;
+  addPriority: (e: React.MouseEvent, uuid: string, priority: TPriority) => void;
+  onCancel: (id: string) => void;
+}
+export default function Task({task, deleteTask, update, onUpdateTask, completeTask, addPriority, onCancel}: ITaskProps) {
   // Eigene DragControls, weil das ganze Item NICHT ziehbar sein darf -- sonst
   // frisst der Drag die Klicks auf Checkbox, Buttons und Dropdown-Trigger.
   const controls = useDragControls();
 
-  let item = <TaskItem deleteTask={deleteTask} onUpdateTask={onUpdateTask} task={task} completeTask={completeTask} addPriority={addPriority}></TaskItem>
+  let item = <TaskItem  task={task} deleteTask={deleteTask} onUpdateTask={onUpdateTask} completeTask={completeTask} addPriority={addPriority}></TaskItem>
 
   if (task.updating) {
-    item = <UpdateTaskItem update={update} task={task} onCancel={onCancel}></UpdateTaskItem>
+    item = <UpdateTaskItem task={task} update={update} onCancel={onCancel}></UpdateTaskItem>
   }
 
   return (
@@ -39,7 +50,6 @@ export default function Task({ deleteTask, update, onUpdateTask, completeTask, a
       >
         ⠿
       </span>
-
       {item}
     </Reorder.Item>
   );

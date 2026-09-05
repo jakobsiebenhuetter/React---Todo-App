@@ -9,6 +9,7 @@ export function fillTasks(arr): TTask[] {
             description: item.description,
             completed: item.completed,
             createdat: new Date(item.created_at),
+            dueDate: item.due_date ? new Date(item.due_date) : undefined,
             updating: item.updating,
             priority: item.priority,
             link: item.link
@@ -30,7 +31,8 @@ export async function update(task: TTask) {
         title: task.title,
         description: task.description,
         completed: task.completed,
-        priority: task.priority
+        priority: task.priority,
+        due_date: task.dueDate
     }).eq('uuid', task.uuid);
     if(error) {
         console.error('Error updating task:', error);
@@ -69,7 +71,7 @@ export async function getTasks(): Promise<TTask[]> {
 
   export async function getTaskById(uuid: string): Promise<TTask | null> {
     const {data, error} = await supabase.from('Tasks').select('*').eq('uuid', uuid).single();
-    let filledTask;
+    let filledTask: TTask[];
     if(error) {
       console.error('Error fetching task by id:', error);
       return null;

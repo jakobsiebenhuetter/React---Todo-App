@@ -20,7 +20,6 @@ export default function UpdateTaskItem({update, onCancel, task}: IUpdateTaskProp
 
     function onEnter(event) {
         if(event.key === 'Enter') {
-            console.log("Updating task:", task.uuid, "with new text:", newText);
             update(task.uuid, newText)
         }
     }

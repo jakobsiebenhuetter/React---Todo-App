@@ -9,5 +9,5 @@ export type TTask = {
     dueDate?: Date,
     updating: boolean,
     priority?: TPriority
-    link: boolean
+    link: string
 }
