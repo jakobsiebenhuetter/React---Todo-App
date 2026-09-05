@@ -61,6 +61,12 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
           Link
         </Badge>
         }
+        {
+          task.dueDate && 
+          <Badge className="dueDate-badge bg-blue-600 text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold">
+            Fällig am {new Date(task.dueDate).toLocaleDateString('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'})}
+          </Badge>
+        }
         </div>
 
         <div className={`text-container text-sm sm:text-base ${task.completed ? 'line-through text-slate-400' : ''}`}>

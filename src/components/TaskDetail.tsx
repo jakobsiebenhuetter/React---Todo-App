@@ -29,6 +29,17 @@ export default function TaskDetail() {
             {task.priority}
           </Badge>
         }
+
+        {task.dueDate && (
+          <span className="text-[0.8125rem] text-slate-500 tabular-nums">
+            Fällig am{" "}
+            {new Date(task.dueDate).toLocaleDateString("de-DE", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}
+          </span>
+        )}
       </header>
 
       <div>

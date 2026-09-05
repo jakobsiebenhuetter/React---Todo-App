@@ -11,11 +11,9 @@ import {useLoaderData} from 'react-router';
 import {AnimatePresence, Reorder} from 'motion/react';
 
 import {TTask, TPriority} from './types.ts'
-import {saveTask, sortByDate, getTasks, deleteTaskinSupabase, update} from './util/utils.ts'
+import {saveTask, sortByDate, getTasks, deleteTaskinSupabase, update, savePositions} from './util/utils.ts'
 
 /**
- * //TODO - Posindex abspeichern in Supabase
- * //TODO - Richtiges Backend mit Supabase implementieren und Due Date einbauen um Fristen mit einem Badge zu signalisieren
  * //TODO - Projekte einbauen um Task zu kategorisieren
  * //TODO - Etwas mehr Animationen einbauen
  * //TODO - Multiselect aktivieren
@@ -35,6 +33,15 @@ export default function TodoApp() {
   //   // saveTasks(tasks);
   // }, [tasks]);
 
+  function handleReorder() {
+    setTasks((prevTasks) => {
+      const newTasks =  prevTasks.map((task, index) => {
+        return {...task, posindex: index};
+      })
+      savePositions(newTasks);
+      return newTasks;
+    })
+  }
 
 
   function addTask(newTask: TTask) {
@@ -155,7 +162,9 @@ export default function TodoApp() {
                 deleteTask={() => {deleteTask(item.uuid)}}
                 completeTask={() => completeTask(item.uuid)}
                 onCancel={cancel}
-                addPriority={addPriority}/>
+                addPriority={addPriority}
+                handleReorder={handleReorder} 
+                />
               )}
             </AnimatePresence>
           </Reorder.Group>

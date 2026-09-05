@@ -3,9 +3,9 @@ import {useLoaderData, useNavigate} from "react-router";
 
 import Button from "./Button";
 import Badge from "./Badge";
+import DatePicker from "./DatePicker";
 import{update} from "../util/utils";
 import { TTask } from "../types";
-
 
 // Dieselben Beschriftungen wie in TaskDetail.tsx -- der Editiermodus soll wie
 // dieselbe Karte wirken, nur mit Eingabefeldern statt Text.
@@ -30,11 +30,13 @@ export default function Form() {
         priority: task.priority,
         updating: task.updating,
         link: task.link,
+        posindex: task.posindex,
     });
 
     function handleInputChange(identifier, value) {
         setInputs((prevTask) => 
              {
+              console.log("Updating input:", identifier, value);
                 return {
                     ...prevTask,
                     [identifier]: value 
@@ -67,27 +69,26 @@ export default function Form() {
           ms-auto/self-start an derselben Stelle wie dort -- rechts oben. */}
       <div className="flex flex-wrap items-end gap-4 border-b border-slate-200 pb-4">
         <div className="min-w-40 flex-1">
-          <label htmlFor="task-date" className={labelClass}>
+          <label htmlFor="task-createdat" className={labelClass}>
             Erstellt am
           </label>
-          <input
-            id="task-date"
-            type="date"
-            defaultValue={fromDateToInputValue(inputs.createdat)}
+          <DatePicker
+            id="task-createdat"
             className={controlClass}
+            value={inputs.createdat}
+            onChange={(date) => handleInputChange("createdat", date)}
           />
         </div>
         <div className="min-w-40 flex-1">
-          <label htmlFor="task-date" className={labelClass}>
+          <label htmlFor="task-duedate" className={labelClass}>
             Bis
           </label>
-          <input
-            id="task-date"
-            type="date"
+          <DatePicker
+            id="task-duedate"
             className={controlClass}
-            defaultValue={fromDateToInputValue(inputs.dueDate)}
-            onChange={(e) => handleInputChange("dueDate", new Date(e.target.value))}
-            />
+            value={inputs.dueDate}
+            onChange={(date) => handleInputChange("dueDate", date)}
+          />
         </div>
         
 
@@ -158,12 +159,4 @@ export default function Form() {
       </div>
     </form>
   );
-}
-
-function fromDateToInputValue(value: Date | undefined): string {
-  if(!value) return "";
-  const date = new Date(value);
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${date.getFullYear()}-${month}-${day}`;
 }
