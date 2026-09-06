@@ -112,7 +112,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
 
           <Button variant="danger" animation="scale" className="min-h-10 px-2 sm:px-3 py-2 text-xs sm:text-sm rounded-md font-bold shadow-sm"
           onClick={createConfirmModal}>
-            Delete
+            Löschen
           </Button>
           {
           showConfirmModal &&
