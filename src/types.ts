@@ -12,3 +12,11 @@ export type TTask = {
     link: string,
     posindex: number,
 }
+
+export type TProject = {
+    uuid: string,
+    name: string,
+    description: string,
+    createdat: Date,
+    tasks: TTask[]
+}

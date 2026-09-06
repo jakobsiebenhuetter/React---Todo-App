@@ -85,13 +85,13 @@ export default function TaskDetail() {
             to="/"
             className="bg-slate-200 text-slate-800 hover:bg-slate-300 active:bg-slate-400/70 hover:cursor-pointer rounded p-2"
           >
-            Zurück zur Startseite
+            Zurück zur Liste
           </Link>
           <Link
             to={`/todo/${task.uuid}/edit`}
             className="rounded p-2 bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 hover:cursor-pointer"
           >
-            Editieren
+            Bearbeiten
           </Link>
         </div>
       </footer>
