@@ -11,11 +11,12 @@ const router = createBrowserRouter([
   { path: "/", 
     element: <Layout />,
     errorElement: <ErrorPage />,
+    loader: fetchTasks,
     children: [
         { 
             path: "",
             element: <TodoApp />,
-            loader: fetchTasks,
+            
         },
         { 
             path: "todo/:uuid",

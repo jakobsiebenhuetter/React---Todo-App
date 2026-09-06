@@ -30,10 +30,12 @@ type TSortBy = "date" | "priority";
 
 export default function TodoApp() {
 
-  const data = useLoaderData<TTask[]>();
-
-  const [tasks, setTasks] = useState<TTask[]>(data);
-  const {item} = useContext(ProjectsTasksContext);
+  // const data = useLoaderData<TTask[]>();
+  const data = useContext(ProjectsTasksContext);
+  const [tasks, setTasks] = useState<TTask[]>(data.tasks);
+  console.log('data', data.tasks);
+  console.log('tasks',tasks);
+  // const {item} = useContext(ProjectsTasksContext);
 
   // useEffect(() => {
   //   // saveTasks(tasks);
@@ -146,7 +148,7 @@ export default function TodoApp() {
   
   return (
     <>
-    {item && <NewProjectForm text={item} />}
+    {/* {item && <NewProjectForm text={item} />} */}
       <main className="hero w-full max-w-2xl mx-auto px-4 py-6 sm:px-6">
         <AddTask addTask={addTask}/>
         <TaskList>

@@ -1,4 +1,4 @@
-// import { TTask, TProject } from "@/types";
+import { TTask, TProject } from "@/types";
 import {createContext} from "react";
 
 // interface IProjectsTasksContext {
@@ -7,7 +7,7 @@ import {createContext} from "react";
 // }
 
 const ProjectsTasksContext = createContext({
-    item: 'Test'
+    tasks: [] as TTask[]
 });
 
 export default ProjectsTasksContext;
