@@ -4,8 +4,10 @@ import {useLoaderData, useNavigate} from "react-router";
 import Button from "./Button";
 import Badge from "./Badge";
 import DatePicker from "./DatePicker";
-import{update} from "../util/utils";
+
 import { TTask } from "../types";
+import { useContext } from "react";
+import ProjectsTasksContext from "../store/projects-tasks-context";
 
 // Dieselben Beschriftungen wie in TaskDetail.tsx -- der Editiermodus soll wie
 // dieselbe Karte wirken, nur mit Eingabefeldern statt Text.
@@ -17,6 +19,7 @@ const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-
 const controlClass = "w-full min-h-10 rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-800 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500";
 
 export default function Form() {
+  const data = useContext(ProjectsTasksContext);
     const task = useLoaderData<TTask>();
     const navigate = useNavigate();
 
@@ -45,7 +48,7 @@ export default function Form() {
         );
     }
 
-    async function submit() {
+    function submit() {
         // const tasks = getTasks();
 
         const updatedTask: TTask = {
@@ -55,7 +58,7 @@ export default function Form() {
 
         // const updatedTasks = tasks.map((task) => task.id === updatedTask.id ? updatedTask : task);
         // saveTasks(updatedTasks);
-        await update(updatedTask);
+        data.updateTaskDetails(updatedTask);
         navigate(`/todo/${updatedTask.uuid}`);
     }
 

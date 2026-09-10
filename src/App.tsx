@@ -1,4 +1,5 @@
-import TodoApp, {loader as fetchTasks} from "./TodoApp";
+import TodoApp from "./TodoApp";
+import  {loader as fetchTasks} from "./Layout.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Layout from "./Layout.tsx";
 import TaskDetailPage, {loader as taskDetailData} from "./pages/TaskDetailPage.tsx";
@@ -14,9 +15,8 @@ const router = createBrowserRouter([
     loader: fetchTasks,
     children: [
         { 
-            path: "",
-            element: <TodoApp />,
-            
+            path: "/",
+            element: <TodoApp />,     
         },
         { 
             path: "todo/:uuid",

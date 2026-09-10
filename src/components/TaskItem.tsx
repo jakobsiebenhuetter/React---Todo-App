@@ -1,11 +1,12 @@
 
 import "./TaskItem.css";
 
-import {useState} from 'react';
+import {useState, useContext} from 'react';
+import ProjectsTasksContext from "../store/projects-tasks-context";
 import Button from "./Button";
 import Badge from "./Badge";
 import ConfirmModal from "./ConfirmModal.tsx";
-import type { TTask, TPriority } from "@/types";
+import type { TTask } from "@/types";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,19 +18,13 @@ import {Link} from "react-router";
 
 interface TaskItemProps {
   task: TTask;
-  completeTask: () => void;
-  deleteTask: () => void;
-  onUpdateTask: () => void;
-  addPriority: (e: React.MouseEvent, uuid: string, priority: TPriority) => void;
 }
 
-export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, addPriority}: TaskItemProps) {
+export default function TaskItem({task}: TaskItemProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  // function navigateHandler() {
-  // usenavigate
-  //   //...
-  // }
+  const data = useContext(ProjectsTasksContext);
+
   function createConfirmModal() {
     setShowConfirmModal(true);
   }
@@ -80,7 +75,7 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
         <div className="flex w-full justify-end gap-x-12">
 
         <div className="task-item-header">
-          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={completeTask} onClick={(e) => {e.stopPropagation()}}/>
+          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={() => data.completeTask(task.uuid)} onClick={(e) => {e.stopPropagation()}}/>
         </div>
 
         <DropdownMenu>
@@ -91,16 +86,16 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
           } />
           
           <DropdownMenuContent className="w-56 text-sm sm:text-base" align="end">
-            <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, 'high')} } className="text-sm sm:text-base">
+            <DropdownMenuItem onClick={(e) => {data.addPriority(e, task.uuid, 'high')} } className="text-sm sm:text-base">
               Priorität Hoch
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={(e) => { addPriority(e, task.uuid, 'medium')}} className="text-sm sm:text-base">
+            <DropdownMenuItem onClick={(e) => { data.addPriority(e, task.uuid, 'medium')}} className="text-sm sm:text-base">
               Priorität Mittel
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, 'low')}} className="text-sm sm:text-base">
+            <DropdownMenuItem onClick={(e) => {data.addPriority(e, task.uuid, 'low')}} className="text-sm sm:text-base">
               Priorität Niedrig
             </DropdownMenuItem>
-             <DropdownMenuItem onClick={(e) => {addPriority(e, task.uuid, 'none')}} className="text-sm sm:text-base">
+             <DropdownMenuItem onClick={(e) => {data.addPriority(e, task.uuid, 'none')}} className="text-sm sm:text-base">
               Keine Priorität
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -116,13 +111,13 @@ export default function TaskItem({task, completeTask, deleteTask, onUpdateTask, 
           </Button>
           {
           showConfirmModal &&
-            <ConfirmModal onClose={destroyConfirmModal} onConfirm={(e) => {deleteTask(); destroyConfirmModal(e)}}>
+            <ConfirmModal onClose={destroyConfirmModal} onConfirm={(e) => {data.deleteTask(task.uuid); destroyConfirmModal(e)}}>
               <p className="text-sm sm:text-base">Bist du sicher, dass du diese Aufgabe löschen möchtest?</p>
             </ConfirmModal>
           }
 
           <Button variant="primary" animation="scale" className="min-h-10 px-2 sm:px-3 py-2 text-xs sm:text-sm rounded-md font-bold shadow-sm"
-          onClick={onUpdateTask}>
+          onClick={() => data.updateTask(task.uuid)}>
             Update
           </Button>
 

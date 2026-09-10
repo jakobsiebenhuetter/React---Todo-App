@@ -2,8 +2,11 @@ import './Header.css';
 
 import {NavLink} from "react-router";
 import Button from "./Button.tsx";
+import {useContext} from 'react';
+import ProjectsTasksContext from '../store/projects-tasks-context';
 
 export default function Header({...props}) {
+    const data = useContext(ProjectsTasksContext);
   return (
     <header {...props}>
         <div style={{ display: 'flex', alignItems: 'center', marginLeft: '10px' }}>
@@ -27,7 +30,7 @@ export default function Header({...props}) {
                 >
                 Projektordner
                 </NavLink>
-                <Button variant='primary' className='p-2 m-2 rounded'>Neues Projekt</Button>
+                <Button variant='primary' className='p-2 m-2 rounded' onClick={data.toggleNewProject}>Neues Projekt</Button>
             </li>
             <li>
                 <NavLink to="/" className={({isActive}) => { return isActive ? 'active' : '' }} end>

@@ -11,6 +11,7 @@ export type TTask = {
     priority: TPriority
     link: string,
     posindex: number,
+    newproject?: boolean,
 }
 
 export type TProject = {
@@ -20,3 +21,5 @@ export type TProject = {
     createdat: Date,
     tasks: TTask[]
 }
+
+export type TSortBy = "date" | "priority";
