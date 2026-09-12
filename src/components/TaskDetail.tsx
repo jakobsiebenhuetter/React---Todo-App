@@ -1,6 +1,7 @@
 import Badge from "./Badge";
 import { Link, useLoaderData } from "react-router";
-import type { TTask } from "@/types";
+
+import type { TTask } from "../types";
 // Feldbeschriftungen sind in Ansicht und Formular identisch aufgebaut (Form.tsx),
 // damit der Wechsel in den Editiermodus die Seite nicht umspringen laesst.
 const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";

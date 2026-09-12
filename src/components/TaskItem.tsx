@@ -24,6 +24,8 @@ export default function TaskItem({task}: TaskItemProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const data = useContext(ProjectsTasksContext);
+  
+  let dueDateClass = "dueDate-badge bg-blue-600 text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold";
 
   function createConfirmModal() {
     setShowConfirmModal(true);
@@ -34,6 +36,15 @@ export default function TaskItem({task}: TaskItemProps) {
     setShowConfirmModal(false);
   }
 
+  if(task.dueDate) {
+    const due = new Date(task.dueDate).toLocaleDateString('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'});
+    const today = new Date().toLocaleDateString('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'});
+    if (due === today) {
+      if(task.completed === false) {
+        dueDateClass += " animate-bounce";
+      }
+  }
+}
   return (
 
     <Link to={`/todo/${task.uuid}`} id="task-item">
@@ -58,7 +69,7 @@ export default function TaskItem({task}: TaskItemProps) {
         }
         {
           task.dueDate && 
-          <Badge className="dueDate-badge bg-blue-600 text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold">
+          <Badge className={dueDateClass}>
             Fällig am {new Date(task.dueDate).toLocaleDateString('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'})}
           </Badge>
         }

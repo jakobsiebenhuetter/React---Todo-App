@@ -8,7 +8,6 @@ import DatePicker from "./DatePicker";
 import { TTask } from "../types";
 import { useContext } from "react";
 import ProjectsTasksContext from "../store/projects-tasks-context";
-
 // Dieselben Beschriftungen wie in TaskDetail.tsx -- der Editiermodus soll wie
 // dieselbe Karte wirken, nur mit Eingabefeldern statt Text.
 const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";
@@ -20,12 +19,15 @@ const controlClass = "w-full min-h-10 rounded-md border border-slate-300 bg-whit
 
 export default function Form() {
   const data = useContext(ProjectsTasksContext);
-    const task = useLoaderData<TTask>();
-    const navigate = useNavigate();
+  const loaderData = useLoaderData<TTask>();
 
-    const [inputs, setInputs] = useState<TTask>({
-      uuid: task.uuid,
-      title: task.title,
+  const task = data.tasks.find((t) => t.uuid === loaderData.uuid)!;
+  
+  const navigate = useNavigate();
+
+  const [inputs, setInputs] = useState<TTask>({
+        uuid: task.uuid,
+        title: task.title,
         description: task.description,
         completed: task.completed,
         createdat: task.createdat,
@@ -48,7 +50,7 @@ export default function Form() {
         );
     }
 
-    function submit() {
+    async function submit() {
         // const tasks = getTasks();
 
         const updatedTask: TTask = {
@@ -58,7 +60,8 @@ export default function Form() {
 
         // const updatedTasks = tasks.map((task) => task.id === updatedTask.id ? updatedTask : task);
         // saveTasks(updatedTasks);
-        data.updateTaskDetails(updatedTask);
+        // await data.updateTaskDetails(updatedTask);
+        await data.updateTaskDetails(updatedTask);
         navigate(`/todo/${updatedTask.uuid}`);
     }
 

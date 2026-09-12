@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { Outlet } from "react-router";
 import type { TTask, TPriority, TSortBy } from './types.ts';
 import {useLoaderData} from 'react-router';
@@ -9,9 +9,8 @@ import {saveTask, sortByDate, getTasks, deleteTaskinSupabase, update, savePositi
 export default function Layout() {
 
 const data = useLoaderData<TTask[]>();
-
+console.log(data);
 const [tasks, setTasks] = useState<TTask[]>(data);
-
 
   function handleReorder() {
     setTasks((prevTasks) => {
@@ -55,12 +54,13 @@ const [tasks, setTasks] = useState<TTask[]>(data);
       });
   }
   
-  function updateTaskDetails(updatedTask: TTask) {
+   async function updateTaskDetails(updatedTask: TTask) {  
+     await update(updatedTask);
      setTasks((prevTaskItems) => {
        const allTasks = prevTaskItems.map((task) => {
          return task.uuid === updatedTask.uuid ? updatedTask : task;
        });
-       update(updatedTask);
+       
        return allTasks;
      });
    }
@@ -165,6 +165,5 @@ const tasksCtx = {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function loader() {
-  console.log(await getTasks());
   return await getTasks();
 }
