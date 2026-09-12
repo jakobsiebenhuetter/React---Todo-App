@@ -15,6 +15,9 @@ export default function Header({...props}) {
         </div>
         <ul style={{ display: 'flex', listStyleType: 'none', marginRight: '10px' }}>
             <li>
+                <NavLink to="/completed">
+                    Bereits erledigt
+                </NavLink>
                 <Button variant='primary' className='p-2 m-2 rounded'>Bereits erledigt</Button>
             </li>
             <li>

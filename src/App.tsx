@@ -3,6 +3,8 @@ import  {loader as fetchTasks} from "./Layout.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Layout from "./Layout.tsx";
 import TaskDetailPage, {loader as taskDetailData} from "./pages/TaskDetailPage.tsx";
+import CompletedPage from "./pages/CompletedPage.tsx";
+
 import TaskDetail from "./components/TaskDetail.tsx";
 import Form from "./components/Form.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
@@ -13,15 +15,19 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <ErrorPage />,
     loader: fetchTasks,
+    shouldRevalidate: () => false,
     children: [
         { 
-            path: "/",
-            element: <TodoApp />,     
+            path: "",
+            element: <TodoApp />,
+        },
+        {
+            path: "/completed",
+            element: <CompletedPage />,
         },
         { 
             path: "todo/:uuid",
             element: <TaskDetailPage />,
-            loader: taskDetailData,
             errorElement: <ErrorPage />,
             children: [
                 {
@@ -32,7 +38,7 @@ const router = createBrowserRouter([
                 {
                     path: "edit",
                     element: <Form />,
-                    loader: taskDetailData
+                    loader: taskDetailData,
                 }
             ]
         }
