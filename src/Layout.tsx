@@ -31,10 +31,10 @@ const [tasks, setTasks] = useState<TTask[]>(data);
     });
   }
   
-  function deleteTask(taskId: string) {
+  async function deleteTask(taskId: string) {
+    await deleteTaskinSupabase(taskId);
     setTasks((prevTaskItems) => {
       const allTasks = prevTaskItems.filter((task) => task.uuid !== taskId);
-      deleteTaskinSupabase(taskId);
       return allTasks;
     });
   }
@@ -78,13 +78,13 @@ const [tasks, setTasks] = useState<TTask[]>(data);
   }
   
   function completeTask(taskId: string) {
-    setTasks((prevTaskItems) => {
-      const allTasks =  prevTaskItems.map((task) => {
-        return task.uuid === taskId ? {...task, completed: !task.completed} : task;
+      setTasks((prevTaskItems) => {
+        const allTasks =  prevTaskItems.map((task) => {
+          return task.uuid === taskId ? {...task, completed: !task.completed} : task;
+        });
+        update(allTasks.find((task) => task.uuid === taskId)!);
+        return allTasks;
       });
-      update(allTasks.find((task) => task.uuid === taskId)!);
-      return allTasks;
-    });
   }
 
   function cancel(id: string) {

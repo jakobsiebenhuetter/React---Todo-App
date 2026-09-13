@@ -7,12 +7,7 @@ import Button from "./Button";
 import Badge from "./Badge";
 import ConfirmModal from "./ConfirmModal.tsx";
 import type { TTask } from "@/types";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
 import {Link} from "react-router";
 
@@ -22,6 +17,7 @@ interface TaskItemProps {
 
 export default function TaskItem({task}: TaskItemProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [checked, setChecked] = useState(task.completed);
 
   const data = useContext(ProjectsTasksContext);
   
@@ -45,6 +41,14 @@ export default function TaskItem({task}: TaskItemProps) {
       }
   }
 }
+
+  function handleCheckBox(checked) {
+    setTimeout(() => {
+      data.completeTask(task.uuid);
+    }, 500);
+    setChecked(checked);
+  }
+
   return (
 
     <Link to={`/todo/${task.uuid}`} id="task-item">
@@ -86,7 +90,7 @@ export default function TaskItem({task}: TaskItemProps) {
         <div className="flex w-full justify-end gap-x-12">
 
         <div className="task-item-header">
-          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={task.completed} onChange={() => data.completeTask(task.uuid)} onClick={(e) => {e.stopPropagation()}}/>
+          <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={checked} onChange={(e) => handleCheckBox(e.target.checked)} onClick={(e) => {e.stopPropagation()}}/>
         </div>
 
         <DropdownMenu>
@@ -122,7 +126,7 @@ export default function TaskItem({task}: TaskItemProps) {
           </Button>
           {
           showConfirmModal &&
-            <ConfirmModal onClose={destroyConfirmModal} onConfirm={(e) => {data.deleteTask(task.uuid); destroyConfirmModal(e)}}>
+            <ConfirmModal onClose={destroyConfirmModal} onConfirm={async (e) => {await data.deleteTask(task.uuid); destroyConfirmModal(e)}}>
               <p className="text-sm sm:text-base">Bist du sicher, dass du diese Aufgabe löschen möchtest?</p>
             </ConfirmModal>
           }
