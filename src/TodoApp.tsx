@@ -13,10 +13,8 @@ import NewProjectForm from "./components/NewProjectForm.tsx";
 import {AnimatePresence, Reorder} from 'motion/react';
 
 /**
- * //TODO - Papierkorb Funktionalität einbauen, wenn checkbox für erledigt aktiv ist dann soll man mit einem Button die erledigten Aufgaben in den Papierkorb verschieben können, und dort dann entweder wiederherstellen oder endgültig löschen können
- * //TODO - Bereits erledigte Aufgaben anzeigen und in den Papierkorb verschieben
+ * //TODO - Context API noch organisieren; Redux Toolkit später eventuell einbauen
  * //TODO - Projekte einbauen um Task zu kategorisieren
- * //TODO - Toast Notifications einbauen, wenn Due Date erreicht ist, immer beim Start der App oder beim Öffnen der Seite anzeigen; mit Einstellungmöglichkeit
  * //TODO - Etwas mehr Animationen einbauen
  * //TODO - Multiselect aktivieren
  */
