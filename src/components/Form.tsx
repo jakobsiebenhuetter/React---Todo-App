@@ -7,7 +7,7 @@ import DatePicker from "./DatePicker";
 
 import { TTask } from "../types";
 import { useContext } from "react";
-import ProjectsTasksContext from "../store/projects-tasks-context";
+import {ProjectsTasksContext} from "../store/projects-tasks-context";
 // Dieselben Beschriftungen wie in TaskDetail.tsx -- der Editiermodus soll wie
 // dieselbe Karte wirken, nur mit Eingabefeldern statt Text.
 const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";

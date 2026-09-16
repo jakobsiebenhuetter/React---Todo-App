@@ -2,7 +2,7 @@
 import "./TaskItem.css";
 
 import {useState, useContext} from 'react';
-import ProjectsTasksContext from "../store/projects-tasks-context";
+import {ProjectsTasksContext} from "../store/projects-tasks-context";
 import Button from "./Button";
 import Badge from "./Badge";
 import ConfirmModal from "./ConfirmModal.tsx";

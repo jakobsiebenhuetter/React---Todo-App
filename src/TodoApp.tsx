@@ -7,7 +7,7 @@ import Task from "./components/Task.tsx";
 import Button from "./components/Button.tsx";
 
 import {useContext} from 'react';
-import ProjectsTasksContext from './store/projects-tasks-context';
+import {ProjectsTasksContext} from './store/projects-tasks-context';
 import NewProjectForm from "./components/NewProjectForm.tsx";
 
 import {AnimatePresence, Reorder} from 'motion/react';

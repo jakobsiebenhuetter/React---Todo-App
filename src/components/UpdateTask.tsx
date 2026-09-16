@@ -1,7 +1,7 @@
 import './UpdateTask.css';
 import { useState } from "react";
 import { useContext } from "react";
-import ProjectsTasksContext from "../store/projects-tasks-context";
+import {ProjectsTasksContext} from "../store/projects-tasks-context";
 import { TTask } from '../types';
 import Button from './Button.tsx';
 

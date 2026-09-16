@@ -3,7 +3,7 @@ import './Header.css';
 import {NavLink} from "react-router";
 import Button from "./Button.tsx";
 import {useContext} from 'react';
-import ProjectsTasksContext from '../store/projects-tasks-context';
+import {ProjectsTasksContext} from '../store/projects-tasks-context';
 
 export default function Header({...props}) {
     const data = useContext(ProjectsTasksContext);

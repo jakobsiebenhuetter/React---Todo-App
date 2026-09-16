@@ -38,7 +38,7 @@ const ProjectsTasksContext = createContext<IProjectsTasksContext>({
     haveTasks: () => false,
 });
 
-export function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
+function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
   const data = useLoaderData<TTask[]>();
 console.log(data);
 const [tasks, setTasks] = useState<TTask[]>(data);
@@ -192,4 +192,5 @@ const [tasks, setTasks] = useState<TTask[]>(data);
   );
 };
 
+export {ProjectsTasksContext};
 export default ProjectsTasksProvider;

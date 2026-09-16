@@ -1,6 +1,6 @@
 import "./Task.css";
 import { useContext } from "react";
-import ProjectsTasksContext from "../store/projects-tasks-context";
+import {ProjectsTasksContext} from "../store/projects-tasks-context";
 import { Reorder, useDragControls } from "motion/react";
 
 import TaskItem from "./TaskItem.tsx";
