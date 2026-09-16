@@ -1,6 +1,6 @@
 
 import {useContext, useState} from 'react';
-import ProjectsTasksContext from "../store/projects-tasks-context.tsx";
+import {ProjectsTasksContext} from "../store/projects-tasks-context.tsx";
 import Task from '@/components/Task';
 import {AnimatePresence, Reorder} from 'framer-motion';
 import TaskList from '@/components/TaskList';
