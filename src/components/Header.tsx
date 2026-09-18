@@ -45,9 +45,9 @@ export default function Header({...props}) {
                 </span>
                 </NavLink>
             </li>
-            <li>
+            {/* <li>
                 <Button variant='secondary' className='p-2 m-2 rounded'>Einstellungen</Button>
-            </li>
+            </li> */}
             <li>
                 <Button variant='primary' className='p-2 m-2 rounded' onClick={data.toggleNewProject}>Neues Projekt</Button>
             </li>

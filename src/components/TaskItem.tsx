@@ -56,10 +56,10 @@ export default function TaskItem({task}: TaskItemProps) {
       {/* Checkbox und Text */}
       <div className="task-row flex flex-col justify-start items-start gap-2 w-full">
         <div className="flex gap-2">
-          {task.createdat &&
+          {/* {task.createdat &&
           <Badge className="createdat-badge bg-slate-200 text-slate-700 px-2 py-1 rounded-md text-xs sm:text-sm font-bold">
             {new Date(task.createdat).toLocaleDateString('de-DE', {day: '2-digit', month: '2-digit', year: 'numeric'})}
-          </Badge>}
+          </Badge>} */}
 
         {task.priority !== 'none' && 
         <Badge className={`priority-badge ${task.priority ===  'high' ? 'bg-red-600' : task.priority === 'medium' ? 'bg-amber-600' : 'bg-amber-300'} text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold`}>

@@ -13,8 +13,8 @@ import NewProjectForm from "./components/NewProjectForm.tsx";
 import {AnimatePresence, Reorder} from 'motion/react';
 
 /**
- * //TODO - Context API noch organisieren; Redux Toolkit später eventuell einbauen
  * //TODO - Projekte einbauen um Task zu kategorisieren
+ * //TODO - Redux Toolkit später eventuell einbauen
  * //TODO - Etwas mehr Animationen einbauen
  * //TODO - Multiselect aktivieren
  */
