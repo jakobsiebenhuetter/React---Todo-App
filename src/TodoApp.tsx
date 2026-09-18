@@ -13,6 +13,7 @@ import NewProjectForm from "./components/NewProjectForm.tsx";
 import {AnimatePresence, Reorder} from 'motion/react';
 
 /**
+ * //TODO - Eigene bearbeitbare Input-Komponente erstellen, bei doppelklick kann man den Inhalt bearbeiten -> soll sehr flexibel sein
  * //TODO - Projekte einbauen um Task zu kategorisieren
  * //TODO - Redux Toolkit später eventuell einbauen
  * //TODO - Etwas mehr Animationen einbauen

@@ -27,15 +27,15 @@ export default function Header({...props}) {
     <header {...props}>
         <div style={{ display: 'flex', alignItems: 'center', marginLeft: '10px' }}>
             <NavLink to="/" className={({isActive}) => { return isActive ? 'text-blue-500' : '' }}>
-            <span>Icon</span>
+            <img src="/favicon.svg" alt="Mylist Icon" style={{ width: '24px', height: '24px' }} />
             </NavLink>
-            <div style={{marginLeft: '10px'}}>Flowlist</div>
+            <div style={{marginLeft: '10px'}}>Mylist</div>
         </div>
         <ul className="flex gap-10 items-center list-none mr-10">
             <li>
                 <NavLink 
                 to="/completed" 
-                className={({isActive}) => `relative inline-flex items-center gap-2 p-2 ${isActive ? 'text-blue-500' : ''}`}  
+                className={({isActive}) => `relative inline-flex items-center gap-2 p-2 bg-white border border-gray-300 rounded ${isActive ? 'text-blue-500' : ''}`}  
                 end>
                 <span className="absolute -top-1 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm">
                     {getAllCompletedTasksCount()}
