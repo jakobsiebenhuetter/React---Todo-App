@@ -1,4 +1,5 @@
 import Badge from "./Badge";
+import ToggleInput from "./input/ToggleInput";
 import { Link, useLoaderData } from "react-router";
 
 import type { TTask } from "../types";
@@ -45,21 +46,14 @@ export default function TaskDetail() {
 
       <div>
         <p className={labelClass}>Titel</p>
-        {!task.title && 
-          <div className="rounded-lg bg-slate-50 p-4 text-base leading-relaxed text-slate-800">
-            <p className="wrap-anywhere text-slate-400">Kein Titel vorhanden</p>
-          </div>
-        }
 
-        {task.title && 
-          <div className="rounded-lg bg-slate-50 p-4 text-base leading-relaxed text-slate-800">
-            <p className="wrap-anywhere">{task?.title}</p>
-          </div>
-        }
+          <div className="rounded-lg bg-slate-50 p-2 text-base leading-relaxed text-slate-800 w-full">
+            <ToggleInput text={task?.title || "No Title"}/>
+          </div>     
 
         <p className={labelClass}>Beschreibung</p>
-        <div className="rounded-lg bg-slate-50 p-4 text-base leading-relaxed text-slate-800">
-          <p className="wrap-anywhere">{task.description}</p>
+        <div className="rounded-lg bg-slate-50 p-2 text-base leading-relaxed text-slate-800">
+          <ToggleInput className="wrap-anywhere" text={task?.description || "No Description"}/>
         </div>
         {task.link && 
           <>

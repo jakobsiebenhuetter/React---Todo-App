@@ -13,7 +13,7 @@ import NewProjectForm from "./components/NewProjectForm.tsx";
 import {AnimatePresence, Reorder} from 'motion/react';
 
 /**
- * //TODO - Eigene bearbeitbare Input-Komponente erstellen, bei doppelklick kann man den Inhalt bearbeiten -> soll sehr flexibel sein
+ * //TODO - Eigene bearbeitbare Input-Komponente erstellen, bei doppelklick kann man den Inhalt bearbeiten -> soll sehr flexibel sein. Am Besten bei klick auf Projekte soll eine Sidebar sich öffnen mit allen Möglichkeiten, wie Neues Projekt erstellen und bestehende Projekte anzeigen, oder statt der Sidebar mit Contextmenus
  * //TODO - Projekte einbauen um Task zu kategorisieren
  * //TODO - Redux Toolkit später eventuell einbauen
  * //TODO - Etwas mehr Animationen einbauen
