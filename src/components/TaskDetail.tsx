@@ -1,16 +1,23 @@
 import Badge from "./Badge";
 import ToggleInput from "./input/ToggleInput";
 import { Link, useLoaderData } from "react-router";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import type { TTask } from "../types";
 import DatePicker from "./DatePicker";
+import { ProjectsTasksContext } from "../store/projects-tasks-context";
+import Button from "./Button";
 // Feldbeschriftungen sind in Ansicht und Formular identisch aufgebaut (Form.tsx),
 // damit der Wechsel in den Editiermodus die Seite nicht umspringen laesst.
 const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";
 const controlClass = "w-full min-h-10 rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-800 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500";
 
+type TInputIdentifier = 'title' | 'description';
+
 export default function TaskDetail() {
   const task = useLoaderData<TTask>();
+  const data = useContext(ProjectsTasksContext);
+  const [edit, setEdit] = useState(false);
+  const [sameText, setIsSameText] = useState(false);
   const [inputs, setInputs] = useState<TTask>({
         uuid: task.uuid,
         title: task.title,
@@ -25,7 +32,9 @@ export default function TaskDetail() {
     });
 
   function handleInputChange(identifier, value) {
-        setInputs((prevTask) => 
+    setIsSameText(isSameText(identifier, value));
+    setEdit(true);
+    setInputs((prevTask) => 
              {
               console.log("Updating input:", identifier, value);
                 return {
@@ -36,11 +45,25 @@ export default function TaskDetail() {
         );
     }
 
+
+    function isSameText(identifier, value): boolean {
+        return task[identifier] === value;
+    }
+
+    async function submit() {
+      setEdit(false);
+      const updatedTask: TTask = {
+        ...task,
+        ...inputs
+      };
+      await data.updateTaskDetails(updatedTask);
+    }
+
   return (
     <div className="space-y-4">
       <header className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4">
+        <div className="flex gap-4">
         <div>
-
         <label className={labelClass} htmlFor="task-createdat">
           Erstellt am
         </label>
@@ -63,17 +86,8 @@ export default function TaskDetail() {
             onChange={(date) => handleInputChange("dueDate", date)}
             />
             </div>
-        {/* <span className="text-[0.8125rem] text-slate-500 tabular-nums">
-          Erstellt am{" "}
-          {new Date(task.createdat).toLocaleDateString("de-DE", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          })}
-        </span> */}
-
-        {/* Farben wie in TaskItem.tsx:22, damit dieselbe Prioritaet in Liste,
-            Ansicht und Formular gleich aussieht. */}
+ 
+</div>
         {task.priority !== 'none' && 
           <Badge
             className={`ms-auto px-2 py-1 rounded-md text-xs sm:text-sm font-bold text-white ${task.priority === "high" ? "bg-red-600" : task.priority === "medium" ? "bg-amber-600" : "bg-amber-300"}`}
@@ -81,17 +95,6 @@ export default function TaskDetail() {
             {task.priority}
           </Badge>
         }
-
-        {/* {task.dueDate && (
-          <span className="text-[0.8125rem] text-slate-500 tabular-nums">
-            Fällig am{" "}
-            {new Date(task.dueDate).toLocaleDateString("de-DE", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })}
-          </span>
-        )} */}
 
         <div className="flex min-h-10 items-center gap-2 text-sm font-medium text-slate-700">
           <input
@@ -106,15 +109,12 @@ export default function TaskDetail() {
 
       <div>
         <p className={labelClass}>Titel</p>
-
-          <div className="rounded-lg bg-slate-50 p-2 text-base leading-relaxed text-slate-800 w-full">
-            <ToggleInput text={task?.title || "No Title"}/>
-          </div>     
+        <ToggleInput type="text" onChange={(value) => handleInputChange("title", value)} text={task?.title} placeholder={!task.title ? "Kein Titel vergeben" : undefined} className="rounded-lg bg-slate-50 p-2 text-base leading-relaxed text-slate-800 w-full"/>
 
         <p className={labelClass}>Beschreibung</p>
 
-        <div className="rounded-lg bg-slate-50 p-2 text-base leading-relaxed text-slate-800">
-          <ToggleInput className="wrap-anywhere resize-y leading-relaxed w-full min-h-10 rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-800 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500" type="textarea" text={task?.description || "No Description"}/>
+        <div className="">
+          <ToggleInput type="textarea" text={task?.description || "No Description"} onChange={(value) => handleInputChange("description", value)} className="rounded-lg wrap-anywhere resize-y w-full border border-slate-300  px-2.5 py-2  focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500 bg-slate-50 p-2 text-base leading-relaxed text-slate-800" />
         </div>
 
         {task.link && 
@@ -144,12 +144,14 @@ export default function TaskDetail() {
           >
             Zurück zur Liste
           </Link>
-          <Link
-            to={`/todo/${task.uuid}/edit`}
-            className="rounded p-2 bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 hover:cursor-pointer"
-          >
-            Bearbeiten
-          </Link>
+          {(edit && !sameText) && (
+            <Button variant="primary" onClick={submit}
+              className="rounded p-2 bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 hover:cursor-pointer"
+            >
+              Speichern
+            </Button>
+          )}
+         
         </div>
       </footer>
     </div>

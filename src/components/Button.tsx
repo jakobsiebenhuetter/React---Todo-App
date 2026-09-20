@@ -8,6 +8,7 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant: TButtonVariants,
     animation?: TButtonAnimations,
     className?: string,
+    ref?: React.Ref<HTMLButtonElement>;
 }
 
 const buttonVariants = {
