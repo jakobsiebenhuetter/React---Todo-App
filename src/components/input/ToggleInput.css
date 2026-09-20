@@ -21,10 +21,14 @@ input[type="text"]:focus {
     border-radius: 6px;
 } */
 
+.toggle-input-container {
+    display: flex
+}
 #toggle-input {
     display: flex;
     min-width: 0;
     width: 100%;
+    padding: 2px;
 }
 
 #toggle-input:focus {

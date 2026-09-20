@@ -1,26 +1,76 @@
 import Badge from "./Badge";
 import ToggleInput from "./input/ToggleInput";
 import { Link, useLoaderData } from "react-router";
-
+import { useState } from "react";
 import type { TTask } from "../types";
+import DatePicker from "./DatePicker";
 // Feldbeschriftungen sind in Ansicht und Formular identisch aufgebaut (Form.tsx),
 // damit der Wechsel in den Editiermodus die Seite nicht umspringen laesst.
 const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";
+const controlClass = "w-full min-h-10 rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-800 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500";
 
 export default function TaskDetail() {
   const task = useLoaderData<TTask>();
+  const [inputs, setInputs] = useState<TTask>({
+        uuid: task.uuid,
+        title: task.title,
+        description: task.description,
+        completed: task.completed,
+        createdat: task.createdat,
+        dueDate: task.dueDate,
+        priority: task.priority,
+        updating: task.updating,
+        link: task.link,
+        posindex: task.posindex,
+    });
+
+  function handleInputChange(identifier, value) {
+        setInputs((prevTask) => 
+             {
+              console.log("Updating input:", identifier, value);
+                return {
+                    ...prevTask,
+                    [identifier]: value 
+                }
+             }
+        );
+    }
 
   return (
     <div className="space-y-4">
       <header className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4">
-        <span className="text-[0.8125rem] text-slate-500 tabular-nums">
+        <div>
+
+        <label className={labelClass} htmlFor="task-createdat">
+          Erstellt am
+        </label>
+         <DatePicker
+            id="task-createdat"
+            className={controlClass}
+            value={inputs.createdat}
+            onChange={(date) => handleInputChange("createdat", date)}
+            />
+            </div>
+            <div>
+
+            <label htmlFor="task-duedate" className={labelClass}>
+              Bis
+            </label>
+          <DatePicker
+            id="task-duedate"
+            className={controlClass}
+            value={inputs.dueDate}
+            onChange={(date) => handleInputChange("dueDate", date)}
+            />
+            </div>
+        {/* <span className="text-[0.8125rem] text-slate-500 tabular-nums">
           Erstellt am{" "}
           {new Date(task.createdat).toLocaleDateString("de-DE", {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
           })}
-        </span>
+        </span> */}
 
         {/* Farben wie in TaskItem.tsx:22, damit dieselbe Prioritaet in Liste,
             Ansicht und Formular gleich aussieht. */}
@@ -32,7 +82,7 @@ export default function TaskDetail() {
           </Badge>
         }
 
-        {task.dueDate && (
+        {/* {task.dueDate && (
           <span className="text-[0.8125rem] text-slate-500 tabular-nums">
             Fällig am{" "}
             {new Date(task.dueDate).toLocaleDateString("de-DE", {
@@ -41,7 +91,17 @@ export default function TaskDetail() {
               year: "numeric",
             })}
           </span>
-        )}
+        )} */}
+
+        <div className="flex min-h-10 items-center gap-2 text-sm font-medium text-slate-700">
+          <input
+            type="checkbox"
+            className="h-5 w-5 cursor-pointer accent-emerald-500"
+            checked={inputs.completed}
+            onChange={(e) => handleInputChange("completed", e.target.checked)}
+          />
+          Erledigt
+        </div>
       </header>
 
       <div>
@@ -52,9 +112,11 @@ export default function TaskDetail() {
           </div>     
 
         <p className={labelClass}>Beschreibung</p>
+
         <div className="rounded-lg bg-slate-50 p-2 text-base leading-relaxed text-slate-800">
-          <ToggleInput className="wrap-anywhere" text={task?.description || "No Description"}/>
+          <ToggleInput className="wrap-anywhere resize-y leading-relaxed w-full min-h-10 rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-800 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500" type="textarea" text={task?.description || "No Description"}/>
         </div>
+
         {task.link && 
           <>
             <p className={`${labelClass} mt-4`}>Link</p>
