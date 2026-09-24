@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabaseClient';
-import { TTask } from "../types";
+import { TProject, TTask } from "../types";
 
 export function fillTasks(arr): TTask[] {
     return arr.map((item) => {
@@ -52,6 +52,14 @@ export async function update(task: TTask) {
     }
 }
 
+export async function saveProject(project: TProject) {
+    const {data, error} = await supabase.from('Projects').insert(project);
+    if(error) {
+        console.error('Error saving project:', error);
+    } else {
+        console.log('Project saved successfully:', data);
+    }
+}
 
 export async function saveTask(task: TTask) {
     const {data, error} = await supabase.from('Tasks').insert({
