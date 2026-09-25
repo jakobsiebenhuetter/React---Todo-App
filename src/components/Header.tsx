@@ -1,13 +1,13 @@
 import './Header.css';
-
 import {NavLink} from "react-router";
-import Button from "./Button.tsx";
+
 import {useContext} from 'react';
 import {ProjectsTasksContext} from '../store/projects-tasks-context';
+import DropDown from './DropDown.tsx';
 
 export default function Header({...props}) {
     const data = useContext(ProjectsTasksContext);
-    
+
     function getAllCompletedTasksCount(): number {
         let count = 0;
         let sumCompleted = 0;
@@ -41,7 +41,7 @@ export default function Header({...props}) {
                     {getAllCompletedTasksCount()}
                 </span>
                 <span>
-                    Bereits erledigt
+                    Erledigt
                 </span>
                 </NavLink>
             </li>
@@ -49,7 +49,8 @@ export default function Header({...props}) {
                 <Button variant='secondary' className='p-2 m-2 rounded'>Einstellungen</Button>
             </li> */}
             <li>
-                <Button variant='primary' className='p-2 m-2 rounded' onClick={data.toggleNewProject}>Neues Projekt</Button>
+                {/* <Button variant='primary' className='p-2 m-2 rounded' onClick={data.toggleNewProject}>Projekte</Button> */}
+                <DropDown triggerName="Projekte" items={data.getProjects()} className='p-2 m-2 rounded border-4 border-gray-300 hover:bg-gray-100 hover:text-blue-500 hover:cursor-pointer'/>
             </li>
         </ul>
     </header>
