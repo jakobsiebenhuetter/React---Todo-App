@@ -1,12 +1,14 @@
-import { TTask, TPriority, TSortBy } from "@/types";
+import { TTask, TPriority, TSortBy, TProject } from "@/types";
 import {createContext} from "react";
 import {useLoaderData} from "react-router";
 import {useState} from "react";
 import {saveTask, sortByDate, deleteTaskinSupabase, update, savePositions} from '@/util/utils';
+import {TLayoutLoaderData} from "../Layout";
 
 interface IProjectsTasksContext {
   tasks: TTask[];
   toggleNewProject: () => void;
+  getProjects: () => {uuid: string, text: string}[];
   setTasks: (tasks: TTask[]) => void;
   addTask: (task: TTask) => void;
   updateTaskDetails: (task: TTask) => void;
@@ -24,6 +26,7 @@ interface IProjectsTasksContext {
 const ProjectsTasksContext = createContext<IProjectsTasksContext>({
     tasks: [] as TTask[],
     toggleNewProject: () => {},
+    getProjects: () => [],
     setTasks: (tasks: TTask[]) => {},
     addTask: (task: TTask) => {},
     updateTaskDetails: (task: TTask) => {},
@@ -39,9 +42,10 @@ const ProjectsTasksContext = createContext<IProjectsTasksContext>({
 });
 
 function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
-  const data = useLoaderData<TTask[]>();
-console.log(data);
-const [tasks, setTasks] = useState<TTask[]>(data);
+  const data = useLoaderData<TLayoutLoaderData>();
+
+  const [tasks, setTasks] = useState<TTask[]>(data.tasks);
+  const [projects, setProjects] = useState<TProject[]>(data.projects);
 
   function handleReorder() {
     setTasks((prevTasks) => {
@@ -53,6 +57,13 @@ const [tasks, setTasks] = useState<TTask[]>(data);
     })
   }
 
+
+  function fillProjects() {
+    console.log(projects);
+    return projects.map((project) => {
+      return { uuid: project.uuid, text: project.title };
+    });
+  };
 
   function addTask(newTask: TTask) {
     setTasks((prevTaskItems) => {
@@ -174,6 +185,7 @@ const [tasks, setTasks] = useState<TTask[]>(data);
     <ProjectsTasksContext.Provider value={{
       tasks: tasks,
       toggleNewProject: toggleNewProject,
+      getProjects: fillProjects,
       setTasks: setTasks,
       addTask: addTask,
       updateTaskDetails: updateTaskDetails,

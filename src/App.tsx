@@ -3,8 +3,10 @@ import  {loader as fetchTasks} from "./Layout.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Layout from "./Layout.tsx";
 import TaskDetailPage, {loader as taskDetailData} from "./pages/TaskDetailPage.tsx";
-import CompletedPage from "./pages/CompletedPage.tsx";
 
+import ProjectDetailPage, {loader as projectDetailData} from "./pages/ProjectDetailPage.tsx";
+import CompletedPage from "./pages/CompletedPage.tsx";
+import NewProjectPage from "./pages/NewProjectPage.tsx";
 import TaskDetail from "./components/TaskDetail.tsx";
 import Form from "./components/Form.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
@@ -25,6 +27,10 @@ const router = createBrowserRouter([
             path: "/completed",
             element: <CompletedPage />,
         },
+        {
+            path: "todo/new-project",
+            element: <NewProjectPage />,
+        },
         { 
             path: "todo/:uuid",
             element: <TaskDetailPage />,
@@ -41,6 +47,12 @@ const router = createBrowserRouter([
                     loader: taskDetailData,
                 }
             ]
+        },
+        {
+            path: "project/:uuid",
+            element: <ProjectDetailPage />,
+            loader: projectDetailData,
+            errorElement: <ErrorPage />
         }
     ]
   }

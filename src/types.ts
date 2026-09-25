@@ -16,10 +16,10 @@ export type TTask = {
 
 export type TProject = {
     uuid: string,
-    name: string,
+    title: string,
     description: string,
     createdat: Date,
-    tasks: TTask[]
+    tasks?: TTask[]
 }
 
 export type TSortBy = "date" | "priority";

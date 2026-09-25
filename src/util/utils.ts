@@ -52,8 +52,51 @@ export async function update(task: TTask) {
     }
 }
 
+export async function getProjects(): Promise<TProject[]> {
+    const {data, error} = await supabase.from('projects').select('*');
+    if(error) {
+        console.error('Error fetching projects:', error);
+        return [];
+    } else {
+        if(data) {
+            const projects: TProject[] = data.map((item) => ({
+                uuid: item.uuid,
+                title: item.title,
+                description: item.description,
+                createdat: new Date(item.createdat)
+            }));
+            return projects;
+        }
+        return [];
+    }
+}
+
+export async function getProjectById(uuid: string): Promise<TProject | null> {
+    const {data, error} = await supabase.from('projects').select('*').eq('uuid', uuid).single();
+    if(error) {
+        console.error('Error fetching project by id:', error);
+        return null;
+    } else {
+        if(data) {
+            const project: TProject = {
+                uuid: data.uuid,
+                title: data.title,
+                description: data.description,
+                createdat: new Date(data.createdat)
+            };
+            return project;
+        }
+        return null;
+    }
+}
+
 export async function saveProject(project: TProject) {
-    const {data, error} = await supabase.from('Projects').insert(project);
+
+    const {data, error} = await supabase.from('projects').insert({
+        uuid: project.uuid,
+        title: project.title,
+        description: project.description,
+    });
     if(error) {
         console.error('Error saving project:', error);
     } else {

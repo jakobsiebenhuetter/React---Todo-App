@@ -1,7 +1,13 @@
 import { Outlet } from "react-router";
-import { getTasks } from "./util/utils";
+import { getTasks, getProjects } from "./util/utils";
 import Header from "./components/Header";
 import ProjectsTasksProvider from "./store/projects-tasks-context";
+import { TTask, TProject } from "./types";
+
+export type TLayoutLoaderData = {
+  tasks: TTask[];
+  projects: TProject[];
+}
 
 export default function Layout() {
   return (
@@ -15,6 +21,9 @@ export default function Layout() {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export async function loader() {
-  return await getTasks();
+export async function loader(): Promise<TLayoutLoaderData> {
+  return {
+    tasks: await getTasks(),
+    projects: await getProjects(),
+  }
 }
