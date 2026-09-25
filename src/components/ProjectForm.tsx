@@ -1,21 +1,39 @@
 import { useRef } from "react";
 import { TProject } from "@/types";
 
-export default function ProjectForm({ handler  }) {
 
-    const ref = useRef<HTMLInputElement>(null);
+
+interface IProjectFormProps {
+    handler: (project: TProject) => Promise<void> | void;
+    title?: string;
+    description?: string;
+}
+
+export default function ProjectForm({ handler, title, description }: IProjectFormProps) {
+
+    const titleinput = useRef<HTMLInputElement>(null);
+    const descriptioninput = useRef<HTMLInputElement>(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
-        // await handler();
-        alert(ref?.current?.value || 'Nix')
+        const newProject: TProject = {
+            uuid: crypto.randomUUID(),
+            title: titleinput?.current?.value || '',
+            description: descriptioninput?.current?.value || '',
+            createdat: new Date(),
+        };
+        await handler(newProject);
+        titleinput.current!.value = '';
+        descriptioninput.current!.value = '';
     }
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="projectName">Project Name:</label>
-                <input ref={ref} type="text" id="projectName" name="projectName" />
-                <button type="submit" className="bg-blue-500 cursor-pointer">Add Project</button>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2 p-6 border border-slate-200 pb-4 rounded">
+                <label htmlFor="projectName">Titel:</label>
+                <input ref={titleinput} defaultValue={title} type="text" id="projectName" name="projectName" />
+                <label htmlFor="projectDescription">Beschreibung:</label>
+                <input ref={descriptioninput} defaultValue={description} type="text" id="projectDescription" name="projectDescription" />
+                <button type="submit" className="bg-blue-500 cursor-pointer rounded-2xl">Add Project</button>
             </form>
         </>
     );

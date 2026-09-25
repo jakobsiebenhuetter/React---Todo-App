@@ -18,56 +18,56 @@ const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-
 const controlClass = "w-full min-h-10 rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-800 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500";
 
 export default function Form() {
-  const data = useContext(ProjectsTasksContext);
-  const loaderData = useLoaderData<TTask>();
+  // const data = useContext(ProjectsTasksContext);
+  // const loaderData = useLoaderData<TTask>();
 
-  const task = data.tasks.find((t) => t.uuid === loaderData.uuid)!;
+  // const task = data.tasks.find((t) => t.uuid === loaderData.uuid)!;
   
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const [inputs, setInputs] = useState<TTask>({
-        uuid: task.uuid,
-        title: task.title,
-        description: task.description,
-        completed: task.completed,
-        createdat: task.createdat,
-        dueDate: task.dueDate,
-        priority: task.priority,
-        updating: task.updating,
-        link: task.link,
-        posindex: task.posindex,
-    });
+  // const [inputs, setInputs] = useState<TTask>({
+  //       uuid: task.uuid,
+  //       title: task.title,
+  //       description: task.description,
+  //       completed: task.completed,
+  //       createdat: task.createdat,
+  //       dueDate: task.dueDate,
+  //       priority: task.priority,
+  //       updating: task.updating,
+  //       link: task.link,
+  //       posindex: task.posindex,
+  //   });
 
-    function handleInputChange(identifier, value) {
-        setInputs((prevTask) => 
-             {
-              console.log("Updating input:", identifier, value);
-                return {
-                    ...prevTask,
-                    [identifier]: value 
-                }
-             }
-        );
-    }
+    // function handleInputChange(identifier, value) {
+    //     setInputs((prevTask) => 
+    //          {
+    //           console.log("Updating input:", identifier, value);
+    //             return {
+    //                 ...prevTask,
+    //                 [identifier]: value 
+    //             }
+    //          }
+    //     );
+    // }
 
-    async function submit() {
+    // async function submit() {
         // const tasks = getTasks();
 
-        const updatedTask: TTask = {
-            ...task,
-            ...inputs
-        }
+        // const updatedTask: TTask = {
+        //     ...task,
+        //     ...inputs
+        // }
 
         // const updatedTasks = tasks.map((task) => task.id === updatedTask.id ? updatedTask : task);
         // saveTasks(updatedTasks);
         // await data.updateTaskDetails(updatedTask);
-        await data.updateTaskDetails(updatedTask);
-        navigate(`/todo/${updatedTask.uuid}`);
-    }
+    //     await data.updateTaskDetails(updatedTask);
+    //     navigate(`/todo/${updatedTask.uuid}`);
+    // }
 
-    function cancel() {
-        navigate(`/todo/${task.uuid}`);
-    }
+    // function cancel() {
+    //     navigate(`/todo/${task.uuid}`);
+    // }
 
   return (
     <form className="space-y-4">
@@ -81,8 +81,8 @@ export default function Form() {
           <DatePicker
             id="task-createdat"
             className={controlClass}
-            value={inputs.createdat}
-            onChange={(date) => handleInputChange("createdat", date)}
+           value={undefined}
+           onChange={() => {}}
           />
         </div>
         <div className="min-w-40 flex-1">
@@ -92,30 +92,22 @@ export default function Form() {
           <DatePicker
             id="task-duedate"
             className={controlClass}
-            value={inputs.dueDate}
-            onChange={(date) => handleInputChange("dueDate", date)}
+            value={undefined}
+            onChange={() => {}}
           />
         </div>
         
-
         <label className="flex min-h-10 items-center gap-2 text-sm font-medium text-slate-700">
           <input
             type="checkbox"
             className="h-5 w-5 cursor-pointer accent-emerald-500"
-            checked={inputs.completed}
-            onChange={(e) => handleInputChange("completed", e.target.checked)}
+            checked={false}
+            onChange={() => {}}
           />
           Erledigt
         </label>
 
-       
-        {task.priority !== 'none' && (
-          <Badge
-            className={`ms-auto self-start px-2 py-1 rounded-md text-xs sm:text-sm font-bold text-white ${task.priority === "high" ? "bg-red-600" : task.priority === "medium" ? "bg-amber-600" : "bg-amber-300"}`}
-          >
-            {inputs.priority}
-          </Badge>
-        )}
+
       </div>
 
       <div>
@@ -126,8 +118,8 @@ export default function Form() {
           type="text"
           placeholder="Titel"
           className="w-full text-sm sm:text-base"
-          value={inputs.title}
-          onChange={(e) => handleInputChange("title", e.target.value)}
+          value={undefined}
+          onChange={() => {}}
         />
       </div>
 
@@ -138,15 +130,15 @@ export default function Form() {
         <textarea
           id="task-text"
           rows={5}
-          value={inputs.description}
+          value={undefined}
           className={`${controlClass} resize-y leading-relaxed`}
-          onChange={(e) => handleInputChange("description", e.target.value)}
+          onChange={() => {}}
         />
       </div>
 
       <div className="flex justify-end gap-2 pt-1">
         <Button
-        onClick={cancel}
+          onClick={() => {}}
           type="button"
           variant="secondary"
           className="min-h-10 rounded-md px-3 text-sm font-bold"
@@ -154,7 +146,7 @@ export default function Form() {
           Abbrechen
         </Button>
         <Button
-          onClick={submit}
+          // onClick={submit}
           type="submit"
           variant="primary"
           animation="scale"
