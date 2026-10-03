@@ -8,7 +8,7 @@ import ProjectDetailPage, {loader as projectDetailData} from "./pages/ProjectDet
 import CompletedPage from "./pages/CompletedPage.tsx";
 import NewProjectPage from "./pages/NewProjectPage.tsx";
 import TaskDetail from "./components/TaskDetail.tsx";
-import Form from "./components/Form.tsx";
+// import Form from "./components/Form.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 
 
@@ -41,17 +41,19 @@ const router = createBrowserRouter([
                     element: <TaskDetail />,
                     loader: taskDetailData,
                 },
-                {
-                    path: "edit",
-                    element: <Form />,
-                    loader: taskDetailData,
-                }
+                // {
+                    //Wird nicht mehr verwendet
+                //     path: "edit",
+                //     element: <Form />,
+                //     loader: taskDetailData,
+                // }
             ]
         },
         {
             path: "project/:uuid",
             element: <ProjectDetailPage />,
             loader: projectDetailData,
+            shouldRevalidate: () => true,
             errorElement: <ErrorPage />
         }
     ]

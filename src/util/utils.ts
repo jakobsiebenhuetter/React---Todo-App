@@ -13,7 +13,8 @@ export function fillTasks(arr): TTask[] {
             updating: item.updating,
             priority: item.priority,
             link: item.link,
-            posindex: item.posindex
+            posindex: item.posindex,
+            project: item.project_id,
         }
         return task;
     })
@@ -36,6 +37,17 @@ export async function deleteTaskinSupabase(uuid: string) {
         console.log('Task deleted successfully:', data);
     }
 }
+
+export async function deleteProjectinSupabase(uuid: string) {
+    console.log("Deleting project with uuid:", uuid);
+    const {data, error} = await supabase.from('projects').delete().eq('uuid', uuid);
+    if(error) {
+        console.error('Error deleting project:', error);
+    } else {
+        console.log('Project deleted successfully:', data);
+    }
+}
+
 export async function update(task: TTask) {
     console.log("Updating task:", task);
     const {data, error} = await supabase.from('Tasks').update({
@@ -63,7 +75,7 @@ export async function getProjects(): Promise<TProject[]> {
                 uuid: item.uuid,
                 title: item.title,
                 description: item.description,
-                createdat: new Date(item.createdat)
+                createdat: new Date(item.createdat),
             }));
             return projects;
         }
@@ -82,7 +94,7 @@ export async function getProjectById(uuid: string): Promise<TProject | null> {
                 uuid: data.uuid,
                 title: data.title,
                 description: data.description,
-                createdat: new Date(data.createdat)
+                createdat: new Date(data.createdat),
             };
             return project;
         }
@@ -114,6 +126,7 @@ export async function saveTask(task: TTask) {
         link: task.link,
         posindex: task.posindex,
         due_date: task.dueDate,
+        project_id: task.project,
     });
     if(error) {
         console.error('Error saving task:', error);
@@ -274,6 +287,7 @@ export function fillTasksAfterLocalStorage(arr): TTask[] {
             priority: item.priority,
             link: item.link,
             posindex: item.posindex,
+            project: item.project,
         }
         tasks.push(task);
     });

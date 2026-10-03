@@ -37,21 +37,17 @@ export default function Button({children, variant, animation, className,  ...pro
         baseClasses += buttonAnimation[animation];
     }
 
-    let handleClick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-    };
-    
-    if(props.onClick) {
-        handleClick = (e) => {
+    function handleClick(e) {
+        if(props.type !== 'submit') {
             e.preventDefault();
             e.stopPropagation();
-            if(props.onClick) { // if hier ist eigentlich unnötig aber sonst schreit der TS compiler/linter
-                props.onClick(e);
-            } 
-        }
+        };
+         
+        if(props.onClick) { 
+            props.onClick(e);
+        } 
     }
-  
+    
     return (
         <button {...props} onClick={handleClick} className={baseClasses}>{children}</button>
     );

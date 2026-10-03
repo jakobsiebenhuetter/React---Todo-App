@@ -3,51 +3,32 @@ import './App.css';
 
 import AddTask from "./components/AddTask.tsx";
 import TaskList from "./components/TaskList.tsx";
-import Task from "./components/Task.tsx";
-import Button from "./components/Button.tsx";
 
 import {useContext} from 'react';
 import {ProjectsTasksContext} from './store/projects-tasks-context';
-import NewProjectForm from "./components/NewProjectForm.tsx";
-
-import {AnimatePresence, Reorder} from 'motion/react';
 
 /**
- * //TODO - Projekte einbauen um Task zu kategorisieren, alle Projekt Daten mit dem seleben Kontext laden und nicht inerhalb der Komponeten, Sie bekommen nur Daten über Props
+ * <TaskList text="Aufgabenliste - Allgemein" /> props mit items erweitern und projectid
+ * //TODO - DropDown Componente modularer gestalten, nur die Items übergeben vom parent und eine feste json Struktur verwenden
+ * //TODO - Jetzt Aufgaben mit den Projekten verknüpfen und die Projektpage etwas verändern, Projekte soll man löschen können
+ * //TODO - Cleanen, Korrekturen wie Priorität auch auf TaskDetailpage zeigen und bearbeiten können und diesen Patch dann frei geben
+ * //TODO - Und Langsam loading Spinner und ein gscheites Icon erstellen
  * //TODO - Redux Toolkit später eventuell einbauen
  * //TODO - Etwas mehr Animationen einbauen
  * //TODO - Multiselect aktivieren
+ * //NOTE - Es wird ein Optimistic UI Ansatz verwendet, d.h. Änderungen werden sofort in der UI angezeigt, bevor sie tatsächlich in der Datenbank gespeichert sind.
  */
 
 export default function TodoApp() {
   const data = useContext(ProjectsTasksContext);
-  const activeTasks = data.tasks.filter(task => !task.completed);
+  const activeTasks = data?.tasks?.filter(task => !task.completed) || [];
+  console.log(data)
   return (
     <>
-    {/* {data.tasks[0].newproject  && <NewProjectForm text="Neues Projekt" />} */}
       <main className="hero w-full max-w-2xl mx-auto px-4 py-6 sm:px-6">
-        <AddTask addTask={data.addTask}/>
-        <TaskList text="Aufgabenliste - Allgemein">
-        <Button onClick={() => data.sortTasks('date')} variant="secondary" className='ml-[72%] min-h-10 px-2 sm:px-3 py-2 text-xs sm:text-sm rounded-md font-bold shadow-sm'>
-          Nach Datum sortieren
-        </Button>
-        {data.haveTasks() ? (
-          /* Reorder.Group ist selbst das <ul>. values/onReorder arbeiten direkt
-             auf dem tasks-Array, AnimatePresence umschliesst die ganze Liste
-             (nicht das einzelne Item) -- sonst laeuft die exit-Animation nie. */
-          <Reorder.Group as="ul" axis="y" values={data.tasks} onReorder={data.setTasks}>
-            <AnimatePresence initial={false}>
-              {activeTasks.map((item) =>
-                <Task 
-                key={item.uuid}
-                task={item}
-                />
-              )}
-            </AnimatePresence>
-          </Reorder.Group>
-        ) : <p id="no-tasks">Keine Aufgaben</p>}
-      </TaskList>
-    </main>
+        <AddTask addTask={data.addTask} projectId={''} />
+        <TaskList tasks={activeTasks.filter(task => !task.project)} projectId={''} text="Aufgabenliste - Allgemein" />
+      </main>
     </>
   );
 }

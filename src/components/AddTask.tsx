@@ -5,9 +5,10 @@ import type { TTask } from '@/types';
 
 interface IAddTaskProps {
     addTask: (task: TTask) => void;
+    projectId: string;
 }
 
-export default function AddTask({addTask}: IAddTaskProps) {
+export default function AddTask({addTask, projectId}: IAddTaskProps) {
     const [value, setValue] = useState('');
 
     function setTask(event) {
@@ -41,8 +42,10 @@ export default function AddTask({addTask}: IAddTaskProps) {
             updating: false,
             priority: "none",
             link: link,
-            posindex: 0
+            posindex: 0,
+            project: projectId || ''
         }
+        console.log(newTask);
         addTask(newTask);
         setValue('');
     }

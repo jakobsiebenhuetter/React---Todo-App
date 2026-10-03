@@ -7,9 +7,10 @@ import Button from "./Button";
 import Badge from "./Badge";
 import ConfirmModal from "./ConfirmModal.tsx";
 import type { TTask } from "@/types";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+
 
 import {Link} from "react-router";
+import DropDown from "./DropDown.tsx";
 
 interface TaskItemProps {
   task: TTask;
@@ -93,29 +94,33 @@ export default function TaskItem({task}: TaskItemProps) {
           <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={checked} onChange={(e) => handleCheckBox(e.target.checked)} onClick={(e) => {e.stopPropagation()}}/>
         </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger render={
-            <Button variant="secondary" className="inline-flex items-center justify-center h-8 w-8 rounded-md">
-              <span>{'⋯'}</span>
-            </Button>
-          } />
-          
-          <DropdownMenuContent className="w-56 text-sm sm:text-base" align="end">
-            <DropdownMenuItem onClick={(e) => {data.addPriority(e, task.uuid, 'high')} } className="text-sm sm:text-base">
-              Priorität Hoch
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={(e) => { data.addPriority(e, task.uuid, 'medium')}} className="text-sm sm:text-base">
-              Priorität Mittel
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={(e) => {data.addPriority(e, task.uuid, 'low')}} className="text-sm sm:text-base">
-              Priorität Niedrig
-            </DropdownMenuItem>
-             <DropdownMenuItem onClick={(e) => {data.addPriority(e, task.uuid, 'none')}} className="text-sm sm:text-base">
-              Keine Priorität
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-          </div>
+        <DropDown 
+        triggerName="..."
+        className="inline-flex items-center justify-center h-8 w-8 rounded-md"
+        items={[
+          {
+            id: `${task.uuid}-high`,
+            text: "Priorität Hoch",
+            handleClick: (e) => data.addPriority(e, task.uuid, 'high')
+          },
+          {
+            id: `${task.uuid}-medium`,
+            text: "Priorität Mittel",
+            handleClick: (e) => data.addPriority(e, task.uuid, 'medium')
+          },
+          {
+            id: `${task.uuid}-low`,
+            text: "Priorität Niedrig",
+            handleClick: (e) => data.addPriority(e, task.uuid, 'low')
+          },
+          {
+            id: `${task.uuid}-none`,
+            text: "Priorität Keine",
+            handleClick: (e) => data.addPriority(e, task.uuid, 'none')
+          }
+        ]}
+        />
+</div>
 
 
         <div className="btn-d-s">

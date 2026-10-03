@@ -1,8 +1,6 @@
 
 import {useContext, useState} from 'react';
 import {ProjectsTasksContext} from "../store/projects-tasks-context.tsx";
-import Task from '@/components/Task';
-import {AnimatePresence, Reorder} from 'framer-motion';
 import TaskList from '@/components/TaskList';
 import Button from '@/components/Button.tsx';
 import ConfirmModal from '@/components/ConfirmModal';
@@ -44,17 +42,8 @@ export default function CompletedPage() {
         )} 
 
       </header>
-      <TaskList text="Erledigte Aufgaben">
-        <Reorder.Group as="ul" axis="y" values={completedTasks} onReorder={datactx.setTasks}>
-          <AnimatePresence initial={false}>
-            {completedTasks.length > 0 ? (
-              completedTasks.map(task => (
-                <Task key={task.uuid} task={task} />
-              ))
-            ) : <p id="no-tasks">Keine erledigten Aufgaben</p>}  
-          </AnimatePresence>
-        </Reorder.Group>
-      </TaskList>     
+      <TaskList text="Erledigte Aufgaben" tasks={completedTasks} projectId={''}>
+      </TaskList>
     </main>
   );
 }

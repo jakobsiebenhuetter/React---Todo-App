@@ -2,11 +2,37 @@ import './Header.css';
 import {NavLink} from "react-router";
 
 import {useContext} from 'react';
+import {useNavigate} from 'react-router';
+
 import {ProjectsTasksContext} from '../store/projects-tasks-context';
 import DropDown from './DropDown.tsx';
+import {DropDownItem} from './DropDown.tsx';
 
 export default function Header({...props}) {
     const data = useContext(ProjectsTasksContext);
+    const navigate = useNavigate();
+ 
+    
+    // Funktionen für die Dropdown-Navigation
+    function goToNewProject() {
+        navigate('/todo/new-project');
+    }
+
+    function goToProject(uuid: string) {
+        navigate(`/project/${uuid}`);
+    }
+    const dropDownItems: DropDownItem[] = [];
+    dropDownItems.push({
+        id: 'new-project',
+        text: 'Neues Projekt',
+        handleClick: goToNewProject
+    });
+
+    dropDownItems.push(...data.fillProjects().map(project => ({
+        id: project.uuid,
+        text: project.text,
+        handleClick: () => goToProject(project.uuid)
+    })));
 
     function getAllCompletedTasksCount(): number {
         let count = 0;
@@ -50,7 +76,11 @@ export default function Header({...props}) {
             </li> */}
             <li>
                 {/* <Button variant='primary' className='p-2 m-2 rounded' onClick={data.toggleNewProject}>Projekte</Button> */}
-                <DropDown triggerName="Projekte" items={data.getProjects()} className='p-2 m-2 rounded border-4 border-gray-300 hover:bg-gray-100 hover:text-blue-500 hover:cursor-pointer'/>
+                <DropDown 
+                triggerName="Projekte" 
+                className='p-2 m-2 rounded border-4 border-gray-300 hover:bg-gray-100 hover:text-blue-500 hover:cursor-pointer'
+                items={dropDownItems} 
+                />    
             </li>
         </ul>
     </header>

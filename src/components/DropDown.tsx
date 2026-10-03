@@ -1,31 +1,26 @@
+import Button from './Button';
 import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSubContent} from './ui/dropdown-menu';
-import { useNavigate } from 'react-router';
+
+export type DropDownItem = { id: string; text: string; handleClick: (e) => void };
 
 interface IDropDownProps {
     triggerName: string;
-    items: { text: string; uuid: string }[]
+    items: DropDownItem[];
     className?: string;
 }
 
 export default function DropDown(props: IDropDownProps ) {
     console.log(props.items);
-    const navigate = useNavigate();
 
-    function goToNewProject() {
-        navigate('/todo/new-project');
-    }
-
-
-    function goToProject(uuid: string) {
-        navigate(`/project/${uuid}`);
-    }
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className={props.className}>{props.triggerName}</DropdownMenuTrigger>
+            <DropdownMenuTrigger 
+            className={props.className} 
+            render={<Button variant="secondary" className="inline-flex items-center justify-center h-8 w-8 rounded-md"><span>{props.triggerName}</span></Button>}> 
+            </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuItem onClick={goToNewProject}>Neues Projekt anlegen</DropdownMenuItem>
                 {props.items.map(item => (
-                    <DropdownMenuItem key={item.uuid} onClick={() => goToProject(item.uuid)}>
+                    <DropdownMenuItem key={item.id} onClick={(e) => item.handleClick(e)}>
                         {item.text}
                     </DropdownMenuItem>
                 ))}

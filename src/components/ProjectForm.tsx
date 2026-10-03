@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { TProject } from "@/types";
+import Button from "./Button";
 
 
 
@@ -33,7 +34,7 @@ export default function ProjectForm({ handler, title, description }: IProjectFor
                 <input ref={titleinput} defaultValue={title} type="text" id="projectName" name="projectName" />
                 <label htmlFor="projectDescription">Beschreibung:</label>
                 <input ref={descriptioninput} defaultValue={description} type="text" id="projectDescription" name="projectDescription" />
-                <button type="submit" className="bg-blue-500 cursor-pointer rounded-2xl">Add Project</button>
+                <Button type="submit" variant="primary" className="bg-blue-500 cursor-pointer rounded-2xl">Add Project</Button>
             </form>
         </>
     );

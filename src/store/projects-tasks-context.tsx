@@ -2,19 +2,22 @@ import { TTask, TPriority, TSortBy, TProject } from "@/types";
 import {createContext} from "react";
 import {useLoaderData} from "react-router";
 import {useState} from "react";
-import {saveTask, sortByDate, deleteTaskinSupabase, update, savePositions} from '@/util/utils';
+import {saveTask, sortByDate, deleteTaskinSupabase, deleteProjectinSupabase, update, savePositions, saveProject} from '@/util/utils';
 import {TLayoutLoaderData} from "../Layout";
 
 interface IProjectsTasksContext {
   tasks: TTask[];
   toggleNewProject: () => void;
-  getProjects: () => {uuid: string, text: string}[];
+  fillProjects: () => {uuid: string, text: string}[];
+  saveNewProject: (newProject: TProject) => void;
+  getTasksFromProject: (projectId: string) => TTask[];
   setTasks: (tasks: TTask[]) => void;
   addTask: (task: TTask) => void;
   updateTaskDetails: (task: TTask) => void;
   updateTask: (uuid: string) => void;
   handleReorder: () => void;
   deleteTask: (uuid: string) => void;
+  deleteProjects: (projectId: string) => void;
   updateTaskText: (uuid: string, text: string) => void;
   completeTask: (uuid: string) => void;
   cancel: (uuid: string) => void;
@@ -26,13 +29,16 @@ interface IProjectsTasksContext {
 const ProjectsTasksContext = createContext<IProjectsTasksContext>({
     tasks: [] as TTask[],
     toggleNewProject: () => {},
-    getProjects: () => [],
+    fillProjects: () => [],
+    saveNewProject: (newProject: TProject) => {},
+    getTasksFromProject: (projectId: string) => [],
     setTasks: (tasks: TTask[]) => {},
     addTask: (task: TTask) => {},
     updateTaskDetails: (task: TTask) => {},
     updateTask: (uuid: string) => {},
     handleReorder: () => {},
     deleteTask: (uuid: string) => {},
+    deleteProjects: (projectId: string) => {},
     updateTaskText: (uuid: string, text: string) => {},
     completeTask: (uuid: string) => {},
     cancel: (uuid: string) => {},
@@ -58,6 +64,19 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
   }
 
 
+   async function saveNewProject(newProject: TProject) {
+    setProjects((prevProjects) => {
+      const allProjects = [newProject, ...prevProjects];
+      // Hier sollte die Logik zum Speichern des Projekts in der Datenbank oder im Backend hinzugefügt werden
+      return allProjects;
+    });
+    await saveProject(newProject);
+  }
+
+  function getTasksFromProject(projectId: string) {
+    return tasks.filter((task) => task.project === projectId);
+  };
+
   function fillProjects() {
     console.log(projects);
     return projects.map((project) => {
@@ -65,14 +84,26 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+
+
   function addTask(newTask: TTask) {
     setTasks((prevTaskItems) => {
       const allTasks = [newTask, ...prevTaskItems];
+      console.log(newTask);
       saveTask(newTask);
       return [...allTasks];
     });
   }
-  
+
+  async function deleteProjects(projectId: string) {
+    await deleteProjectinSupabase(projectId);
+    setProjects((prevProjects) => {
+      const allProjects = prevProjects.filter((project) => project.uuid !== projectId);
+      return allProjects;
+    });
+  }
+
+
   async function deleteTask(taskId: string) {
     await deleteTaskinSupabase(taskId);
     setTasks((prevTaskItems) => {
@@ -80,7 +111,7 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
       return allTasks;
     });
   }
-  
+
   function updateTask(taskId: string) {
     let allTasks: TTask[] = [];
       setTasks((prevTaskItems) => {
@@ -95,14 +126,14 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
         return allTasks;
       });
   }
-  
-   async function updateTaskDetails(updatedTask: TTask) {  
+
+   async function updateTaskDetails(updatedTask: TTask) {
      await update(updatedTask);
      setTasks((prevTaskItems) => {
        const allTasks = prevTaskItems.map((task) => {
          return task.uuid === updatedTask.uuid ? updatedTask : task;
        });
-       
+
        return allTasks;
      });
    }
@@ -118,7 +149,7 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
       });
     }, 250);
   }
-  
+
   function completeTask(taskId: string) {
       setTasks((prevTaskItems) => {
         const allTasks =  prevTaskItems.map((task) => {
@@ -172,26 +203,29 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
     setTasks((prevTasks) => {
       const allTasks = prevTasks.map((task, index) => {
         if(index === 0) {
-          return {...task, newproject: !task.newproject};
+          return {...task, newproject: !task.project};
         }
         return task;
       });
       return allTasks;
     });
   }
-  
+
 
   return (
     <ProjectsTasksContext.Provider value={{
       tasks: tasks,
       toggleNewProject: toggleNewProject,
-      getProjects: fillProjects,
+      saveNewProject: saveNewProject,
+      fillProjects: fillProjects,
+      getTasksFromProject: getTasksFromProject,
       setTasks: setTasks,
       addTask: addTask,
       updateTaskDetails: updateTaskDetails,
       updateTask: updateTask,
       handleReorder: handleReorder,
       deleteTask: deleteTask,
+      deleteProjects: deleteProjects,
       updateTaskText: updateTaskText,
       completeTask: completeTask,
       cancel: cancel,
