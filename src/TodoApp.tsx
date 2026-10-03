@@ -8,11 +8,11 @@ import {useContext} from 'react';
 import {ProjectsTasksContext} from './store/projects-tasks-context';
 
 /**
- * <TaskList text="Aufgabenliste - Allgemein" /> props mit items erweitern und projectid
++
  * //TODO - DropDown Componente modularer gestalten, nur die Items übergeben vom parent und eine feste json Struktur verwenden
- * //TODO - Jetzt Aufgaben mit den Projekten verknüpfen und die Projektpage etwas verändern, Projekte soll man löschen können
+*  //TODO - Und Langsam loading Spinner und ein gscheites Icon erstellen
+ * //TODO - Die Projektpage etwas verändern, Projekte soll man löschen können
  * //TODO - Cleanen, Korrekturen wie Priorität auch auf TaskDetailpage zeigen und bearbeiten können und diesen Patch dann frei geben
- * //TODO - Und Langsam loading Spinner und ein gscheites Icon erstellen
  * //TODO - Redux Toolkit später eventuell einbauen
  * //TODO - Etwas mehr Animationen einbauen
  * //TODO - Multiselect aktivieren

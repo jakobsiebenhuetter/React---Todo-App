@@ -18,18 +18,14 @@ export default function TaskDetail() {
   const data = useContext(ProjectsTasksContext);
   const [edit, setEdit] = useState(false);
   const [sameText, setIsSameText] = useState(false);
-  const [inputs, setInputs] = useState<TTask>({
-        uuid: task.uuid,
-        title: task.title,
-        description: task.description,
-        completed: task.completed,
-        createdat: task.createdat,
-        dueDate: task.dueDate,
-        priority: task.priority,
-        updating: task.updating,
-        link: task.link,
-        posindex: task.posindex,
-    });
+  const [inputs, setInputs] = useState<TTask>(task);
+
+  const backLinkClasses ="bg-slate-200 text-slate-800 hover:bg-slate-300 active:bg-slate-400/70 hover:cursor-pointer rounded p-2";
+  let backLink = <Link to="/" className={backLinkClasses}>Zurück</Link>;
+
+  if(task.project) {
+    backLink = <Link to={`/project/${task.project}`} className={backLinkClasses}>Zurück</Link>;
+  }
 
   function handleInputChange(identifier, value) {
     setIsSameText(isSameText(identifier, value));
@@ -138,12 +134,7 @@ export default function TaskDetail() {
       </div>
       <footer>
         <div className="flex  items-center justify-between ">
-          <Link
-            to="/"
-            className="bg-slate-200 text-slate-800 hover:bg-slate-300 active:bg-slate-400/70 hover:cursor-pointer rounded p-2"
-          >
-            Zurück zur Liste
-          </Link>
+          {backLink}
           {(edit && !sameText) && (
             <Button variant="primary" onClick={submit}
               className="rounded p-2 bg-emerald-500 text-white hover:bg-emerald-600 active:bg-emerald-700 hover:cursor-pointer"

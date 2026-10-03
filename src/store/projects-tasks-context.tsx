@@ -101,6 +101,11 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
       const allProjects = prevProjects.filter((project) => project.uuid !== projectId);
       return allProjects;
     });
+
+    setTasks((prevTaskItems) => {
+      const allTasks = prevTaskItems.filter((task) => task.project !== projectId);
+      return allTasks;
+    });
   }
 
 

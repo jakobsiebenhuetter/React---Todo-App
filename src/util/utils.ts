@@ -39,13 +39,19 @@ export async function deleteTaskinSupabase(uuid: string) {
 }
 
 export async function deleteProjectinSupabase(uuid: string) {
-    console.log("Deleting project with uuid:", uuid);
-    const {data, error} = await supabase.from('projects').delete().eq('uuid', uuid);
-    if(error) {
-        console.error('Error deleting project:', error);
-    } else {
-        console.log('Project deleted successfully:', data);
-    }
+        const {data, error} = await supabase.from('projects').delete().eq('uuid', uuid);
+        if(error) {
+            console.error('Error deleting project:', error);
+        } else {
+            console.log('Project deleted successfully:', data);
+        }
+        
+        const {data: tasksData, error: tasksError} = await supabase.from('Tasks').delete().eq('project_id', uuid);
+        if(tasksError) {
+            console.error('Error deleting tasks for project:', tasksError);
+        } else {
+            console.log('Tasks for project deleted successfully:', tasksData);
+        }
 }
 
 export async function update(task: TTask) {

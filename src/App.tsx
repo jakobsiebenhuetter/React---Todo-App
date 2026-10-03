@@ -53,7 +53,6 @@ const router = createBrowserRouter([
             path: "project/:uuid",
             element: <ProjectDetailPage />,
             loader: projectDetailData,
-            shouldRevalidate: () => true,
             errorElement: <ErrorPage />
         }
     ]
