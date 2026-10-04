@@ -38,20 +38,20 @@ export async function deleteTaskinSupabase(uuid: string) {
     }
 }
 
-export async function deleteProjectinSupabase(uuid: string) {
-        const {data, error} = await supabase.from('projects').delete().eq('uuid', uuid);
-        if(error) {
-            console.error('Error deleting project:', error);
-        } else {
-            console.log('Project deleted successfully:', data);
-        }
-        
-        const {data: tasksData, error: tasksError} = await supabase.from('Tasks').delete().eq('project_id', uuid);
-        if(tasksError) {
-            console.error('Error deleting tasks for project:', tasksError);
-        } else {
-            console.log('Tasks for project deleted successfully:', tasksData);
-        }
+const SIMULATE_DELETE_ERROR = true;
+
+export async function deleteProjectinSupabase(uuid: string): Promise<void> {
+
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay for deletion2
+    if (SIMULATE_DELETE_ERROR) {
+        throw new Error('Simulated delete error');
+    }
+    
+    const {error: tasksError} = await supabase.from('Tasks').delete().eq('project_id', uuid);
+    if (tasksError) throw tasksError;
+
+    const {error} = await supabase.from('projects').delete().eq('uuid', uuid);
+    if (error) throw error;
 }
 
 export async function update(task: TTask) {

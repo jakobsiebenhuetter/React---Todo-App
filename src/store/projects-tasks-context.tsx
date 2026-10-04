@@ -95,8 +95,7 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
-  async function deleteProjects(projectId: string) {
-    await deleteProjectinSupabase(projectId);
+   async function deleteProjects(projectId: string) {
     setProjects((prevProjects) => {
       const allProjects = prevProjects.filter((project) => project.uuid !== projectId);
       return allProjects;
@@ -106,6 +105,14 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
       const allTasks = prevTaskItems.filter((task) => task.project !== projectId);
       return allTasks;
     });
+
+    try {
+      await deleteProjectinSupabase(projectId);
+    } catch(error) {
+      setProjects(projects);
+      setTasks(tasks);
+      throw error;
+    }
   }
 
 
