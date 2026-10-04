@@ -7,6 +7,7 @@ import {useNavigate} from 'react-router';
 import {ProjectsTasksContext} from '../store/projects-tasks-context';
 import DropDown from './DropDown.tsx';
 import {DropDownItem} from './DropDown.tsx';
+import Button from './Button.tsx';
 
 export default function Header({...props}) {
     const data = useContext(ProjectsTasksContext);
@@ -71,16 +72,11 @@ export default function Header({...props}) {
                 </span>
                 </NavLink>
             </li>
-            {/* <li>
-                <Button variant='secondary' className='p-2 m-2 rounded'>Einstellungen</Button>
-            </li> */}
-            <li>
-                {/* <Button variant='primary' className='p-2 m-2 rounded' onClick={data.toggleNewProject}>Projekte</Button> */}
+            <li>    
                 <DropDown 
-                triggerName="Projekte" 
-                className='p-2 m-2 rounded border-4 border-gray-300 hover:bg-gray-100 hover:text-blue-500 hover:cursor-pointer'
-                items={dropDownItems} 
-                />    
+                items={dropDownItems}>
+                    <Button variant="secondary" className="inline-flex items-center justify-center h-8 p-2 rounded-md"><span>Projekte</span></Button>
+                </DropDown>  
             </li>
         </ul>
     </header>

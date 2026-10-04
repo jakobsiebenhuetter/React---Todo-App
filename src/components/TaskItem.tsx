@@ -22,6 +22,28 @@ export default function TaskItem({task}: TaskItemProps) {
 
   const data = useContext(ProjectsTasksContext);
   
+  const priorityItems = [
+          {
+            id: `${task.uuid}-high`,
+            text: "Priorität Hoch",
+            handleClick: (e) => data.addPriority(e, task.uuid, 'high')
+          },
+          {
+            id: `${task.uuid}-medium`,
+            text: "Priorität Mittel",
+            handleClick: (e) => data.addPriority(e, task.uuid, 'medium')
+          },
+          {
+            id: `${task.uuid}-low`,
+            text: "Priorität Niedrig",
+            handleClick: (e) => data.addPriority(e, task.uuid, 'low')
+          },
+          {
+            id: `${task.uuid}-none`,
+            text: "Priorität Keine",
+            handleClick: (e) => data.addPriority(e, task.uuid, 'none')
+          }
+        ];
   let dueDateClass = "dueDate-badge bg-blue-600 text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold";
 
   function createConfirmModal() {
@@ -94,33 +116,11 @@ export default function TaskItem({task}: TaskItemProps) {
           <input type="checkbox" className="h-5 w-5 accent-emerald-500 cursor-pointer" checked={checked} onChange={(e) => handleCheckBox(e.target.checked)} onClick={(e) => {e.stopPropagation()}}/>
         </div>
 
-        <DropDown 
-        triggerName="..."
-        className="inline-flex items-center justify-center h-8 w-8 rounded-md"
-        items={[
-          {
-            id: `${task.uuid}-high`,
-            text: "Priorität Hoch",
-            handleClick: (e) => data.addPriority(e, task.uuid, 'high')
-          },
-          {
-            id: `${task.uuid}-medium`,
-            text: "Priorität Mittel",
-            handleClick: (e) => data.addPriority(e, task.uuid, 'medium')
-          },
-          {
-            id: `${task.uuid}-low`,
-            text: "Priorität Niedrig",
-            handleClick: (e) => data.addPriority(e, task.uuid, 'low')
-          },
-          {
-            id: `${task.uuid}-none`,
-            text: "Priorität Keine",
-            handleClick: (e) => data.addPriority(e, task.uuid, 'none')
-          }
-        ]}
-        />
-</div>
+        <DropDown items={priorityItems}>
+          <Button variant="secondary" className="inline-flex items-center justify-center h-8 w-8 rounded-md"><span>....</span></Button>
+        </ DropDown>
+        
+        </div>
 
 
         <div className="btn-d-s">

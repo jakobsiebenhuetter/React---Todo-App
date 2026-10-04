@@ -4,9 +4,8 @@ import {DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem
 export type DropDownItem = { id: string; text: string; handleClick: (e) => void };
 
 interface IDropDownProps {
-    triggerName: string;
     items: DropDownItem[];
-    className?: string;
+    children?: React.ReactElement;
 }
 
 export default function DropDown(props: IDropDownProps ) {
@@ -15,8 +14,7 @@ export default function DropDown(props: IDropDownProps ) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger 
-            className={props.className} 
-            render={<Button variant="secondary" className="inline-flex items-center justify-center h-8 w-8 rounded-md"><span>{props.triggerName}</span></Button>}> 
+            render={props.children ? props.children : <Button variant="secondary" className="inline-flex items-center justify-center h-8 w-8 rounded-md"><span>...</span></Button>}> 
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 {props.items.map(item => (
