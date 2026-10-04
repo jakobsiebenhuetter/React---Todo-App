@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Outlet, useNavigation } from "react-router";
 import { getTasks, getProjects } from "./util/utils";
 import Header from "./components/Header";
 import ProjectsTasksProvider from "./store/projects-tasks-context";
@@ -10,11 +10,13 @@ export type TLayoutLoaderData = {
 }
 
 export default function Layout() {
+  const navigation = useNavigation();
   return (
     <ProjectsTasksProvider>
       <>
         <Header className={"bg-amber-400"} />
-        <Outlet />
+        {navigation.state === "loading" && <h1>Daten werden geladen...</h1>}
+        {navigation.state === "idle" &&  <Outlet />}
       </>
     </ProjectsTasksProvider>
   );
@@ -22,8 +24,11 @@ export default function Layout() {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function loader(): Promise<TLayoutLoaderData> {
+  const tasks = await getTasks();
+  const projects = await getProjects();
+  
   return {
-    tasks: await getTasks(),
-    projects: await getProjects(),
+    tasks,
+    projects
   }
 }

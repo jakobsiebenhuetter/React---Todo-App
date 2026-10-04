@@ -18,8 +18,12 @@ export default function Project({project}: ProjectProps) {
     const activeTasks = projectTasks?.filter(task => !task.completed) || [];
 
     async function handleDeleteProject() {
-        await ctx.deleteProjects(project.uuid);
-        navigate('/');
+        try {
+            await ctx.deleteProjects(project.uuid);
+            navigate('/');
+        } catch (error) {
+            console.error('Error deleting project:', error);
+        }
     }
 
     return (
