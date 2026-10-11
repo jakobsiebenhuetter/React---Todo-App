@@ -38,6 +38,15 @@
     font-style: italic;
 }
 
+/* Rechte Spalte: Kennzahlen und Loeschen-Button. */
+.side {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
 .stats {
     display: flex;
     gap: 1.75rem;
@@ -76,7 +85,10 @@
         gap: 2rem;
     }
 
-    .stats {
+    .side {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: flex-end;
         flex-shrink: 0;
     }
 

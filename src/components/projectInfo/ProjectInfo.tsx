@@ -1,10 +1,12 @@
 import { TProject } from '../../types';
+import Button from '../Button';
 import classes from './ProjectInfo.module.css';
 
 interface ProjectInfoProps {
     project: TProject;
     activeCount: number;
     completedCount: number;
+    onDelete: () => void;
 }
 
 function formatDate(date: Date): string | null {
@@ -15,7 +17,7 @@ function formatDate(date: Date): string | null {
     return parsed.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
-export default function ProjectInfo({ project, activeCount, completedCount }: ProjectInfoProps) {
+export default function ProjectInfo({ project, activeCount, completedCount, onDelete }: ProjectInfoProps) {
     const createdAt = formatDate(project.createdat);
 
     return (
@@ -28,22 +30,31 @@ export default function ProjectInfo({ project, activeCount, completedCount }: Pr
                     : <p className={`${classes.description} ${classes.empty}`}>Keine Beschreibung</p>}
             </div>
 
-            <dl className={classes.stats}>
-                <div className={classes.stat}>
-                    <dt className={classes.label}>Offen</dt>
-                    <dd className={classes.value}>{activeCount}</dd>
-                </div>
-                <div className={classes.stat}>
-                    <dt className={classes.label}>Erledigt</dt>
-                    <dd className={classes.value}>{completedCount}</dd>
-                </div>
-                {createdAt && (
+            <div className={classes.side}>
+                <dl className={classes.stats}>
                     <div className={classes.stat}>
-                        <dt className={classes.label}>Erstellt</dt>
-                        <dd className={classes.value}>{createdAt}</dd>
+                        <dt className={classes.label}>Offen</dt>
+                        <dd className={classes.value}>{activeCount}</dd>
                     </div>
-                )}
-            </dl>
+                    <div className={classes.stat}>
+                        <dt className={classes.label}>Erledigt</dt>
+                        <dd className={classes.value}>{completedCount}</dd>
+                    </div>
+                    {createdAt && (
+                        <div className={classes.stat}>
+                            <dt className={classes.label}>Erstellt</dt>
+                            <dd className={classes.value}>{createdAt}</dd>
+                        </div>
+                    )}
+                </dl>
+                <Button
+                    variant="danger"
+                    className="inline-flex items-center justify-center h-8 p-2 rounded-md"
+                    onClick={onDelete}
+                >
+                    <span>Projekt löschen</span>
+                </Button>
+            </div>
         </section>
     );
 }
