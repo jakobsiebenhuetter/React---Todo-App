@@ -4,6 +4,7 @@ import {ProjectsTasksContext} from "../store/projects-tasks-context.tsx";
 import TaskList from '@/components/TaskList';
 import Button from '@/components/Button.tsx';
 import ConfirmModal from '@/components/ConfirmModal';
+import Title from '@/components/title/Title.tsx';
 
 export default function CompletedPage() {
   const datactx = useContext(ProjectsTasksContext);
@@ -28,8 +29,12 @@ export default function CompletedPage() {
   }
 
   return (
+
+    <div className='hero w-full max-w-2xl mx-auto px-4 py-6 sm:px-6'>
+
+    <Title text="Erledigte Aufgaben"/>
     <main className="hero w-full max-w-2xl mx-auto px-4 py-6 sm:px-6">
-      <header>
+      <section>
 
         {completedTasks.length > 0 && (
           <Button variant='secondary' className='p-2 m-2 rounded' onClick={createConfirmModal}>Löschen</Button>
@@ -41,9 +46,10 @@ export default function CompletedPage() {
           </ConfirmModal>
         )} 
 
-      </header>
-      <TaskList text="Erledigte Aufgaben" tasks={completedTasks} projectId={''}>
+      </section>
+      <TaskList  tasks={completedTasks} projectId={''}>
       </TaskList>
     </main>
+    </div>
   );
 }
