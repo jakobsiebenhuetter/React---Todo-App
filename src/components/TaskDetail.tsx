@@ -13,8 +13,8 @@ const controlClass = "w-full min-h-10 rounded-md border border-slate-300 bg-whit
 
 type TInputIdentifier = 'title' | 'description';
 
-export default function TaskDetail() {
-  const task = useLoaderData<TTask>();
+export default function TaskDetail({task}) {
+  
   const data = useContext(ProjectsTasksContext);
   const [edit, setEdit] = useState(false);
   const [sameText, setIsSameText] = useState(false);

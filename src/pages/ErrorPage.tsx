@@ -1,6 +1,18 @@
-import { Link } from "react-router";
+import { Link, useRouteError, isRouteErrorResponse } from "react-router";
 
 export default function ErrorPage() {
+    const error = useRouteError();
+
+  if(isRouteErrorResponse(error)) {
+    if(error.status === 500) {
+      return (<h1>Keine Tasks - Es ist möglicherweise zu einem Fehler gekommen</h1>)  
+    }
+
+    if(error.status === 404) {
+        return (<h1>Fehler</h1>);
+    }
+  }
+
     return (
         <div className="flex min-h-[60vh] items-center justify-center px-4 py-12">
             <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-8 text-center shadow-sm">

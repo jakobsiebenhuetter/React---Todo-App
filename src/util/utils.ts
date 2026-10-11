@@ -38,14 +38,14 @@ export async function deleteTaskinSupabase(uuid: string) {
     }
 }
 
-const SIMULATE_DELETE_ERROR = true;
+// const SIMULATE_DELETE_ERROR = true;
 
 export async function deleteProjectinSupabase(uuid: string): Promise<void> {
 
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay for deletion2
-    if (SIMULATE_DELETE_ERROR) {
-        throw new Error('Simulated delete error');
-    }
+    // await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay for deletion2
+    // if (SIMULATE_DELETE_ERROR) {
+    //     throw new Error('Simulated delete error');
+    // }
     
     const {error: tasksError} = await supabase.from('Tasks').delete().eq('project_id', uuid);
     if (tasksError) throw tasksError;
@@ -81,7 +81,7 @@ export async function getProjects(): Promise<TProject[]> {
                 uuid: item.uuid,
                 title: item.title,
                 description: item.description,
-                createdat: new Date(item.createdat),
+                createdat: new Date(item.created_at),
             }));
             return projects;
         }
@@ -100,7 +100,7 @@ export async function getProjectById(uuid: string): Promise<TProject | null> {
                 uuid: data.uuid,
                 title: data.title,
                 description: data.description,
-                createdat: new Date(data.createdat),
+                createdat: new Date(data.created_at),
             };
             return project;
         }
@@ -108,7 +108,7 @@ export async function getProjectById(uuid: string): Promise<TProject | null> {
     }
 }
 
-export async function saveProject(project: TProject) {
+export async function saveProject(project: TProject): Promise<boolean> {
 
     const {data, error} = await supabase.from('projects').insert({
         uuid: project.uuid,
@@ -116,9 +116,10 @@ export async function saveProject(project: TProject) {
         description: project.description,
     });
     if(error) {
-        console.error('Error saving project:', error);
+        return false;
     } else {
         console.log('Project saved successfully:', data);
+        return true;
     }
 }
 
@@ -154,10 +155,12 @@ export async function getTasks(): Promise<TTask[]> {
 
   export async function getTaskById(uuid: string): Promise<TTask | null> {
     const {data, error} = await supabase.from('Tasks').select('*').eq('uuid', uuid).single();
+    console.log(data)
+    console.log(error)
     let filledTask: TTask[];
     if(error) {
-      console.error('Error fetching task by id:', error);
       return null;
+
     } else {
         if(data) {
             filledTask = fillTasks([data]);

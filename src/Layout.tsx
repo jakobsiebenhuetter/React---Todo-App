@@ -15,7 +15,11 @@ export default function Layout() {
     <ProjectsTasksProvider>
       <>
         <Header className={"bg-amber-400"} />
-        {navigation.state === "loading" && <h1>Daten werden geladen...</h1>}
+        {navigation.state === "loading" && (
+          <h1 className="flex min-h-[calc(100vh-60px)] items-center justify-center font-mono text-lg font-bold uppercase tracking-wide text-slate-700 animate-pulse">
+            Daten werden geladen...
+          </h1>
+        )}
         {navigation.state === "idle" &&  <Outlet />}
       </>
     </ProjectsTasksProvider>

@@ -7,8 +7,6 @@ import TaskDetailPage, {loader as taskDetailData} from "./pages/TaskDetailPage.t
 import ProjectDetailPage, {loader as projectDetailData} from "./pages/ProjectDetailPage.tsx";
 import CompletedPage from "./pages/CompletedPage.tsx";
 import NewProjectPage from "./pages/NewProjectPage.tsx";
-import TaskDetail from "./components/TaskDetail.tsx";
-// import Form from "./components/Form.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 
 
@@ -33,21 +31,9 @@ const router = createBrowserRouter([
         },
         { 
             path: "todo/:uuid",
+            loader: taskDetailData,
             element: <TaskDetailPage />,
-            errorElement: <ErrorPage />,
-            children: [
-                {
-                    path: "",
-                    element: <TaskDetail />,
-                    loader: taskDetailData,
-                },
-                // {
-                    //Wird nicht mehr verwendet
-                //     path: "edit",
-                //     element: <Form />,
-                //     loader: taskDetailData,
-                // }
-            ]
+            // errorElement: <ErrorPage />,
         },
         {
             path: "project/:uuid",
