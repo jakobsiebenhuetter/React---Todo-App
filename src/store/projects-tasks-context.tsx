@@ -65,12 +65,16 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
 
 
    async function saveNewProject(newProject: TProject) {
+    
     setProjects((prevProjects) => {
       const allProjects = [newProject, ...prevProjects];
       // Hier sollte die Logik zum Speichern des Projekts in der Datenbank oder im Backend hinzugefügt werden
       return allProjects;
     });
-    await saveProject(newProject);
+    const saved = await saveProject(newProject);
+    if(!saved) {
+      setProjects((prevProjects) => prevProjects.filter((project) => project.uuid !== newProject.uuid));
+    }
   }
 
   function getTasksFromProject(projectId: string) {
