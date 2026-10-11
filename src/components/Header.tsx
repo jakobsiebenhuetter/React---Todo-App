@@ -1,18 +1,35 @@
 import './Header.css';
 import {NavLink} from "react-router";
 
-import {useContext} from 'react';
-import {useNavigate} from 'react-router';
+import {useContext, useState} from 'react';
+import {useNavigate, useMatch} from 'react-router';
 
 import {ProjectsTasksContext} from '../store/projects-tasks-context';
 import DropDown from './DropDown.tsx';
 import {DropDownItem} from './DropDown.tsx';
 import Button from './Button.tsx';
+import ConfirmModal from './ConfirmModal.tsx';
 
 export default function Header({...props}) {
     const data = useContext(ProjectsTasksContext);
     const navigate = useNavigate();
- 
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+
+    // Liefert die Projekt-ID nur, wenn gerade eine Projektseite angezeigt wird.
+    const projectMatch = useMatch('/project/:uuid');
+    const currentProjectId = projectMatch?.params.uuid;
+
+    async function handleDeleteProject() {
+        setShowConfirmDelete(false);
+        if (!currentProjectId) return;
+        try {
+            await data.deleteProjects(currentProjectId);
+            navigate('/');
+        } catch (error) {
+            console.error('Error deleting project:', error);
+        }
+    }
+
     
     // Funktionen für die Dropdown-Navigation
     function goToNewProject() {
@@ -59,6 +76,17 @@ export default function Header({...props}) {
             <div style={{marginLeft: '10px'}}>Mylist</div>
         </div>
         <ul className="flex gap-10 items-center list-none mr-10">
+            {currentProjectId && (
+                <li>
+                    <Button
+                        variant="danger"
+                        className="inline-flex items-center justify-center h-8 p-2 rounded-md"
+                        onClick={() => setShowConfirmDelete(true)}
+                    >
+                        <span>Projekt löschen</span>
+                    </Button>
+                </li>
+            )}
             <li>
                 <NavLink 
                 to="/completed" 
@@ -79,6 +107,11 @@ export default function Header({...props}) {
                 </DropDown>  
             </li>
         </ul>
+        {showConfirmDelete && (
+            <ConfirmModal onClose={() => setShowConfirmDelete(false)} onConfirm={handleDeleteProject}>
+                Möchtest du dieses Projekt mit allen Aufgaben wirklich löschen?
+            </ConfirmModal>
+        )}
     </header>
   );
 }

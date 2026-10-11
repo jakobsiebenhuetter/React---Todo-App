@@ -45,7 +45,6 @@ export default function AddTask({addTask, projectId}: IAddTaskProps) {
             posindex: 0,
             project: projectId || ''
         }
-        console.log(newTask);
         addTask(newTask);
         setValue('');
     }
