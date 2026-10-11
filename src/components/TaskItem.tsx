@@ -89,11 +89,11 @@ export default function TaskItem({task}: TaskItemProps) {
           {task.priority}
           </Badge>}
 
-        {task.link && 
+        {/* {task.link && 
         <Badge className="priority-badge bg-amber-600 text-white px-2 py-1 rounded-md text-xs sm:text-sm font-bold">
           Link
         </Badge>
-        }
+        } */}
         {
           task.dueDate && 
           <Badge className={dueDateClass}>
