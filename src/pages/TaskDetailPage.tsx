@@ -1,6 +1,7 @@
 
 import type { TTask } from "@/types";
 import { getTaskById } from "@/util/utils";
+import { requireAuth } from "@/util/auth";
 import classes from "./TaskDetailPage.module.css";
 import TaskDetail from "@/components/TaskDetail";
 import { useLoaderData } from "react-router";
@@ -25,6 +26,8 @@ export default function TodoDetail() {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function loader({ params }): Promise<TTask | null>{
+  // Loader laufen parallel zum Layout-Loader, daher hier eigener Guard
+  await requireAuth();
   const id = params.uuid;
 
   // await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay for deletion2

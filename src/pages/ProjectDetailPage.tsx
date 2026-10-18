@@ -1,5 +1,6 @@
 import {useLoaderData} from "react-router";
 import {getProjectById} from "@/util/utils";
+import {requireAuth} from "@/util/auth";
 import type {TProject} from "../types";
 import Project from '@/components/Project';
 
@@ -17,6 +18,8 @@ export default function ProjectDetailPage() {
 // Projekten ueber das Dropdown. Die Daten kommen also immer frisch aus Supabase.
 // eslint-disable-next-line react-refresh/only-export-components
 export async function loader({params}): Promise<TProject | null> {
+    // Loader laufen parallel zum Layout-Loader, daher hier eigener Guard
+    await requireAuth();
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay for deletion2
     return await getProjectById(params.uuid);
 }

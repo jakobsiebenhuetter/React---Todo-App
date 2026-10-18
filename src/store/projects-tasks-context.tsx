@@ -113,6 +113,7 @@ function ProjectsTasksProvider({ children }: { children: React.ReactNode }) {
     try {
       await deleteProjectinSupabase(projectId);
     } catch(error) {
+      // Das passt hier nicht, bitte korrigieren
       setProjects(projects);
       setTasks(tasks);
       throw error;

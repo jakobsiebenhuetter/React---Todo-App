@@ -8,9 +8,24 @@ import ProjectDetailPage, {loader as projectDetailData} from "./pages/ProjectDet
 import CompletedPage from "./pages/CompletedPage.tsx";
 import NewProjectPage from "./pages/NewProjectPage.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
+import LoginPage, {action as loginAction} from "./pages/LoginPage.tsx";
+import RegisterPage, {action as registerAction} from "./pages/RegisterPage.tsx";
+import { redirectIfAuthenticated } from "./util/auth.ts";
 
 
 const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <LoginPage />,
+    loader: redirectIfAuthenticated,
+    action: loginAction,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+    loader: redirectIfAuthenticated,
+    action: registerAction,
+  },
   { path: "/", 
     element: <Layout />,
     errorElement: <ErrorPage />,

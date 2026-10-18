@@ -1,8 +1,11 @@
-import { Outlet, useNavigation } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useNavigate, useNavigation } from "react-router";
 import { getTasks, getProjects } from "./util/utils";
 import Header from "./components/Header";
 import ProjectsTasksProvider from "./store/projects-tasks-context";
 import { TTask, TProject } from "./types";
+import { supabase } from "./lib/supabaseClient";
+import { requireAuth } from "./util/auth";
 
 export type TLayoutLoaderData = {
   tasks: TTask[];
@@ -11,6 +14,18 @@ export type TLayoutLoaderData = {
 
 export default function Layout() {
   const navigation = useNavigation();
+  // const navigate = useNavigate();
+
+  // Abgelaufene Session oder Logout in einem anderen Tab -> zurueck zum Login
+  // useEffect(() => {
+  //   const { data } = supabase.auth.onAuthStateChange((event) => {
+  //     if (event === "SIGNED_OUT") {
+  //       navigate("/login");
+  //     }
+  //   });
+  //   return () => data.subscription.unsubscribe();
+  // }, [navigate]);
+
   return (
     <ProjectsTasksProvider>
       <>
@@ -28,6 +43,7 @@ export default function Layout() {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function loader(): Promise<TLayoutLoaderData> {
+  await requireAuth();
   const tasks = await getTasks();
   const projects = await getProjects();
   
