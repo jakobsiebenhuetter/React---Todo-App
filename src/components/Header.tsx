@@ -1,17 +1,34 @@
 import './Header.css';
 import {NavLink} from "react-router";
 
-import {useContext} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router';
 
 import {ProjectsTasksContext} from '../store/projects-tasks-context';
 import DropDown from './DropDown.tsx';
 import {DropDownItem} from './DropDown.tsx';
 import Button from './Button.tsx';
+import {getUserEmail, signOut} from '../util/auth';
 
 export default function Header({...props}) {
     const data = useContext(ProjectsTasksContext);
     const navigate = useNavigate();
+    const [email, setEmail] = useState<string>();
+
+    useEffect(() => {
+        const returnEmail = async () => {
+            const theEmail =  await getUserEmail();
+            setEmail(theEmail);
+        }
+
+        returnEmail();
+
+    }, []);
+
+    async function logout() {
+        await signOut();
+        navigate('/login');
+    }
 
     // Funktionen für die Dropdown-Navigation
     function goToNewProject() {
@@ -76,6 +93,10 @@ export default function Header({...props}) {
                 items={dropDownItems}>
                     <Button variant="secondary" className="inline-flex items-center justify-center h-8 p-2 rounded-md"><span>Projekte</span></Button>
                 </DropDown>  
+            </li>
+            <li className="flex items-center gap-3">
+                {email && <span className="hidden text-sm text-slate-700 sm:inline">{email}</span>}
+                <Button variant="secondary" onClick={logout} className="inline-flex items-center justify-center h-8 p-2 rounded-md"><span>Abmelden</span></Button>
             </li>
         </ul>
     </header>
