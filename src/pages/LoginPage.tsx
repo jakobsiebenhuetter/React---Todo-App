@@ -17,8 +17,8 @@ export default function LoginPage() {
 // eslint-disable-next-line react-refresh/only-export-components
 export async function action({ request, params }: ActionFunctionArgs): Promise<TAuthActionData | Response> {
   const formData = await request.formData();
-  const email = String(formData.get("email") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
+  const email = formData.get("email")?.toString() ?? "";
+  const password = formData.get("password")?.toString() ?? "";
 
   try {
     await signIn(email, password);

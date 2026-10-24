@@ -6,9 +6,6 @@ import {useContext} from 'react';
 import {ProjectsTasksContext} from './store/projects-tasks-context';
 
 /**
- * //TODO - Authentifizierung hinzufügen
- * //TODO - Wenn ein Neues Projekt erstellt wird soll sofort zu dem Neuen Projekt weiter geleitet werden und Form des Projekts schöner machen z.b.: den Button
-*  //TODO - Die Projektpage etwas verändern, Projekte soll man löschen können und dann auf die Allgemeine Seite zurücknavigiert werden
 *  //TODO - Ein gscheites Icon erstellen
  * //TODO - Cleanen, Korrekturen wie Priorität auch auf TaskDetailpage zeigen und bearbeiten können und diesen Patch dann frei geben
  * //TODO - Redux Toolkit später eventuell einbauen
