@@ -1,7 +1,11 @@
 import express from "express";
 
+import dbInit from "./db/init.ts";
+
 const app = express();
 const port = Number(process.env.PORT) || 3000;
+
+dbInit();
 
 app.use(express.json());
 
