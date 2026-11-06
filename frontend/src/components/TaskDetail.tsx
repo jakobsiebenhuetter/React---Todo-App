@@ -8,7 +8,7 @@ import { ProjectsTasksContext } from "../store/projects-tasks-context";
 import Button from "./Button";
 // Feldbeschriftungen sind in Ansicht und Formular identisch aufgebaut (Form.tsx),
 // damit der Wechsel in den Editiermodus die Seite nicht umspringen laesst.
-const labelClass = "mb-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";
+const labelClass = "m-1.5 block font-mono text-xs font-bold tracking-wide text-slate-500 uppercase";
 const controlClass = "w-full min-h-10 rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-800 focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500";
 
 type TInputIdentifier = 'title' | 'description';

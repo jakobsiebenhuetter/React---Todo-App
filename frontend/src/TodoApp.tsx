@@ -6,7 +6,10 @@ import {useContext} from 'react';
 import {ProjectsTasksContext} from './store/projects-tasks-context';
 
 /**
-*  //TODO - Ein gscheites Icon erstellen
+ * //TODO - Priorität bearbeiten und löschen in Taskdetail fehlt noch
+ * //TODO - Man muss Projekte bearbeiten können
+ * //TODO - Ein gscheites Icon erstellen
+ * //TODO - Nicht alle Tasks im Frontend erst filtern, sondern direkt aus der Datenbank abfragen
  * //TODO - Cleanen, Korrekturen wie Priorität auch auf TaskDetailpage zeigen und bearbeiten können und diesen Patch dann frei geben
  * //TODO - Redux Toolkit später eventuell einbauen
  * //TODO - Etwas mehr Animationen einbauen
