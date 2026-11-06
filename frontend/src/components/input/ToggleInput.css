@@ -1,11 +1,21 @@
 /* Gemeinsame Basis fuer alle Textfelder. Vorher war nur das Input in AddTask
    gestyled (ueber #add-task input) -- das in UpdateTask blieb ungestyled. */
-input[type="text"], textarea {
+input[type="text"] {
     min-height: 40px;
     padding: 0 10px;
     background-color: #ffffff;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
+    width: 100%;
+}
+
+textarea {
+    field-sizing: content;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    overflow-wrap: anywhere;
+    min-height: 40px;
+    padding: 8px 10px;
 }
 
 input[type="text"]:focus {
@@ -24,11 +34,14 @@ input[type="text"]:focus {
 .toggle-input-container {
     display: flex
 }
-#toggle-input {
+
+span#toggle-input {
     display: flex;
     align-items: center;
     min-width: 0;
     width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 #toggle-input:focus {
@@ -43,10 +56,6 @@ input[type="text"]:focus {
 
 input[type="text"]#toggle-input:hover {
     cursor: text;
-}
-
-textarea#toggle-input {
-    height: fit-content;
 }
 
 textarea#toggle-input:hover {

@@ -106,11 +106,9 @@ export default function TaskDetail({task}) {
       <div>
         <p className={labelClass}>Titel</p>
         <ToggleInput type="text" onChange={(value) => handleInputChange("title", value)} text={task?.title} placeholder={!task.title ? "Kein Titel vergeben" : undefined} className="rounded-lg bg-slate-50 p-2 text-base leading-relaxed text-slate-800 w-full"/>
-
         <p className={labelClass}>Beschreibung</p>
-
         <div className="">
-          <ToggleInput type="textarea" text={task?.description || "No Description"} onChange={(value) => handleInputChange("description", value)} className="rounded-lg wrap-anywhere resize-y w-full border border-slate-300  px-2.5 py-2  focus:outline-2 focus:-outline-offset-1 focus:outline-emerald-500 bg-slate-50 p-2 text-base leading-relaxed text-slate-800" />
+          <ToggleInput type="textarea" text={task?.description || "No Description"} onChange={(value) => handleInputChange("description", value)} className="rounded-lg bg-slate-50 p-2 text-base leading-relaxed text-slate-800 w-full" />
         </div>
 
         {task.link && 
