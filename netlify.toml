@@ -11,6 +11,13 @@
 
 # SPA-Fallback: jede Route (z.B. /info) liefert index.html aus,
 # damit createBrowserRouter das Routing uebernehmen kann.
+
+[[redirects]]
+  from = "/api/*"
+  to = "http://31.70.94.182/api/:splat"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
